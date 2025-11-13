@@ -42,6 +42,7 @@ interface ButtonProps extends React.ComponentProps<"button">,
   VariantProps<typeof buttonVariants> {
   asChild?: boolean
   href?: string
+  fullWidth?: boolean
 }
 
 function Button({
@@ -51,14 +52,15 @@ function Button({
   asChild = false,
   href,
   children,
+  fullWidth = false,
   ...props
-}: ButtonProps) {
+}: Readonly<ButtonProps>) {
   // If href is provided, render as Link
   if (href) {
     return (
       <Link
         href={href}
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant, size }), fullWidth ? 'w-full' : '', className)}
       >
         {children}
       </Link>
@@ -67,10 +69,12 @@ function Button({
 
   const Comp = asChild ? Slot : "button"
 
+  const classes = cn(buttonVariants({ variant, size }), fullWidth ? 'w-full' : '', className)
+
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={classes}
       {...props}
     >
       {children}
