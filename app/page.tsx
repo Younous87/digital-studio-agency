@@ -5,6 +5,7 @@ import ServicesGrid from '@/components/blocks/ServicesGrid'
 import ProjectGrid from '@/components/blocks/ProjectGrid'
 import TestimonialCarousel from '@/components/blocks/TestimonialCarousel'
 import CTASection from '@/components/blocks/CTASection'
+import AnimatedStats from '@/components/blocks/AnimatedStats'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
 import Image from 'next/image'
 import Button from '@/components/ui/Button'
@@ -185,33 +186,11 @@ export default async function HomePage() {
           
           case 'statsSection':
             return (
-              <Section 
-                key={index} 
-                background="dark"
-              >
-                {block.title && (
-                  <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-                    {block.title}
-                  </h2>
-                )}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                  {block.stats?.map((stat: any, statIndex: number) => (
-                    <div key={statIndex} className="text-center">
-                      <div className="text-4xl md:text-5xl font-bold mb-2">
-                        {stat.value}
-                      </div>
-                      <div className="text-xl font-semibold mb-2">
-                        {stat.label}
-                      </div>
-                      {stat.description && (
-                        <p className="text-sm opacity-80">
-                          {stat.description}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </Section>
+              <AnimatedStats
+                key={index}
+                title={block.title}
+                stats={block.stats || []}
+              />
             )
           
           default:
