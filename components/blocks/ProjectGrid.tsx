@@ -48,14 +48,15 @@ export default function ProjectGrid({
         {projects.map((project) => (
           <Link key={project._id} href={`/work/${project.slug.current}`}>
             <Card hover className="h-full group">
-              <div className="relative h-64 overflow-hidden">
-                <Image
-                  src={urlFor(project.featuredImage).width(600).height(400).url()}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-                {project.categories && project.categories.length > 0 && (
+              {project.featuredImage && (
+                <div className="relative h-64 overflow-hidden">
+                  <Image
+                    src={urlFor(project.featuredImage).width(600).height(400).url()}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  {project.categories && project.categories.length > 0 && (
                   <div className="absolute top-4 left-4 flex flex-wrap gap-2">
                     {project.categories.slice(0, 2).map((category, index) => (
                       <span
@@ -66,8 +67,9 @@ export default function ProjectGrid({
                       </span>
                     ))}
                   </div>
-                )}
-              </div>
+                  )}
+                </div>
+              )}
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {project.title}

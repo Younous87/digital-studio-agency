@@ -17,7 +17,9 @@
   "dependencies": {
     "@sanity/code-input": "^6.0.3",
     "@sanity/color-input": "^4.0.6",
+    "@sanity/ui": "2.10.11",
     "@sanity/vision": "^4.13.0",
+    "@tailwindcss/postcss": "^4.1.17",
     "react": "^19.1",
     "react-dom": "^19.1",
     "sanity": "^4.13.0",
