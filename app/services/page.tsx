@@ -39,8 +39,32 @@ export default async function ServicesPage() {
       <Section>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service: any) => (
-            <Link key={service._id} href={`/services/${service.slug.current}`}>
-              <Card hover className="h-full">
+            service.slug?.current ? (
+              <Link key={service._id} href={`/services/${service.slug.current}`}>
+                <Card hover className="h-full">
+                  <CardHeader>
+                    {service.icon && (
+                      <div className="mb-4">
+                        <Image
+                          src={urlFor(service.icon).width(80).url()}
+                          alt={service.title}
+                          width={80}
+                          height={80}
+                          className="w-16 h-16"
+                        />
+                      </div>
+                    )}
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                      {service.title}
+                    </h2>
+                  </CardHeader>
+                  <CardBody>
+                    <p className="text-gray-600">{service.shortDescription}</p>
+                  </CardBody>
+                </Card>
+              </Link>
+            ) : (
+              <Card key={service._id} className="h-full">
                 <CardHeader>
                   {service.icon && (
                     <div className="mb-4">
@@ -59,9 +83,10 @@ export default async function ServicesPage() {
                 </CardHeader>
                 <CardBody>
                   <p className="text-gray-600">{service.shortDescription}</p>
+                  <p className="text-sm text-red-600 mt-2">⚠️ Missing slug - cannot link to detail page</p>
                 </CardBody>
               </Card>
-            </Link>
+            )
           ))}
         </div>
       </Section>
