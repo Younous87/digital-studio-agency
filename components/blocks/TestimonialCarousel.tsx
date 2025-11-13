@@ -40,7 +40,7 @@ export default function TestimonialCarousel({
           <div className="text-center mb-12">
             {title && (
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-2">
-                <Quote className="w-8 h-8 text-blue-600" />
+                <Quote className="w-8 h-8 text-brand-accent" />
                 {title}
               </h2>
             )}
@@ -54,10 +54,10 @@ export default function TestimonialCarousel({
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial) => (
-            <Card key={testimonial._id} className="bg-gradient-to-br from-white to-gray-50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <Card key={testimonial._id} className="bg-linear-to-br from-white to-gray-50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <CardHeader>
                 <div className="flex items-start justify-between mb-4">
-                  <Quote className="w-10 h-10 text-blue-600/20" />
+                  <Quote className="w-10 h-10 text-brand-secondary/20" />
                   {testimonial.rating && (
                     <div className="flex gap-1">
                       {Array.from({ length: 5 }, (_, i) => (
@@ -77,14 +77,14 @@ export default function TestimonialCarousel({
                   &ldquo;{testimonial.quote}&rdquo;
                 </p>
                 <div className="flex items-center gap-4 pt-4 border-t">
-                  <Avatar className="h-12 w-12 ring-2 ring-blue-100">
+                  <Avatar className="h-12 w-12 ring-2 ring-brand-primary/20">
                     {testimonial.photo ? (
                       <AvatarImage
                         src={urlFor(testimonial.photo).width(80).height(80).url()}
                         alt={testimonial.clientName}
                       />
                     ) : null}
-                    <AvatarFallback className="bg-blue-100 text-blue-600 font-semibold">
+                    <AvatarFallback className="bg-linear-to-br from-brand-primary/20 to-brand-secondary/20 text-brand-primary font-semibold">
                       {testimonial.clientName.split(' ').map(n => n[0]).join('').toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
@@ -112,7 +112,7 @@ export default function TestimonialCarousel({
         <div className="text-center mb-12">
           {title && (
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-2">
-              <Quote className="w-8 h-8 text-blue-600" />
+              <Quote className="w-8 h-8 text-brand-accent" />
               {title}
             </h2>
           )}
@@ -135,10 +135,10 @@ export default function TestimonialCarousel({
           <CarouselContent>
             {testimonials.map((testimonial) => (
               <CarouselItem key={testimonial._id} className="md:basis-1/2 lg:basis-1/2">
-                <Card className="h-full bg-gradient-to-br from-white to-blue-50/30 hover:shadow-xl transition-all duration-300">
+                <Card className="h-full bg-linear-to-br from-white via-white to-brand-primary/5 hover:shadow-xl transition-all duration-300">
                   <CardHeader>
                     <div className="flex items-start justify-between mb-4">
-                      <Quote className="w-12 h-12 text-blue-600/20" />
+                      <Quote className="w-12 h-12 text-brand-secondary/20" />
                       {testimonial.rating && (
                         <Badge variant="secondary" className="flex items-center gap-1">
                           <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
@@ -152,14 +152,14 @@ export default function TestimonialCarousel({
                       &ldquo;{testimonial.quote}&rdquo;
                     </p>
                     <div className="flex items-center gap-4 pt-6 border-t">
-                      <Avatar className="h-14 w-14 ring-2 ring-blue-100">
+                      <Avatar className="h-14 w-14 ring-2 ring-brand-primary/20">
                         {testimonial.photo ? (
                           <AvatarImage
                             src={urlFor(testimonial.photo).width(100).height(100).url()}
                             alt={testimonial.clientName}
                           />
                         ) : null}
-                        <AvatarFallback className="bg-blue-600 text-white font-semibold text-lg">
+                        <AvatarFallback className="bg-linear-to-br from-brand-primary to-brand-secondary text-white font-semibold text-lg">
                           {testimonial.clientName.split(' ').map(n => n[0]).join('').toUpperCase()}
                         </AvatarFallback>
                       </Avatar>

@@ -39,8 +39,10 @@ export default function Footer({
   }
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
-      <Container>
+    <footer className="relative bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-gray-300">
+      {/* Brand accent overlay */}
+      <div className="absolute inset-0 bg-linear-to-br from-brand-primary/5 via-transparent to-brand-secondary/5 pointer-events-none" />
+      <Container className="relative z-10">
         <div className="py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
@@ -54,7 +56,7 @@ export default function Footer({
             <ul className="space-y-2">
               {links.map((link, index) => (
                 <li key={index}>
-                  <Link href={link.url} className="text-sm hover:text-white transition-colors">
+                  <Link href={link.url} className="text-sm hover:text-brand-primary transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -72,7 +74,7 @@ export default function Footer({
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-brand-primary transition-colors transform hover:scale-110 duration-200"
                   aria-label={social.platform}
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

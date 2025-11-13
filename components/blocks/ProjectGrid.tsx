@@ -111,7 +111,7 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
         </Link>
         
         <CardHeader>
-          <CardTitle className="text-xl group-hover:text-blue-600 transition-colors">
+            <CardTitle className="text-xl group-hover:text-brand-primary transition-colors">
             {project.title}
           </CardTitle>
           {project.clientName && (
@@ -136,7 +136,7 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
           )}
           <Link 
             href={`/work/${project.slug.current}`}
-            className="text-blue-600 font-semibold flex items-center gap-1 hover:gap-2 transition-all text-sm"
+            className="text-brand-primary font-semibold flex items-center gap-1 hover:gap-2 transition-all text-sm"
           >
             View Project <ExternalLink className="w-4 h-4" />
           </Link>
@@ -180,7 +180,7 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
           
           <Link 
             href={`/work/${project.slug.current}`}
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 bg-brand-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-primary hover:opacity-90 transition-colors"
           >
             View Full Project <ExternalLink className="w-4 h-4" />
           </Link>

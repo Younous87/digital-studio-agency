@@ -45,32 +45,39 @@
 
 :root {
   --radius: 0.625rem;
+  
+  /* Brand colors - can be overridden dynamically from Sanity */
+  --brand-primary: #3b82f6;
+  --brand-secondary: #8b5cf6;
+  --brand-accent: #06b6d4;
+  
+  /* Derived colors from brand */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card: #ffffff;
+  --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: var(--brand-primary);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --secondary: var(--brand-secondary);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: #f3f4f6; /* light gray */
+  --muted-foreground: #6b7280; /* tailwind gray-600 — readable on white */
+  --accent: var(--brand-accent);
+  --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
+  --ring: var(--brand-primary);
+  --chart-1: var(--brand-primary);
+  --chart-2: var(--brand-accent);
+  --chart-3: var(--brand-secondary);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary: var(--brand-primary);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
@@ -89,8 +96,8 @@
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted: #111827; /* dark shade */
+  --muted-foreground: #9ca3af; /* lighter muted on dark background */
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
@@ -165,6 +172,79 @@
 
 .animate-slide-up {
   animation: slide-up 0.6s ease-out;
+}
+
+/* Text colors for surfaces */
+.text-on-light {
+  color: var(--foreground) !important;
+}
+.text-on-light a,
+.text-on-light a:visited {
+  color: var(--brand-primary) !important;
+}
+
+.text-on-dark {
+  color: var(--card-foreground) !important;
+}
+
+/* Brand background tint helpers (10%) */
+.bg-brand-primary-10 { background-color: color-mix(in srgb, var(--brand-primary) 10%, transparent); }
+.bg-brand-secondary-10 { background-color: color-mix(in srgb, var(--brand-secondary) 10%, transparent); }
+.bg-brand-accent-10 { background-color: color-mix(in srgb, var(--brand-accent) 10%, transparent); }
+.bg-brand-primary-20 { background-color: color-mix(in srgb, var(--brand-primary) 20%, transparent); }
+.bg-brand-secondary-20 { background-color: color-mix(in srgb, var(--brand-secondary) 20%, transparent); }
+.bg-brand-accent-20 { background-color: color-mix(in srgb, var(--brand-accent) 20%, transparent); }
+
+/* Brand color utilities */
+.text-brand-primary {
+  color: var(--brand-primary);
+}
+
+.text-brand-secondary {
+  color: var(--brand-secondary);
+}
+
+.text-brand-accent {
+  color: var(--brand-accent);
+}
+
+.bg-brand-primary {
+  background-color: var(--brand-primary);
+}
+
+.bg-brand-secondary {
+  background-color: var(--brand-secondary);
+}
+
+.bg-brand-accent {
+  background-color: var(--brand-accent);
+}
+
+.border-brand-primary {
+  border-color: var(--brand-primary);
+}
+
+.hover\:text-brand-primary:hover {
+  color: var(--brand-primary);
+}
+
+.hover\:bg-brand-primary:hover {
+  background-color: var(--brand-primary);
+}
+
+.from-brand-primary {
+  --tw-gradient-from: var(--brand-primary);
+  --tw-gradient-to: rgb(255 255 255 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-brand-secondary {
+  --tw-gradient-to: var(--brand-secondary);
+}
+
+.via-brand-accent {
+  --tw-gradient-to: rgb(255 255 255 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--brand-accent), var(--tw-gradient-to);
 }
 
 /* Smooth scrolling */

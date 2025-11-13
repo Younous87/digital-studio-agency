@@ -42,7 +42,7 @@ export default function ServicesGrid({
         <div className="text-center mb-12">
           {title && (
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-2">
-              <Sparkles className="w-8 h-8 text-blue-600" />
+              <Sparkles className="w-8 h-8 text-brand-primary" />
               {title}
             </h2>
           )}
@@ -93,11 +93,11 @@ function ServiceCard({ service }: { service: Service }) {
     <HoverCard>
       <HoverCardTrigger asChild>
         <Link href={`/services/${service.slug.current}`}>
-          <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 hover:border-blue-500 group">
+            <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 group-hover:border-brand-primary group">
             <CardHeader>
               <div className="flex items-start justify-between mb-4">
                 {service.icon && (
-                  <div className="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                  <div className="p-3 bg-brand-primary-10 rounded-lg group-hover:bg-brand-primary-20 transition-colors">
                     <Image
                       src={urlFor(service.icon).width(80).url()}
                       alt={service.title}
@@ -113,14 +113,14 @@ function ServiceCard({ service }: { service: Service }) {
                   </Badge>
                 )}
               </div>
-              <CardTitle className="text-xl mb-2 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+              <CardTitle className="text-xl mb-2 group-hover:text-brand-primary transition-colors flex items-center gap-2">
                 {service.title}
                 <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all" />
               </CardTitle>
               <CardDescription>{service.shortDescription}</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-sm text-blue-600 font-semibold group-hover:underline">
+              <div className="text-sm text-brand-primary font-semibold group-hover:underline">
                 Learn more →
               </div>
             </CardContent>

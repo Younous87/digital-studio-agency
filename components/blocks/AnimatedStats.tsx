@@ -114,8 +114,8 @@ export default function AnimatedStats({ title, stats }: Readonly<AnimatedStatsPr
                 <CardContent className="p-6">
                   {Icon && (
                     <div className="flex justify-center mb-4">
-                      <div className="p-3 bg-blue-500/20 rounded-full">
-                        <Icon className="w-8 h-8 text-blue-300" />
+                      <div className="p-3 bg-brand-accent-10 rounded-full">
+                        <Icon className="w-8 h-8 text-brand-accent" />
                       </div>
                     </div>
                   )}
@@ -126,7 +126,7 @@ export default function AnimatedStats({ title, stats }: Readonly<AnimatedStatsPr
                       {animatedValues[index] || stat.value}
                     </div>
                   )}
-                  <div className="text-lg md:text-xl font-semibold mb-2 text-blue-200">
+                  <div className="text-lg md:text-xl font-semibold mb-2 text-white/90">
                     {stat.label}
                   </div>
                   {stat.description && (

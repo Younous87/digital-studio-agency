@@ -17,8 +17,8 @@ export default function Section({
   padding = 'lg'
 }: SectionProps) {
   const backgrounds = {
-    white: 'bg-white',
-    gray: 'bg-gray-50',
+    white: 'bg-white text-on-light',
+    gray: 'bg-gray-50 text-on-light',
     dark: 'bg-gray-900 text-white',
     transparent: 'bg-transparent'
   }
