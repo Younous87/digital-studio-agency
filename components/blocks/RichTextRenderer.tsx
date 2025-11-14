@@ -1,4 +1,5 @@
 import { PortableText, PortableTextComponents } from '@portabletext/react'
+import type { TypedObject } from '@portabletext/types'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/image'
 
@@ -115,7 +116,7 @@ const components: PortableTextComponents = {
 }
 
 interface RichTextRendererProps {
-  content: unknown
+  content: TypedObject | TypedObject[]
   className?: string
 }
 

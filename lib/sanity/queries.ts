@@ -120,13 +120,31 @@ export const homepageQuery = `*[_type == "homepage"][0]{
   seo
 }`
 
-// Services Queries
-export const servicesQuery = `*[_type == "service"] | order(_createdAt desc) {
-  _id,
+// Services Page Query
+export const servicesPageQuery = `*[_type == "servicesPage"][0]{
   title,
-  slug,
-  icon,
-  shortDescription
+  pageBuilder[]{
+    _type,
+    _type == "pageHero" => {
+      title, subtitle, cta, background
+    },
+    _type == "servicesOverview" => {
+      title, description, layout, "services": services[]->{ _id, title, slug, shortDescription, icon }
+    },
+    _type == "serviceList" => {
+      title, description, layout, showAll, "services": select(showAll == true => *[_type == "service"]{ _id, title, slug, shortDescription, icon }, services[]->{ _id, title, slug, shortDescription, icon }), backgroundColor
+    },
+    _type == "featuredProjects" => {
+      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories })
+    },
+    _type == "testimonials" => {
+      title, description, layout, showFeatured, "testimonials": select(showFeatured == true => *[_type == "testimonial" && featured == true]{ _id, clientName, company, role, quote, photo, rating }, testimonials[]->{ _id, clientName, company, role, quote, photo, rating })
+    },
+    _type == "ctaSection" => { title, description, primaryCta, secondaryCta, backgroundImage, backgroundColor },
+    _type == "textImageBlock" => { title, content, image, imagePosition, cta },
+    _type == "statsSection" => { title, stats, backgroundColor }
+  },
+  seo
 }`
 
 export const serviceBySlugQuery = `*[_type == "service" && slug.current == $slug][0]{

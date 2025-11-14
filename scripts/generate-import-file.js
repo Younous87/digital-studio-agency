@@ -791,8 +791,76 @@ const about = {
   }
 };
 
+const servicesPage = {
+  _type: 'servicesPage',
+  title: 'Services',
+  pageBuilder: [
+    {
+      _type: 'pageHero',
+      _key: 'services-hero',
+      title: 'Our Services',
+      subtitle: 'Comprehensive digital solutions to help your business thrive in the modern world.',
+      background: {
+        type: 'color',
+        color: '#1f2937'
+      }
+    },
+    {
+      _type: 'serviceList',
+      _key: 'services-list',
+      title: 'What We Offer',
+      description: 'From brand identity to web development, we provide end-to-end digital solutions tailored to your needs.',
+      layout: 'grid',
+      showAll: true,
+      backgroundColor: {
+        hex: '#ffffff',
+        hsl: { h: 0, s: 0, l: 1, a: 1 },
+        rgb: { r: 255, g: 255, b: 255, a: 1 },
+        hsv: { h: 0, s: 0, v: 1, a: 1 }
+      }
+    },
+    {
+      _type: 'featuredProjects',
+      _key: 'services-projects',
+      title: 'Recent Work',
+      description: 'See how we\'ve helped other businesses achieve their digital goals.',
+      layout: 'grid',
+      showAll: false,
+      projects: [
+        { _type: 'reference', _ref: 'project-1' },
+        { _type: 'reference', _ref: 'project-2' },
+        { _type: 'reference', _ref: 'project-3' }
+      ]
+    },
+    {
+      _type: 'ctaSection',
+      _key: 'services-cta',
+      title: 'Ready to Get Started?',
+      description: 'Let\'s discuss how we can help transform your digital presence and drive real results for your business.',
+      primaryCta: {
+        text: 'Start Your Project',
+        link: '/contact'
+      },
+      secondaryCta: {
+        text: 'View Our Work',
+        link: '/work'
+      },
+      backgroundColor: {
+        hex: '#f3f4f6',
+        hsl: { h: 210, s: 0.14, l: 0.96, a: 1 },
+        rgb: { r: 243, g: 244, b: 246, a: 1 },
+        hsv: { h: 210, s: 0.14, v: 0.96, a: 1 }
+      }
+    }
+  ],
+  seo: {
+    metaTitle: 'Our Services - Digital Studio',
+    metaDescription: 'Explore our comprehensive range of digital services including web design, branding, UI/UX design, and digital marketing.'
+  }
+};
+
 // Convert to ndjson format
-const allDocs = [...testimonials, ...services, ...projects, ...posts, ...teamMembers, siteSettings, homepage, about];
+const allDocs = [...testimonials, ...services, ...projects, ...posts, ...teamMembers, siteSettings, homepage, about, servicesPage];
 const ndjson = allDocs.map(doc => JSON.stringify(doc)).join('\n');
 
 // Write to file
@@ -808,6 +876,5 @@ console.log(`   - ${posts.length} blog posts`);
 console.log(`   - ${teamMembers.length} team members`);
 console.log(`   - 1 site settings`);
 console.log(`   - 1 homepage`);
-console.log('\n📦 To import this data into Sanity, run:');
-console.log('   cd sanity-studio');
-console.log('   npx sanity dataset import ../scripts/sample-data.ndjson production --replace');
+console.log(`   - 1 about page`);
+console.log(`   - 1 services page`);

@@ -23,10 +23,12 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
         return { backgroundColor: background.color || '#f3f4f6' }
       case 'image':
         return {
-          backgroundImage: background.image ? `url(${urlFor(background.image).url()})` : undefined,
+          backgroundImage: background.image ? `url(${urlFor(background.image as any).url()})` : undefined,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }
+      case 'video':
+        return {} // Video is handled separately
       default:
         return {}
     }
@@ -34,7 +36,7 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
 
   return (
     <section className="relative min-h-[60vh] flex items-center justify-center text-center" style={getBackgroundStyle()}>
-      {background.type === 'video' && background.video && (
+      {background.type === 'video' && background.video ? (
         <video
           className="absolute inset-0 w-full h-full object-cover"
           autoPlay
@@ -42,9 +44,9 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
           loop
           playsInline
         >
-          <source src={background.video.asset?.url} type={background.video.asset?.mimeType} />
+          <source src={(background.video as any)?.asset?.url} type={(background.video as any)?.asset?.mimeType} />
         </video>
-      )}
+      ) : null}
 
       {/* Overlay for better text readability */}
       {(background.type === 'image' || background.type === 'video') && (

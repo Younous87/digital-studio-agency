@@ -6,6 +6,7 @@ import teamMember from './teamMember'
 import testimonial from './testimonial'
 import homepage from './homepage'
 import about from './about'
+import servicesPage from './servicesPage'
 
 // Page Builder Blocks
 import hero from './blocks/hero'
@@ -20,6 +21,7 @@ import ourStory from './blocks/ourStory'
 import ourValues from './blocks/ourValues'
 import meetOurTeam from './blocks/meetOurTeam'
 import pageHero from './blocks/pageHero'
+import serviceList from './blocks/serviceList'
 
 export const schemaTypes = [
   // Documents
@@ -31,6 +33,7 @@ export const schemaTypes = [
   testimonial,
   homepage,
   about,
+  servicesPage,
   
   // Page Builder Blocks
   hero,
@@ -42,6 +45,7 @@ export const schemaTypes = [
   ourValues,
   meetOurTeam,
   pageHero,
+  serviceList,
   ctaSection,
   textImageBlock,
   statsSection,
