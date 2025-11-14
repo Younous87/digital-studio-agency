@@ -115,7 +115,7 @@ const components: PortableTextComponents = {
 }
 
 interface RichTextRendererProps {
-  content: any
+  content: unknown
   className?: string
 }
 

@@ -272,6 +272,45 @@ export const teamMembersQuery = `*[_type == "teamMember"] | order(order asc) {
   socialLinks
 }`
 
+// About Page Query
+export const aboutQuery = `*[_type == "about"][0]{
+  title,
+  pageBuilder[]{
+    _type,
+    _type == "hero" => {
+      headline, subheadline, cta, secondaryCta, backgroundImage, backgroundVideo
+    },
+    _type == "pageHero" => {
+      title, subtitle, cta, background
+    },
+    _type == "ourStory" => {
+      title, content
+    },
+    _type == "ourValues" => {
+      title, values[]{ title, description, icon }
+    },
+    _type == "meetOurTeam" => {
+      title, showTeam, "teamMembers": teamMembers[]->{ _id, name, slug, role, bio, photo, socialLinks }
+    },
+    _type == "aboutSection" => {
+      title, content, image, imagePosition, cta
+    },
+    _type == "servicesOverview" => {
+      title, description, layout, "services": services[]->{ _id, title, slug, shortDescription, icon }
+    },
+    _type == "featuredProjects" => {
+      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories })
+    },
+    _type == "testimonials" => {
+      title, description, layout, showFeatured, "testimonials": select(showFeatured == true => *[_type == "testimonial" && featured == true]{ _id, clientName, company, role, quote, photo, rating }, testimonials[]->{ _id, clientName, company, role, quote, photo, rating })
+    },
+    _type == "ctaSection" => { title, description, primaryCta, secondaryCta, backgroundImage, backgroundColor },
+    _type == "textImageBlock" => { title, content, image, imagePosition, cta },
+    _type == "statsSection" => { title, stats, backgroundColor }
+  },
+  seo
+}`
+
 // Testimonials Queries
 export const testimonialsQuery = `*[_type == "testimonial"] {
   _id,

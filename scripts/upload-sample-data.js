@@ -596,6 +596,55 @@ const sampleData = {
   ]
 };
 
+// Add basic team members to sampleData so we can link them from About
+sampleData.teamMembers = [
+  {
+    _type: 'teamMember',
+    name: 'Alex Morgan',
+    slug: { _type: 'slug', current: 'alex-morgan' },
+    role: 'Creative Director',
+    bio: [
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [ { _type: 'span', text: 'Alex leads the creative team with a passion for memorable visual experiences.' } ]
+      }
+    ],
+    socialLinks: [ { platform: 'linkedin', url: 'https://linkedin.com/in/alexmorgan' } ],
+    order: 1
+  },
+  {
+    _type: 'teamMember',
+    name: 'Jordan Lee',
+    slug: { _type: 'slug', current: 'jordan-lee' },
+    role: 'Lead Developer',
+    bio: [
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [ { _type: 'span', text: 'Jordan is a full-stack developer specializing in modern web technologies.' } ]
+      }
+    ],
+    socialLinks: [ { platform: 'github', url: 'https://github.com/jordanlee' } ],
+    order: 2
+  },
+  {
+    _type: 'teamMember',
+    name: 'Sam Taylor',
+    slug: { _type: 'slug', current: 'sam-taylor' },
+    role: 'UX Designer',
+    bio: [
+      {
+        _type: 'block',
+        style: 'normal',
+        children: [ { _type: 'span', text: 'Sam brings a user-centered approach to every project, combining research and creativity.' } ]
+      }
+    ],
+    socialLinks: [ { platform: 'linkedin', url: 'https://linkedin.com/in/samtaylor' } ],
+    order: 3
+  }
+];
+
 async function uploadData() {
   try {
     console.log('Starting data upload to Sanity...\n');
@@ -695,6 +744,58 @@ async function uploadData() {
         console.log(`✓ Linked related posts for post ${i + 1}`);
       }
     }
+
+    // Upload team members
+    console.log('\nUploading team members...');
+    const teamMemberIds = [];
+    if (sampleData.teamMembers && sampleData.teamMembers.length > 0) {
+      for (const member of sampleData.teamMembers) {
+        const res = await client.create(member);
+        teamMemberIds.push(res._id);
+        console.log(`✓ Created team member: ${member.name}`);
+      }
+    }
+
+    // Create about page doc
+    console.log('\nCreating About page...');
+    const aboutDoc = {
+      _type: 'about',
+      title: 'About',
+      pageBuilder: [
+        {
+          _type: 'hero',
+          headline: 'About Digital Studio',
+          subheadline: 'We create exceptional digital experiences for ambitious brands.'
+        },
+        {
+          _type: 'ourStory',
+          title: 'Our Story',
+          content: [
+            { _type: 'block', _key: 's1', style: 'normal', children: [ { _type: 'span', text: 'Founded in 2020, Digital Studio emerged from a belief that great digital experiences can transform businesses and delight users.' } ] },
+            { _type: 'block', _key: 's2', style: 'normal', children: [ { _type: 'span', text: 'We combine strategy, design, and engineering to deliver beautiful and effective websites and digital products.' } ] }
+          ]
+        },
+        {
+          _type: 'ourValues',
+          title: 'Our Values',
+          values: [
+            { title: 'Innovation', description: 'We push boundaries with modern solutions.' },
+            { title: 'Quality', description: 'We deliver work that exceeds expectations.' },
+            { title: 'Collaboration', description: 'We partner closely with our clients to achieve results.' }
+          ]
+        },
+        {
+          _type: 'meetOurTeam',
+          title: 'Meet Our Team',
+          showTeam: true,
+          teamMembers: teamMemberIds.map(id => ({ _type: 'reference', _ref: id }))
+        }
+      ],
+      seo: { metaTitle: 'About Digital Studio', metaDescription: 'Meet the creative team behind Digital Studio and learn our mission.' }
+    };
+
+    const createdAbout = await client.create(aboutDoc);
+    console.log(`✓ Created About document: ${createdAbout._id}`);
 
     console.log('\n✅ All sample data uploaded successfully!');
     console.log('\nSummary:');

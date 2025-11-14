@@ -653,7 +653,7 @@ const homepage = {
       secondaryCta: {
         text: 'Get In Touch',
         link: '/contact'
-      }
+      },
     },
     {
       _type: 'servicesOverview',
@@ -721,8 +721,60 @@ const homepage = {
   }
 };
 
+const about = {
+  _id: 'about-1',
+  _type: 'about',
+  title: 'About',
+  pageBuilder: [
+    {
+      _type: 'pageHero',
+      _key: 'hero-about',
+      title: 'About Digital Studio',
+      subtitle: 'We create exceptional digital experiences for ambitious brands.',
+      background: {
+        type: 'color',
+        color: '#1f2937'
+      }
+    },
+    {
+      _type: 'ourStory',
+      _key: 'ourStory1',
+      title: 'Our Story',
+      content: [
+        { _type: 'block', _key: 's1', style: 'normal', children: [{ _type: 'span', _key: 's1c1', text: 'Founded in 2020, Digital Studio emerged from a belief that great digital experiences can transform businesses and delight users.' }] },
+        { _type: 'block', _key: 's2', style: 'normal', children: [{ _type: 'span', _key: 's2c1', text: 'We combine strategy, design, and engineering to deliver beautiful and effective websites and digital products.' }] }
+      ]
+    },
+    {
+      _type: 'ourValues',
+      _key: 'ourValues1',
+      title: 'Our Values',
+      values: [
+        { title: 'Innovation', description: 'We push boundaries with modern solutions.' },
+        { title: 'Quality', description: 'We deliver work that exceeds expectations.' },
+        { title: 'Collaboration', description: 'We partner closely with our clients to achieve results.' }
+      ]
+    },
+    {
+      _type: 'meetOurTeam',
+      _key: 'meetOurTeam1',
+      title: 'Meet Our Team',
+      showTeam: true,
+      teamMembers: [
+        { _type: 'reference', _ref: 'team-1' },
+        { _type: 'reference', _ref: 'team-2' },
+        { _type: 'reference', _ref: 'team-3' }
+      ]
+    }
+  ],
+  seo: {
+    metaTitle: 'About Digital Studio',
+    metaDescription: 'Meet the creative team behind Digital Studio and learn about our mission and values.'
+  }
+};
+
 // Convert to ndjson format
-const allDocs = [...testimonials, ...services, ...projects, ...posts, ...teamMembers, siteSettings, homepage];
+const allDocs = [...testimonials, ...services, ...projects, ...posts, ...teamMembers, siteSettings, homepage, about];
 const ndjson = allDocs.map(doc => JSON.stringify(doc)).join('\n');
 
 // Write to file
