@@ -284,13 +284,13 @@ export const aboutQuery = `*[_type == "about"][0]{
       title, subtitle, cta, background
     },
     _type == "ourStory" => {
-      title, content
+      title, content, backgroundColor
     },
     _type == "ourValues" => {
-      title, values[]{ title, description, icon }
+      title, values[]{ title, description, icon }, backgroundColor
     },
     _type == "meetOurTeam" => {
-      title, showTeam, "teamMembers": teamMembers[]->{ _id, name, slug, role, bio, photo, socialLinks }
+      title, showTeam, "teamMembers": teamMembers[]->{ _id, name, slug, role, bio, photo, socialLinks }, backgroundColor
     },
     _type == "aboutSection" => {
       title, content, image, imagePosition, cta

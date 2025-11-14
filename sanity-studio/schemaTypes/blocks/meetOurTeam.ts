@@ -1,13 +1,21 @@
-import { defineType } from 'sanity'
+import { defineType, defineField } from 'sanity'
 
 export default defineType({
   name: 'meetOurTeam',
   title: 'Meet Our Team',
   type: 'object',
   fields: [
-    { name: 'title', title: 'Title', type: 'string' },
-    { name: 'showTeam', title: 'Show Team', type: 'boolean', initialValue: true },
-    { name: 'teamMembers', title: 'Select Team Members', type: 'array', of: [{ type: 'reference', to: [{ type: 'teamMember' }] }] },
+    defineField({ name: 'title', title: 'Title', type: 'string' }),
+    defineField({ name: 'showTeam', title: 'Show Team', type: 'boolean', initialValue: true }),
+    defineField({ name: 'teamMembers', title: 'Select Team Members', type: 'array', of: [{ type: 'reference', to: [{ type: 'teamMember' }] }] }),
+    defineField({
+      name: 'backgroundColor',
+      title: 'Background Color',
+      type: 'color',
+      options: {
+        disableAlpha: true
+      }
+    }),
   ],
   preview: {
     select: { title: 'title' },

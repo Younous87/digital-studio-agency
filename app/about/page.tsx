@@ -26,6 +26,12 @@ type PageBlock = {
     image?: any
     video?: any
   }
+  backgroundColor?: {
+    hex: string
+    hsl: { h: number; s: number; l: number; a: number }
+    rgb: { r: number; g: number; b: number; a: number }
+    hsv: { h: number; s: number; v: number; a: number }
+  }
 }
 import AboutStoryBlock from '@/components/blocks/AboutStoryBlock'
 import AboutValuesBlock from '@/components/blocks/AboutValuesBlock'
@@ -85,11 +91,11 @@ export default async function AboutPage() {
                 />
               )
             case 'ourStory':
-              return <AboutStoryBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} content={block.content} />
+              return <AboutStoryBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} content={block.content} backgroundColor={block.backgroundColor} />
             case 'ourValues':
-              return <AboutValuesBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} values={block.values} />
+              return <AboutValuesBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} values={block.values} backgroundColor={block.backgroundColor} />
             case 'meetOurTeam':
-              return <MeetOurTeamBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} showTeam={block.showTeam} teamMembers={block.teamMembers || team} />
+              return <MeetOurTeamBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} showTeam={block.showTeam} teamMembers={block.teamMembers || team} backgroundColor={block.backgroundColor} />
             case 'aboutSection':
               return (
                 <Section key={block._key || block._id || `${block._type}-${index}`}>

@@ -743,7 +743,13 @@ const about = {
       content: [
         { _type: 'block', _key: 's1', style: 'normal', children: [{ _type: 'span', _key: 's1c1', text: 'Founded in 2020, Digital Studio emerged from a belief that great digital experiences can transform businesses and delight users.' }] },
         { _type: 'block', _key: 's2', style: 'normal', children: [{ _type: 'span', _key: 's2c1', text: 'We combine strategy, design, and engineering to deliver beautiful and effective websites and digital products.' }] }
-      ]
+      ],
+      backgroundColor: {
+        hex: '#f3f4f6',
+        hsl: { h: 210, s: 0.14, l: 0.96, a: 1 },
+        rgb: { r: 243, g: 244, b: 246, a: 1 },
+        hsv: { h: 210, s: 0.14, v: 0.96, a: 1 }
+      }
     },
     {
       _type: 'ourValues',
@@ -753,7 +759,13 @@ const about = {
         { title: 'Innovation', description: 'We push boundaries with modern solutions.' },
         { title: 'Quality', description: 'We deliver work that exceeds expectations.' },
         { title: 'Collaboration', description: 'We partner closely with our clients to achieve results.' }
-      ]
+      ],
+      backgroundColor: {
+        hex: '#ffffff',
+        hsl: { h: 0, s: 0, l: 1, a: 1 },
+        rgb: { r: 255, g: 255, b: 255, a: 1 },
+        hsv: { h: 0, s: 0, v: 1, a: 1 }
+      }
     },
     {
       _type: 'meetOurTeam',
@@ -764,7 +776,13 @@ const about = {
         { _type: 'reference', _ref: 'team-1' },
         { _type: 'reference', _ref: 'team-2' },
         { _type: 'reference', _ref: 'team-3' }
-      ]
+      ],
+      backgroundColor: {
+        hex: '#f3f4f6',
+        hsl: { h: 210, s: 0.14, l: 0.96, a: 1 },
+        rgb: { r: 243, g: 244, b: 246, a: 1 },
+        hsv: { h: 210, s: 0.14, v: 0.96, a: 1 }
+      }
     }
   ],
   seo: {

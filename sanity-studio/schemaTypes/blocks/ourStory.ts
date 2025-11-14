@@ -1,12 +1,20 @@
-import { defineType } from 'sanity'
+import { defineType, defineField } from 'sanity'
 
 export default defineType({
   name: 'ourStory',
   title: 'Our Story',
   type: 'object',
   fields: [
-    { name: 'title', title: 'Title', type: 'string' },
-    { name: 'content', title: 'Content', type: 'array', of: [{ type: 'block' }] },
+    defineField({ name: 'title', title: 'Title', type: 'string' }),
+    defineField({ name: 'content', title: 'Content', type: 'array', of: [{ type: 'block' }] }),
+    defineField({
+      name: 'backgroundColor',
+      title: 'Background Color',
+      type: 'color',
+      options: {
+        disableAlpha: true
+      }
+    }),
   ],
   preview: {
     select: { title: 'title' },
