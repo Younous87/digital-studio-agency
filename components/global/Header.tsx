@@ -63,18 +63,18 @@ export default function Header({ logo, navigation = [] }: Readonly<HeaderProps>)
           <Link href="/" className="flex items-center space-x-2 group">
             {logo?.light ? (
               <Image
-                src={urlFor(logo.light).width(150).url()}
+                src={urlFor(logo.dark).width(150).url()}
                 alt="Logo"
                 width={150}
                 height={50}
                 className="h-10 w-auto transition-transform group-hover:scale-105"
               />
             ) : (
-              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                 <div className="w-10 h-10 bg-linear-to-br from-brand-primary to-brand-secondary rounded-lg flex items-center justify-center shadow-lg">
-                  <Sparkles className={`w-6 h-6 ${isScrolled ? 'text-brand-primary' : 'text-white'}`} />
+                  <Sparkles className="w-6 h-6 text-white" />
                 </div>
-                <span className="text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-brand-primary to-brand-secondary">
+                <span className="text-2xl font-bold text-gray-900">
                   Digital Studio
                 </span>
               </div>
@@ -118,15 +118,7 @@ export default function Header({ logo, navigation = [] }: Readonly<HeaderProps>)
               </NavigationMenuList>
             </NavigationMenu>
 
-            <div className="ml-6 flex items-center gap-3">
-              <Button variant="ghost" href="/contact" className="hidden xl:flex">
-                <Phone className="w-4 h-4 mr-2" />
-                Contact
-              </Button>
-              <Button variant="primary" href="/contact">
-                Get Started
-              </Button>
-            </div>
+          
           </div>
 
           {/* Mobile Menu */}
@@ -142,7 +134,7 @@ export default function Header({ logo, navigation = [] }: Readonly<HeaderProps>)
                 <SheetHeader>
                   <SheetTitle className="text-left flex items-center gap-2">
                     <div className="w-8 h-8 bg-linear-to-br from-brand-primary to-brand-secondary rounded-lg flex items-center justify-center shadow-lg">
-                      <Sparkles className={`w-5 h-5 ${isScrolled ? 'text-brand-primary' : 'text-white'}`} />
+                      <Sparkles className="w-5 h-5 text-white" />
                     </div>
                     Menu
                   </SheetTitle>
@@ -184,26 +176,7 @@ export default function Header({ logo, navigation = [] }: Readonly<HeaderProps>)
                       <Separator className="mt-4" />
                     </div>
                   ))}
-                  
-                  <div className="mt-6 space-y-3">
-                    <Button 
-                      variant="outline" 
-                      fullWidth 
-                      href="/contact"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <Phone className="w-4 h-4 mr-2" />
-                      Contact Us
-                    </Button>
-                    <Button 
-                      variant="primary" 
-                      fullWidth 
-                      href="/contact"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Get Started
-                    </Button>
-                  </div>
+                
                 </div>
               </SheetContent>
             </Sheet>

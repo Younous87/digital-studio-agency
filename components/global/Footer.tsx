@@ -39,24 +39,24 @@ export default function Footer({
   }
 
   return (
-    <footer className="relative bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-gray-300">
+    <footer className="relative bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-gray-900">
       {/* Brand accent overlay */}
       <div className="absolute inset-0 bg-linear-to-br from-brand-primary/5 via-transparent to-brand-secondary/5 pointer-events-none" />
       <Container className="relative z-10">
         <div className="py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-white text-xl font-bold mb-4">Digital Studio</h3>
+            <h3 className="text-gray-900 text-xl font-bold mb-4">Digital Studio</h3>
             {footerText && <p className="text-sm">{footerText}</p>}
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Quick Links</h4>
+            <h4 className="text-gray-900 font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               {links.map((link, index) => (
                 <li key={index}>
-                  <Link href={link.url} className="text-sm hover:text-brand-primary transition-colors">
+                  <Link href={link.url} className="text-sm text-gray-700 hover:text-brand-primary transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -66,7 +66,7 @@ export default function Footer({
 
           {/* Social Media */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Follow Us</h4>
+            <h4 className="text-gray-900 font-semibold mb-4">Follow Us</h4>
             <div className="flex space-x-4">
               {socialMedia.map((social, index) => (
                 <a
@@ -74,7 +74,7 @@ export default function Footer({
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-brand-primary transition-colors transform hover:scale-110 duration-200"
+                  className="text-gray-700 hover:text-brand-primary transition-colors transform hover:scale-110 duration-200"
                   aria-label={social.platform}
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

@@ -27,7 +27,7 @@ export default function CTASection({
   backgroundColor
 }: CTASectionProps) {
   return (
-    <Section padding="xl" className="relative overflow-hidden">
+    <Section padding="xl" background="transparent" className="relative overflow-hidden">
       {/* Background */}
       {backgroundImage ? (
         <>

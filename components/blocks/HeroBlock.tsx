@@ -99,7 +99,7 @@ export default function HeroBlock({
         </div>
 
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-          <span className="bg-clip-text text-transparent bg-linear-to-r from-white via-blue-100 to-purple-100 animate-gradient">
+          <span className="text-white">
             {headline}
           </span>
         </h1>
