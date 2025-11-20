@@ -39,15 +39,22 @@ export default function ServiceListBlock({
 
   if (layout === 'list') {
     return (
-      <section className="py-20" style={{ backgroundColor: bgColor }}>
+      <section className="py-20 relative" style={{ backgroundColor: bgColor }}>
+        {/* Pattern background */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(0,0,0,0.1) 30px, rgba(0,0,0,0.1) 31px)',
+          }} />
+        </div>
+
         <Container>
           {title && (
-            <div className="text-center mb-16">
-              <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${textColor}`}>
+            <div className="text-center mb-16 relative">
+              <h2 className={`text-4xl md:text-6xl font-black mb-4 ${textColor} retro-text-shadow`}>
                 {title}
               </h2>
               {description && (
-                <p className={`text-xl max-w-3xl mx-auto ${subtitleColor}`}>
+                <p className={`text-xl max-w-3xl mx-auto font-bold ${subtitleColor}`}>
                   {description}
                 </p>
               )}
@@ -55,49 +62,38 @@ export default function ServiceListBlock({
           )}
 
           <div className="space-y-6">
-            {services.map((service) => (
+            {services.map((service, idx) => (
               <Card
                 key={service._id}
                 hover
-                className={`border-0 shadow-lg ${
-                  isDark
-                    ? 'bg-gray-800/50 backdrop-blur-sm border-gray-700'
-                    : 'bg-white/80 backdrop-blur-sm'
-                }`}
+                className="border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 bg-white"
               >
                 <div className="flex flex-col md:flex-row items-center gap-8 p-8">
                   {service.icon ? (
                     <div className="shrink-0">
-                      <div className="relative">
-                        <div className="absolute inset-0 bg-linear-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl"></div>
-                        <div className="relative bg-white rounded-2xl p-4 shadow-lg">
-                          <Image
-                            src={urlFor(service.icon as any).width(80).height(80).url()}
-                            alt={service.title}
-                            width={80}
-                            height={80}
-                            className="rounded-xl"
-                          />
-                        </div>
+                      <div className="bg-[var(--brand-accent)] border-4 border-black p-6" style={{ transform: `rotate(${(idx % 2 === 0 ? -3 : 3)}deg)` }}>
+                        <Image
+                          src={urlFor(service.icon as any).width(80).height(80).url()}
+                          alt={service.title}
+                          width={80}
+                          height={80}
+                        />
                       </div>
                     </div>
                   ) : null}
                   <div className="flex-1 text-center md:text-left">
-                    <h3 className={`text-2xl font-bold mb-3 ${textColor}`}>
+                    <h3 className="text-3xl font-black mb-3 text-gray-900">
                       {service.title}
                     </h3>
-                    <p className={`text-lg mb-6 leading-relaxed ${subtitleColor}`}>
+                    <p className="text-lg mb-6 leading-relaxed text-gray-700 font-medium">
                       {service.shortDescription}
                     </p>
                     <Button
-                      variant="primary"
+                      variant="default"
                       href={`/services/${service.slug.current}`}
-                      className="shadow-lg hover:shadow-xl transition-all duration-300"
+                      className="font-black"
                     >
-                      Learn More
-                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
+                      LEARN MORE →
                     </Button>
                   </div>
                 </div>
@@ -111,15 +107,23 @@ export default function ServiceListBlock({
 
   // Grid layout (default)
   return (
-    <section className="py-20" style={{ backgroundColor: bgColor }}>
+    <section className="py-20 relative" style={{ backgroundColor: bgColor }}>
+      {/* Grid pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'linear-gradient(rgba(0,0,0,0.1) 2px, transparent 2px), linear-gradient(90deg, rgba(0,0,0,0.1) 2px, transparent 2px)',
+          backgroundSize: '30px 30px',
+        }} />
+      </div>
+
       <Container>
         {title && (
-          <div className="text-center mb-16">
-            <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${textColor}`}>
+          <div className="text-center mb-16 relative">
+            <h2 className={`text-4xl md:text-6xl font-black mb-4 ${textColor} retro-text-shadow`}>
               {title}
             </h2>
             {description && (
-              <p className={`text-xl max-w-3xl mx-auto ${subtitleColor}`}>
+              <p className={`text-xl max-w-3xl mx-auto font-bold ${subtitleColor}`}>
                 {description}
               </p>
             )}
@@ -131,44 +135,35 @@ export default function ServiceListBlock({
             <Card
               key={service._id}
               hover
-              className={`group h-full border-0 shadow-lg transition-all duration-300 ${
-                isDark
-                  ? 'bg-gray-800/50 backdrop-blur-sm border-gray-700 hover:bg-gray-800/70'
-                  : 'bg-white/80 backdrop-blur-sm hover:bg-white/90'
-              }`}
+              className="group h-full border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 bg-white overflow-hidden"
             >
               <CardBody className="p-8 text-center">
                 {service.icon ? (
                   <div className="mb-6">
                     <div className="relative inline-block">
-                      <div className="absolute inset-0 bg-linear-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-                      <div className="relative bg-white rounded-2xl p-4 shadow-lg group-hover:shadow-xl transition-all duration-300">
+                      <div className="bg-[var(--brand-secondary)] border-4 border-black p-6 -rotate-6 group-hover:rotate-6 transition-transform duration-300">
                         <Image
                           src={urlFor(service.icon as any).width(64).height(64).url()}
                           alt={service.title}
                           width={64}
                           height={64}
-                          className="rounded-xl"
                         />
                       </div>
                     </div>
                   </div>
                 ) : null}
-                <h3 className={`text-2xl font-bold mb-4 ${textColor} group-hover:text-blue-600 transition-colors duration-300`}>
+                <h3 className="text-2xl font-black mb-4 text-gray-900">
                   {service.title}
                 </h3>
-                <p className={`text-lg mb-8 leading-relaxed ${subtitleColor}`}>
+                <p className="text-lg mb-8 leading-relaxed text-gray-700 font-medium">
                   {service.shortDescription}
                 </p>
                 <Button
-                  variant="primary"
+                  variant="default"
                   href={`/services/${service.slug.current}`}
-                  className="shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105"
+                  className="font-black"
                 >
-                  Learn More
-                  <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
+                  LEARN MORE →
                 </Button>
               </CardBody>
             </Card>

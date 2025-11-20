@@ -39,29 +39,29 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.categories.map((category: string, index: number) => (
                     <span
-                      key={index}
-                      className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold"
+                      key={`${category}-${index}`}
+                      className="bg-(--brand-secondary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-brutal-sm"
                     >
                       {category}
                     </span>
                   ))}
                 </div>
               )}
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              <h1 className="text-4xl md:text-5xl font-black text-black mb-4 retro-text-shadow">
                 {project.title}
               </h1>
               {project.clientName && (
-                <p className="text-xl text-gray-600 mb-2">
+                <p className="text-xl text-black mb-2 font-bold">
                   Client: {project.clientName}
                 </p>
               )}
               {project.year && (
-                <p className="text-lg text-gray-500">
+                <p className="text-lg text-black font-bold">
                   Year: {project.year}
                 </p>
               )}
             </div>
-            <div className="relative h-96 rounded-lg overflow-hidden">
+            <div className="relative h-96 border-4 border-black shadow-brutal-lg overflow-hidden rounded-none">
               <Image
                 src={urlFor(project.featuredImage).width(800).url()}
                 alt={project.title}
@@ -76,7 +76,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {/* Short Description */}
       <Section>
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-2xl text-gray-700 leading-relaxed">
+          <p className="text-2xl text-black leading-relaxed font-bold">
             {project.shortDescription}
           </p>
         </div>
@@ -85,7 +85,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {/* Case Study */}
       {project.caseStudy && (
         <Section background="white">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto bg-white border-4 border-black shadow-brutal-lg p-12">
             <RichTextRenderer content={project.caseStudy} />
           </div>
         </Section>
@@ -96,7 +96,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <Section background="gray">
           <div className="grid md:grid-cols-2 gap-8">
             {project.gallery.map((image: any, index: number) => (
-              <div key={index} className="relative h-96 rounded-lg overflow-hidden">
+              <div key={`${image.caption || 'image'}-${index}`} className="relative h-96 border-4 border-black shadow-brutal-lg overflow-hidden rounded-none">
                 <Image
                   src={urlFor(image).width(800).url()}
                   alt={image.caption || `Gallery image ${index + 1}`}
@@ -104,7 +104,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   className="object-cover"
                 />
                 {image.caption && (
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
+                  <div className="absolute bottom-0 left-0 right-0 bg-(--brand-primary) border-t-4 border-black text-black p-4 font-bold">
                     <p>{image.caption}</p>
                   </div>
                 )}
@@ -117,20 +117,20 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {/* Results */}
       {project.results && project.results.length > 0 && (
         <Section>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-black text-black mb-12 text-center retro-text-shadow">
             Results
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {project.results.map((result: any, index: number) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">
+              <div key={`${result.metric}-${index}`} className="text-center bg-white border-4 border-black shadow-brutal-lg p-8">
+                <div className="text-4xl md:text-5xl font-black text-(--brand-primary) mb-2 retro-text-shadow">
                   {result.value}
                 </div>
-                <div className="text-xl font-semibold text-gray-900 mb-2">
+                <div className="text-xl font-black text-black mb-2">
                   {result.metric}
                 </div>
                 {result.description && (
-                  <p className="text-gray-600">{result.description}</p>
+                  <p className="text-black font-medium">{result.description}</p>
                 )}
               </div>
             ))}
@@ -141,14 +141,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {/* Testimonial */}
       {project.testimonial && (
         <Section background="gray">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center bg-white border-4 border-black shadow-brutal-lg p-12">
             {project.testimonial.rating && (
               <div className="flex justify-center mb-6">
                 {[...Array(5)].map((_, i) => (
                   <svg
                     key={i}
                     className={`w-6 h-6 ${
-                      i < project.testimonial.rating ? 'text-yellow-400' : 'text-gray-300'
+                      i < project.testimonial.rating ? 'text-(--brand-secondary)' : 'text-black'
                     }`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -158,7 +158,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 ))}
               </div>
             )}
-            <blockquote className="text-2xl text-gray-700 mb-6 italic">
+            <blockquote className="text-2xl text-black mb-6 italic font-bold">
               &ldquo;{project.testimonial.quote}&rdquo;
             </blockquote>
             <div className="flex items-center justify-center">
@@ -168,15 +168,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   alt={project.testimonial.clientName}
                   width={80}
                   height={80}
-                  className="rounded-full mr-4"
+                  className="rounded-none mr-4 border-4 border-black shadow-brutal-sm"
                 />
               )}
               <div>
-                <p className="font-semibold text-gray-900 text-lg">
+                <p className="font-black text-black text-lg">
                   {project.testimonial.clientName}
                 </p>
                 {project.testimonial.role && project.testimonial.company && (
-                  <p className="text-gray-600">
+                  <p className="text-black font-bold">
                     {project.testimonial.role}, {project.testimonial.company}
                   </p>
                 )}
@@ -189,7 +189,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {/* Services Used */}
       {project.services && project.services.length > 0 && (
         <Section>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-black text-black mb-8 text-center retro-text-shadow">
             Services Used
           </h2>
           <div className="flex flex-wrap justify-center gap-4">
@@ -197,7 +197,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               <Link
                 key={service._id}
                 href={`/services/${service.slug.current}`}
-                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                className="bg-(--brand-primary) border-3 border-black px-6 py-3 font-black text-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300"
               >
                 {service.title}
               </Link>
@@ -209,12 +209,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {/* Project URL */}
       {project.projectUrl && (
         <Section background="dark" padding="lg">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4">View Live Project</h2>
+          <div className="text-center bg-white border-4 border-black shadow-brutal-lg p-12 max-w-3xl mx-auto">
+            <h2 className="text-2xl font-black mb-4 retro-text-shadow">View Live Project</h2>
             <Button
               href={project.projectUrl}
               size="lg"
-              variant="primary"
+              variant="default"
             >
               Visit Website
             </Button>

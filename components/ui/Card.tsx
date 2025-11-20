@@ -1,5 +1,5 @@
 import * as React from "react"
-
+import { Card as RetroCard } from "@/components/retroui/Card"
 import { cn } from "@/lib/utils"
 
 interface CardProps extends React.ComponentProps<"div"> {
@@ -8,11 +8,10 @@ interface CardProps extends React.ComponentProps<"div"> {
 
 function Card({ className, hover = false, ...props }: Readonly<CardProps>) {
   return (
-    <div
-      data-slot="card"
+    <RetroCard
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
-        hover ? "transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl" : "",
+        "flex flex-col gap-6 py-6",
+        hover ? "transition-transform duration-200 hover:-translate-y-1 hover:shadow-brutal-lg" : "",
         className
       )}
       {...props}
@@ -37,7 +36,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-title"
-      className={cn("leading-none font-semibold", className)}
+      className={cn("leading-none font-black text-xl", className)}
       {...props}
     />
   )
@@ -47,7 +46,7 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-description"
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("text-muted-foreground text-sm font-medium", className)}
       {...props}
     />
   )

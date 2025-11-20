@@ -1,4 +1,4 @@
-import Section from '@/components/ui/Section'
+import FullScreenSection from '@/components/ui/FullScreenSection'
 import { client } from '@/lib/sanity/client'
 import { teamMembersQuery, aboutQuery } from '@/lib/sanity/queries'
 // Image and urlFor unused here now; keep ready if needed for future blocks
@@ -98,12 +98,12 @@ export default async function AboutPage() {
               return <MeetOurTeamBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} showTeam={block.showTeam} teamMembers={block.teamMembers || team} backgroundColor={block.backgroundColor} />
             case 'aboutSection':
               return (
-                <Section key={block._key || block._id || `${block._type}-${index}`}>
+                <FullScreenSection key={block._key || block._id || `${block._type}-${index}`}>
                   <div className="max-w-4xl mx-auto">
-                    {block.title && <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">{block.title}</h2>}
+                    {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 text-center retro-text-shadow">{block.title}</h2>}
                     {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
                   </div>
-                </Section>
+                </FullScreenSection>
               )
             default:
               return null
@@ -113,23 +113,23 @@ export default async function AboutPage() {
         // Fallback if no pageBuilder
         <>
           {/* existing fallback content omitted for brevity: render the default static sections using previous code paths */}
-          <Section padding="xl" background="gray">
-            <div className="text-center max-w-3xl mx-auto">
-              <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">About Us</h1>
-              <p className="text-xl text-gray-600">We are a team of passionate creatives and technologists dedicated to crafting exceptional digital experiences.</p>
+          <FullScreenSection background="gray">
+            <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-brutal-lg p-12">
+              <h1 className="text-5xl md:text-7xl font-black text-black mb-6 retro-text-shadow">About Us</h1>
+              <p className="text-xl text-black font-bold">We are a team of passionate creatives and technologists dedicated to crafting exceptional digital experiences.</p>
             </div>
-          </Section>
+          </FullScreenSection>
           {/* Fallback story/values/team as before */}
-          <Section>
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">Our Story</h2>
+          <FullScreenSection>
+            <div className="max-w-4xl mx-auto bg-white border-4 border-black shadow-brutal-lg p-8 md:p-12">
+              <h2 className="text-4xl md:text-6xl font-black text-black mb-8 text-center retro-text-shadow">Our Story</h2>
               <div className="prose prose-lg max-w-none">
-                <p className="text-lg text-gray-700 leading-relaxed mb-4">Founded in 2020, Digital Studio emerged from a simple belief: that great digital experiences have the power to transform businesses and delight users.</p>
-                <p className="text-lg text-gray-700 leading-relaxed mb-4">Over the years, we have worked with startups, established brands, and everything in between, helping them navigate the ever-evolving digital landscape with innovative solutions and strategic insights.</p>
-                <p className="text-lg text-gray-700 leading-relaxed">Today, we are proud to be a trusted partner for businesses looking to make their mark in the digital world.</p>
+                <p className="text-lg text-black leading-relaxed mb-6 font-medium">Founded in 2020, Digital Studio emerged from a simple belief: that great digital experiences have the power to transform businesses and delight users.</p>
+                <p className="text-lg text-black leading-relaxed mb-6 font-medium">Over the years, we have worked with startups, established brands, and everything in between, helping them navigate the ever-evolving digital landscape with innovative solutions and strategic insights.</p>
+                <p className="text-lg text-black leading-relaxed font-medium">Today, we are proud to be a trusted partner for businesses looking to make their mark in the digital world.</p>
               </div>
             </div>
-          </Section>
+          </FullScreenSection>
         </>
       )}
     </>

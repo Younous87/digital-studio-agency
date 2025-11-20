@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import Section from '@/components/ui/Section'
-import Container from '@/components/ui/Container'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
@@ -22,7 +21,7 @@ async function getService(slug: string) {
   }
 }
 
-export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ServicePage({ params }: Readonly<{ params: Promise<{ slug: string }> }>) {
   const { slug } = await params
   const service = await getService(slug)
 
@@ -42,13 +41,14 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 alt={service.title}
                 width={120}
                 height={120}
+                className="border-4 border-black shadow-brutal-sm rounded-none"
               />
             </div>
           )}
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-6xl font-black text-black mb-6 retro-text-shadow">
             {service.title}
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-black font-bold">
             {service.shortDescription}
           </p>
         </div>
@@ -69,12 +69,12 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {service.features.map((feature: any, index: number) => (
-              <Card key={index}>
+              <Card key={`${feature.title}-${index}`}>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  <h3 className="text-xl font-black text-black mb-3">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600">{feature.description}</p>
+                  <p className="text-black font-medium">{feature.description}</p>
                 </div>
               </Card>
             ))}
@@ -90,17 +90,17 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           </h2>
           <div className="space-y-8 max-w-4xl mx-auto">
             {service.processSteps.map((step: any, index: number) => (
-              <div key={index} className="flex gap-6">
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold">
+              <div key={`${step.title}-${index}`} className="flex gap-6">
+                <div className="shrink-0">
+                  <div className="w-12 h-12 bg-(--brand-primary) border-3 border-black text-black rounded-none flex items-center justify-center text-xl font-black shadow-brutal-sm">
                     {step.step}
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  <h3 className="text-2xl font-black text-black mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-gray-600">{step.description}</p>
+                  <p className="text-black font-medium">{step.description}</p>
                 </div>
               </div>
             ))}
@@ -111,14 +111,14 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       {/* Related Projects */}
       {service.relatedProjects && service.relatedProjects.length > 0 && (
         <Section background="gray">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-black text-black mb-12 text-center retro-text-shadow">
             Recent Work
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {service.relatedProjects.map((project: any) => (
               <Link key={project._id} href={`/work/${project.slug.current}`}>
-                <Card hover className="h-full">
-                  <div className="relative h-64">
+                <Card hover className="h-full border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 overflow-hidden">
+                  <div className="relative h-64 border-b-4 border-black">
                     <Image
                       src={urlFor(project.featuredImage).width(600).height(400).url()}
                       alt={project.title}
@@ -126,11 +126,11 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                       className="object-cover"
                     />
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  <div className="p-6 bg-white">
+                    <h3 className="text-xl font-black text-black mb-2">
                       {project.title}
                     </h3>
-                    <p className="text-gray-600">{project.shortDescription}</p>
+                    <p className="text-black font-medium">{project.shortDescription}</p>
                   </div>
                 </Card>
               </Link>
@@ -142,12 +142,12 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       {/* CTA Section */}
       {service.cta && (
         <Section padding="xl" background="dark">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-brutal-lg p-12">
+            <h2 className="text-3xl md:text-4xl font-black mb-4 retro-text-shadow">
               {service.cta.title}
             </h2>
             {service.cta.description && (
-              <p className="text-xl mb-8 text-gray-300">
+              <p className="text-xl mb-8 font-bold text-black">
                 {service.cta.description}
               </p>
             )}

@@ -1,4 +1,4 @@
-import Section from '@/components/ui/Section'
+import FullScreenSection from '@/components/ui/FullScreenSection'
 import { client } from '@/lib/sanity/client'
 import { servicesPageQuery } from '@/lib/sanity/queries'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
@@ -147,7 +147,7 @@ export default async function ServicesPage() {
             case 'textImageBlock': {
               const textOrder = block.image ? (block.imagePosition === 'right' ? 'order-1' : 'order-2') : 'order-1'
               return (
-                <Section key={block._key || block._id || `${block._type}-${index}`}>
+                <FullScreenSection key={block._key || block._id || `${block._type}-${index}`}>
                   <div className="max-w-6xl mx-auto">
                     <div className="grid gap-12 lg:grid-cols-2">
                       {block.image && block.imagePosition === 'left' && (
@@ -156,7 +156,7 @@ export default async function ServicesPage() {
                         </div>
                       )}
                       <div className={textOrder}>
-                        {block.title && <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">{block.title}</h2>}
+                        {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">{block.title}</h2>}
                         {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
                       </div>
                       {block.image && block.imagePosition === 'right' && (
@@ -166,7 +166,7 @@ export default async function ServicesPage() {
                       )}
                     </div>
                   </div>
-                </Section>
+                </FullScreenSection>
               )
             }
             case 'statsSection':
@@ -185,32 +185,31 @@ export default async function ServicesPage() {
         // Fallback if no pageBuilder
         <>
           {/* Hero Section */}
-          <Section padding="xl" background="gray">
-            <div className="text-center max-w-3xl mx-auto">
-              <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+          <FullScreenSection background="gray">
+            <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-brutal-lg p-12">
+              <h1 className="text-5xl md:text-7xl font-black text-black mb-6 retro-text-shadow">
                 Our Services
               </h1>
-              <p className="text-xl text-gray-600">
+              <p className="text-xl text-black font-bold">
                 We offer a comprehensive range of digital services to help your business thrive in the modern world.
               </p>
             </div>
-          </Section>
+          </FullScreenSection>
 
           {/* Services Grid - fallback */}
-          <Section>
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What We Offer</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <FullScreenSection>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-6xl font-black text-black mb-6 retro-text-shadow">What We Offer</h2>
+              <p className="text-xl text-black max-w-2xl mx-auto font-bold">
                 Comprehensive digital solutions tailored to your business needs
               </p>
             </div>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {/* Fallback services would be rendered here */}
-              <div className="text-center p-8">
-                <p className="text-gray-600">No services configured yet. Please set up your services page in Sanity Studio.</p>
+              <div className="text-center p-8 bg-white border-4 border-black shadow-brutal">
+                <p className="text-black font-bold">No services configured yet. Please set up your services page in Sanity Studio.</p>
               </div>
             </div>
-          </Section>
+          </FullScreenSection>
         </>
       )}
     </>

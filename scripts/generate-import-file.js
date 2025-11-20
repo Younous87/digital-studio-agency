@@ -859,8 +859,99 @@ const servicesPage = {
   }
 };
 
+const projectsPage = {
+  _type: 'projectsPage',
+  title: 'Projects',
+  pageBuilder: [
+    {
+      _type: 'pageHero',
+      _key: 'projects-hero',
+      title: 'Our Work',
+      subtitle: 'Explore our portfolio of successful projects and discover how we\'ve helped businesses achieve their goals.',
+      background: {
+        type: 'color',
+        color: '#1f2937'
+      }
+    },
+    {
+      _type: 'featuredProjects',
+      _key: 'projects-grid',
+      title: 'Featured Projects',
+      description: 'Check out some of our recent work and see how we\'ve helped businesses succeed.',
+      layout: 'grid',
+      showAll: true
+    },
+    {
+      _type: 'ctaSection',
+      _key: 'projects-cta',
+      title: 'Ready to Start Your Project?',
+      description: 'Let\'s work together to create something amazing. Get in touch with us today and let\'s discuss how we can help bring your vision to life.',
+      primaryCta: {
+        text: 'Get In Touch',
+        link: '/contact'
+      },
+      secondaryCta: {
+        text: 'View Services',
+        link: '/services'
+      },
+      backgroundColor: {
+        hex: '#f3f4f6',
+        hsl: { h: 210, s: 0.14, l: 0.96, a: 1 },
+        rgb: { r: 243, g: 244, b: 246, a: 1 },
+        hsv: { h: 210, s: 0.14, v: 0.96, a: 1 }
+      }
+    }
+  ],
+  seo: {
+    metaTitle: 'Our Work - Digital Studio',
+    metaDescription: 'Explore our portfolio of successful projects and discover how we\'ve helped businesses achieve their digital goals.'
+  }
+};
+
+const contactPage = {
+  _type: 'contactPage',
+  title: 'Contact',
+  subtitle: 'Have a project in mind? We\'d love to hear about it. Get in touch and let\'s discuss how we can help bring your vision to life.',
+  pageBuilder: [
+    {
+      _type: 'pageHero',
+      _key: 'contact-hero',
+      title: 'Let\'s Work Together',
+      subtitle: 'Have a project in mind? We\'d love to hear about it. Get in touch and let\'s discuss how we can help bring your vision to life.',
+      background: {
+        type: 'color',
+        color: '#1f2937'
+      }
+    },
+    {
+      _type: 'contactForm',
+      _key: 'contact-form',
+      title: 'Get in Touch',
+      description: 'Fill out the form and we\'ll be in touch as soon as possible. Or reach out to us directly through the contact information below.',
+      contactInfo: {
+        email: 'hello@digitalstudio.com',
+        phone: '+1 (555) 123-4567',
+        address: '123 Digital Street\nTech City, TC 12345\nUnited States',
+        socialLinks: [
+          { platform: 'linkedin', url: 'https://linkedin.com/company/digitalstudio' },
+          { platform: 'twitter', url: 'https://twitter.com/digitalstudio' },
+          { platform: 'instagram', url: 'https://instagram.com/digitalstudio' },
+          { platform: 'github', url: 'https://github.com/digitalstudio' }
+        ]
+      },
+      formTitle: 'Send us a message',
+      formDescription: 'Tell us about your project and we\'ll get back to you.',
+      submitButtonText: 'Send Message'
+    }
+  ],
+  seo: {
+    metaTitle: 'Contact Us - Digital Studio',
+    metaDescription: 'Get in touch with Digital Studio. We\'re here to help bring your digital vision to life. Contact us for web design, branding, and development services.'
+  }
+};
+
 // Convert to ndjson format
-const allDocs = [...testimonials, ...services, ...projects, ...posts, ...teamMembers, siteSettings, homepage, about, servicesPage];
+const allDocs = [...testimonials, ...services, ...projects, ...posts, ...teamMembers, siteSettings, homepage, about, servicesPage, projectsPage, contactPage];
 const ndjson = allDocs.map(doc => JSON.stringify(doc)).join('\n');
 
 // Write to file
@@ -878,3 +969,5 @@ console.log(`   - 1 site settings`);
 console.log(`   - 1 homepage`);
 console.log(`   - 1 about page`);
 console.log(`   - 1 services page`);
+console.log(`   - 1 projects page`);
+console.log(`   - 1 contact page`);

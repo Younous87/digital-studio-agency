@@ -1,188 +1,121 @@
-'use client'
+import { client } from '@/lib/sanity/client'
+import { contactPageQuery } from '@/lib/sanity/queries'
+import ContactFormSection from '@/components/blocks/ContactFormSection'
+import PageHeroBlock from '@/components/blocks/PageHeroBlock'
 
-import { useState } from 'react'
-import Section from '@/components/ui/Section'
-import Button from '@/components/ui/Button'
+interface ContactPageData {
+  title: string
+  subtitle: string
+  pageBuilder: Array<{
+    _type: string
+    _key: string
+    title?: string
+    subtitle?: string
+    description?: string
+    cta?: {
+      text: string
+      link: string
+    }
+    background?: {
+      type: 'color' | 'image' | 'video'
+      color?: string
+      image?: unknown
+      video?: unknown
+    }
+    contactInfo?: {
+      email?: string
+      phone?: string
+      address?: string
+      socialLinks?: Array<{
+        platform: string
+        url: string
+      }>
+    }
+    formTitle?: string
+    formDescription?: string
+    submitButtonText?: string
+  }>
+}
 
-export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    message: '',
-  })
-  const [status, setStatus] = useState('')
+async function getContactPageData(): Promise<ContactPageData | null> {
+  try {
+    const data = await client.fetch(contactPageQuery)
+    return data
+  } catch (error) {
+    console.error('Error fetching contact page data:', error)
+    return null
+  }
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus('sending')
+export default async function ContactPage() {
+  const contactData = await getContactPageData()
 
-    // Here you would integrate with your email service (e.g., SendGrid, Resend, etc.)
-    // For now, we'll just simulate a submission
-    setTimeout(() => {
-      setStatus('success')
-      setFormData({ name: '', email: '', company: '', message: '' })
-      setTimeout(() => setStatus(''), 3000)
-    }, 1000)
+  // Fallback data if Sanity data is not available
+  const fallbackData: ContactPageData = {
+    title: "Let's Work Together",
+    subtitle: "Have a project in mind? We'd love to hear about it. Get in touch and let's discuss how we can help bring your vision to life.",
+    pageBuilder: [
+      {
+        _type: 'pageHero',
+        _key: 'hero1',
+        title: "Let's Work Together",
+        subtitle: "Have a project in mind? We'd love to hear about it. Get in touch and let's discuss how we can help bring your vision to life.",
+        background: { type: 'color', color: '#1f2937' }
+      },
+      {
+        _type: 'contactForm',
+        _key: 'form1',
+        title: 'Get in Touch',
+        description: 'Fill out the form and we\'ll be in touch as soon as possible. Or reach out to us directly through the contact information below.',
+        contactInfo: {
+          email: 'hello@digitalstudio.com',
+          phone: '+1 (555) 123-4567',
+          address: '123 Digital Street\nTech City, TC 12345\nUnited States',
+          socialLinks: [
+            { platform: 'linkedin', url: '#' },
+            { platform: 'twitter', url: '#' },
+            { platform: 'instagram', url: '#' }
+          ]
+        },
+        formTitle: 'Send us a message',
+        formDescription: 'Tell us about your project and we\'ll get back to you.',
+        submitButtonText: 'Send Message'
+      }
+    ]
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
+  const data = contactData || fallbackData
 
   return (
     <>
       {/* Hero Section */}
-      <Section padding="xl" background="gray">
-        <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Let's Work Together
-          </h1>
-          <p className="text-xl text-gray-600">
-            Have a project in mind? We'd love to hear about it. Get in touch and let's discuss how we can help bring your vision to life.
-          </p>
-        </div>
-      </Section>
+      {data.pageBuilder?.map((block, index) => {
+        if (block._type === 'pageHero') {
+          return (
+            <PageHeroBlock
+              key={block._key || index}
+              title={block.title || data.title}
+              subtitle={block.subtitle || data.subtitle}
+              cta={block.cta}
+              background={block.background || { type: 'color' as const, color: '#f3f4f6' }}
+            />
+          )
+        }
+        return null
+      })}
 
       {/* Contact Form Section */}
-      <Section>
-        <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Info */}
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              Get in Touch
-            </h2>
-            <p className="text-lg text-gray-600 mb-8">
-              Fill out the form and we'll be in touch as soon as possible. Or reach out to us directly through the contact information below.
-            </p>
-
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Email</h3>
-                <a href="mailto:hello@digitalstudio.com" className="text-blue-600 hover:text-blue-800">
-                  hello@digitalstudio.com
-                </a>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Phone</h3>
-                <a href="tel:+15551234567" className="text-blue-600 hover:text-blue-800">
-                  +1 (555) 123-4567
-                </a>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Address</h3>
-                <p className="text-gray-600">
-                  123 Digital Street<br />
-                  Tech City, TC 12345<br />
-                  United States
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Follow Us</h3>
-                <div className="flex gap-4">
-                  <a href="#" className="text-gray-600 hover:text-blue-600">
-                    Twitter
-                  </a>
-                  <a href="#" className="text-gray-600 hover:text-blue-600">
-                    LinkedIn
-                  </a>
-                  <a href="#" className="text-gray-600 hover:text-blue-600">
-                    Instagram
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="bg-gray-50 rounded-lg p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-gray-900 mb-2">
-                  Name *
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                  placeholder="Your name"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                  placeholder="your@email.com"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="company" className="block text-sm font-semibold text-gray-900 mb-2">
-                  Company
-                </label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                  placeholder="Your company name"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-gray-900 mb-2">
-                  Message *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                  placeholder="Tell us about your project..."
-                />
-              </div>
-
-              <Button
-                type="submit"
-                fullWidth
-                disabled={status === 'sending'}
-              >
-                {status === 'sending' ? 'Sending...' : 'Send Message'}
-              </Button>
-
-              {status === 'success' && (
-                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-                  Thank you! We'll get back to you soon.
-                </div>
-              )}
-            </form>
-          </div>
-        </div>
-      </Section>
+      {data.pageBuilder?.map((block, index) => {
+        if (block._type === 'contactForm') {
+          return (
+            <ContactFormSection
+              key={block._key || index}
+              block={block}
+            />
+          )
+        }
+        return null
+      })}
     </>
   )
 }

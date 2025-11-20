@@ -9,7 +9,7 @@ import AnimatedStats from '@/components/blocks/AnimatedStats'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
 import Image from 'next/image'
 import Button from '@/components/ui/Button'
-import Section from '@/components/ui/Section'
+import FullScreenSection from '@/components/ui/FullScreenSection'
 import { urlFor } from '@/lib/sanity/image'
 
 export const revalidate = 60 // Revalidate every 60 seconds
@@ -30,14 +30,16 @@ export default async function HomePage() {
   if (!homepage?.pageBuilder) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <div className="text-center bg-white border-4 border-black shadow-brutal-lg p-12">
+          <h1 className="text-5xl font-black text-black mb-6 retro-text-shadow">
             Welcome to Digital Studio
           </h1>
-          <p className="text-lg text-gray-600 mb-8">
+          <p className="text-xl text-black mb-10 font-bold">
             Configure your homepage in Sanity Studio
           </p>
-          <Button href="/studio">Go to Studio</Button>
+          <Button href="/studio" className="font-black">
+            GO TO STUDIO
+          </Button>
         </div>
       </div>
     )
@@ -95,13 +97,13 @@ export default async function HomePage() {
           
           case 'aboutSection':
             return (
-              <Section key={index} background="white">
+              <FullScreenSection key={index} background="white">
                 <div className={`grid md:grid-cols-2 gap-12 items-center ${
                   block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''
                 }`}>
                   <div className={block.imagePosition === 'left' ? 'md:order-2' : ''}>
                     {block.title && (
-                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                      <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">
                         {block.title}
                       </h2>
                     )}
@@ -129,7 +131,7 @@ export default async function HomePage() {
                     </div>
                   )}
                 </div>
-              </Section>
+              </FullScreenSection>
             )
           
           case 'ctaSection':
@@ -147,13 +149,13 @@ export default async function HomePage() {
           
           case 'textImageBlock':
             return (
-              <Section key={index}>
+              <FullScreenSection key={index}>
                 <div className={`grid md:grid-cols-2 gap-12 items-center ${
                   block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''
                 }`}>
                   <div className={block.imagePosition === 'left' ? 'md:order-2' : ''}>
                     {block.title && (
-                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                      <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">
                         {block.title}
                       </h2>
                     )}
@@ -181,7 +183,7 @@ export default async function HomePage() {
                     </div>
                   )}
                 </div>
-              </Section>
+              </FullScreenSection>
             )
           
           case 'statsSection':

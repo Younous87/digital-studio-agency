@@ -7,6 +7,9 @@ import testimonial from './testimonial'
 import homepage from './homepage'
 import about from './about'
 import servicesPage from './servicesPage'
+import projectsPage from './projectsPage'
+import contactPage from './contactPage'
+import blogPage from './blogPage'
 
 // Page Builder Blocks
 import hero from './blocks/hero'
@@ -22,6 +25,8 @@ import ourValues from './blocks/ourValues'
 import meetOurTeam from './blocks/meetOurTeam'
 import pageHero from './blocks/pageHero'
 import serviceList from './blocks/serviceList'
+import contactForm from './blocks/contactForm'
+import blogPosts from './blocks/blogPosts'
 
 export const schemaTypes = [
   // Documents
@@ -34,6 +39,9 @@ export const schemaTypes = [
   homepage,
   about,
   servicesPage,
+  projectsPage,
+  contactPage,
+  blogPage,
   
   // Page Builder Blocks
   hero,
@@ -49,4 +57,6 @@ export const schemaTypes = [
   ctaSection,
   textImageBlock,
   statsSection,
+  contactForm,
+  blogPosts,
 ]

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import Section from '../ui/Section'
+import FullScreenSection from '../ui/FullScreenSection'
 import { Card, CardContent } from '../ui/Card'
 import { Skeleton } from '../ui/skeleton'
 import { TrendingUp, Users, Award, Briefcase } from 'lucide-react'
@@ -95,42 +95,49 @@ export default function AnimatedStats({ title, stats }: Readonly<AnimatedStatsPr
   }, [isVisible, stats])
 
   return (
-    <Section background="dark">
-      <div ref={sectionRef}>
+    <FullScreenSection background="dark">
+      <div ref={sectionRef} className="relative">
+        {/* Pattern background */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 20px, white 20px, white 21px), repeating-linear-gradient(90deg, transparent, transparent 20px, white 20px, white 21px)',
+          }} />
+        </div>
+
         {title && (
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
+          <h2 className="text-3xl md:text-5xl font-black text-center mb-16 text-white retro-text-shadow relative">
             {title}
           </h2>
         )}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 relative">
           {stats.map((stat, index) => {
             const Icon = stat.icon ? iconMap[stat.icon] : null
 
             return (
               <Card 
                 key={`stat-${stat.label}-${index}`}
-                className="text-center bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105"
+                className="text-center bg-white border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 hover:-translate-y-1"
               >
                 <CardContent className="p-6">
                   {Icon && (
                     <div className="flex justify-center mb-4">
-                      <div className="p-3 bg-brand-accent-10 rounded-full">
-                        <Icon className="w-8 h-8 text-brand-accent" />
+                      <div className="p-3 bg-[var(--brand-accent)] border-3 border-black -rotate-6">
+                        <Icon className="w-8 h-8 text-black" strokeWidth={3} />
                       </div>
                     </div>
                   )}
                   {!isVisible ? (
-                    <Skeleton className="h-12 w-24 mx-auto mb-2 bg-white/20" />
+                    <Skeleton className="h-12 w-24 mx-auto mb-2 bg-gray-200" />
                   ) : (
-                    <div className="text-4xl md:text-5xl font-bold mb-2 text-white">
+                    <div className="text-5xl md:text-6xl font-black mb-2 text-black">
                       {animatedValues[index] || stat.value}
                     </div>
                   )}
-                  <div className="text-lg md:text-xl font-semibold mb-2 text-white/90">
+                  <div className="text-lg md:text-xl font-bold mb-2 text-gray-900">
                     {stat.label}
                   </div>
                   {stat.description && (
-                    <p className="text-sm text-gray-300 opacity-90">
+                    <p className="text-sm text-gray-700">
                       {stat.description}
                     </p>
                   )}
@@ -140,6 +147,6 @@ export default function AnimatedStats({ title, stats }: Readonly<AnimatedStatsPr
           })}
         </div>
       </div>
-    </Section>
+    </FullScreenSection>
   )
 }

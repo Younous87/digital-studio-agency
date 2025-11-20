@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import Section from '../ui/Section'
+import FullScreenSection from '../ui/FullScreenSection'
 import { Card, CardContent, CardDescription, CardHeader } from '../ui/Card'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel'
@@ -35,7 +35,7 @@ export default function TestimonialCarousel({
 }: Readonly<TestimonialCarouselProps>) {
   if (layout === 'grid') {
     return (
-      <Section background="gray">
+      <FullScreenSection background="gray">
         {(title || description) && (
           <div className="text-center mb-12">
             {title && (
@@ -101,13 +101,13 @@ export default function TestimonialCarousel({
             </Card>
           ))}
         </div>
-      </Section>
+      </FullScreenSection>
     )
   }
 
   // Enhanced Carousel layout with shadcn carousel
   return (
-    <Section background="gray">
+    <FullScreenSection background="gray">
       {(title || description) && (
         <div className="text-center mb-12">
           {title && (
@@ -140,7 +140,7 @@ export default function TestimonialCarousel({
                     <div className="flex items-start justify-between mb-4">
                       <Quote className="w-12 h-12 text-brand-secondary/20" />
                       {testimonial.rating && (
-                        <Badge variant="secondary" className="flex items-center gap-1">
+                        <Badge variant="default" className="flex items-center gap-1">
                           <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                           {testimonial.rating}/5
                         </Badge>
@@ -181,6 +181,6 @@ export default function TestimonialCarousel({
           <CarouselNext className="shadow-lg" />
         </Carousel>
       </div>
-    </Section>
+    </FullScreenSection>
   )
 }

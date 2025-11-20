@@ -23,7 +23,7 @@ export default function Footer({
   copyright,
   links = [],
   socialMedia = []
-}: FooterProps) {
+}: Readonly<FooterProps>) {
   const currentYear = new Date().getFullYear()
 
   const getSocialIcon = (platform: string) => {
@@ -39,24 +39,44 @@ export default function Footer({
   }
 
   return (
-    <footer className="relative bg-linear-to-br from-gray-900 via-gray-900 to-gray-800 text-gray-900">
-      {/* Brand accent overlay */}
-      <div className="absolute inset-0 bg-linear-to-br from-brand-primary/5 via-transparent to-brand-secondary/5 pointer-events-none" />
+    <footer className="relative bg-background border-t-4 border-black">
+      {/* Retro pattern background */}
+      <div className="absolute inset-0 pattern-dots opacity-5 pointer-events-none" />
+      
+      {/* Decorative shapes */}
+      <div className="absolute top-10 right-10 w-20 h-20 bg-brand-tertiary border-3 border-black rounded-full opacity-20" />
+      <div className="absolute bottom-10 left-10 w-16 h-16 bg-brand-accent border-3 border-black rotate-45 opacity-20" />
+      
       <Container className="relative z-10">
-        <div className="py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="py-16 grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Company Info */}
           <div>
-            <h3 className="text-gray-900 text-xl font-bold mb-4">Digital Studio</h3>
-            {footerText && <p className="text-sm">{footerText}</p>}
+            <h3 className="text-foreground text-3xl font-black mb-4 flex items-center gap-2">
+              <div className="w-10 h-10 bg-brand-primary border-3 border-black rounded-lg flex items-center justify-center shadow-brutal-sm">
+                <span className="text-white text-xl font-black">DS</span>
+              </div>
+              Digital Studio
+            </h3>
+            {footerText && (
+              <p className="text-base font-medium text-muted-foreground bg-muted border-2 border-black rounded-lg p-4 shadow-brutal-sm">
+                {footerText}
+              </p>
+            )}
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-gray-900 font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              {links.map((link, index) => (
-                <li key={index}>
-                  <Link href={link.url} className="text-sm text-gray-700 hover:text-brand-primary transition-colors">
+            <h4 className="text-foreground font-black text-xl mb-6 pb-2 border-b-3 border-brand-secondary">
+              Quick Links
+            </h4>
+            <ul className="space-y-3">
+              {links.map((link) => (
+                <li key={link.url}>
+                  <Link 
+                    href={link.url} 
+                    className="text-base font-bold text-foreground hover:text-brand-primary transition-colors inline-flex items-center gap-2 group"
+                  >
+                    <span className="w-2 h-2 bg-brand-primary rounded-full group-hover:scale-150 transition-transform" />
                     {link.label}
                   </Link>
                 </li>
@@ -66,15 +86,17 @@ export default function Footer({
 
           {/* Social Media */}
           <div>
-            <h4 className="text-gray-900 font-semibold mb-4">Follow Us</h4>
-            <div className="flex space-x-4">
-              {socialMedia.map((social, index) => (
+            <h4 className="text-foreground font-black text-xl mb-6 pb-2 border-b-3 border-brand-accent">
+              Follow Us
+            </h4>
+            <div className="flex flex-wrap gap-4">
+              {socialMedia.map((social) => (
                 <a
-                  key={index}
+                  key={social.platform}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-700 hover:text-brand-primary transition-colors transform hover:scale-110 duration-200"
+                  className="w-12 h-12 bg-background border-3 border-black rounded-lg flex items-center justify-center hover:bg-brand-primary hover:text-white transition-all shadow-brutal-sm hover-lift group"
                   aria-label={social.platform}
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -86,8 +108,10 @@ export default function Footer({
           </div>
         </div>
 
-        <div className="border-t border-gray-800 py-6 text-center text-sm">
-          <p>{copyright || `© ${currentYear} Digital Studio. All rights reserved.`}</p>
+        <div className="border-t-3 border-black py-8 text-center">
+          <p className="text-lg font-black text-foreground bg-brand-secondary border-3 border-black rounded-full py-3 px-8 inline-block shadow-brutal">
+            {copyright || `© ${currentYear} Digital Studio. All rights reserved.`}
+          </p>
         </div>
       </Container>
     </footer>

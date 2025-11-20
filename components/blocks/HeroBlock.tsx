@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import Button from '../ui/Button'
-import { Badge } from '../ui/badge'
+import { Button } from '../retroui/Button'
 import { urlFor } from '@/lib/sanity/image'
-import { ArrowRight, Sparkles, Zap, TrendingUp } from 'lucide-react'
+import { ArrowRight, Sparkles, Zap, TrendingUp, Star } from 'lucide-react'
 
 interface HeroBlockProps {
   headline: string
@@ -34,9 +33,9 @@ export default function HeroBlock({
   const [currentBadge, setCurrentBadge] = useState(0)
 
   const badges = [
-    { icon: Sparkles, text: "Award-Winning Design" },
-    { icon: Zap, text: "Lightning Fast Delivery" },
-    { icon: TrendingUp, text: "Results-Driven" }
+    { icon: Sparkles, text: "Award-Winning Design", color: "bg-brand-secondary" },
+    { icon: Zap, text: "Lightning Fast", color: "bg-brand-accent" },
+    { icon: TrendingUp, text: "Results-Driven", color: "bg-brand-tertiary" }
   ]
 
   useEffect(() => {
@@ -50,115 +49,145 @@ export default function HeroBlock({
   const CurrentBadgeIcon = badges[currentBadge]?.icon || Sparkles
 
   return (
-    <section className="relative min-h-[650px] md:min-h-[750px] flex items-center justify-center overflow-hidden">
-      {/* Background */}
-      {backgroundVideo ? (
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover scale-105"
-        >
-          <source src={backgroundVideo} type="video/mp4" />
-        </video>
-      ) : backgroundImage ? (
-        <Image
-          src={urlFor(backgroundImage).width(1920).url()}
-          alt="Hero background"
-          fill
-          className="object-cover scale-105"
-          priority
-        />
-      ) : (
-        <div className="absolute inset-0 bg-linear-to-br from-brand-primary via-brand-secondary to-brand-accent" />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background border-b-4 border-black">
+      {/* Retro Pattern Background */}
+      <div className="absolute inset-0 pattern-dots opacity-10" />
+      
+      {/* Decorative shapes - Neo-brutalist style */}
+      <div className="absolute top-10 right-10 w-32 h-32 bg-brand-secondary border-4 border-black rounded-full shadow-brutal-lg animate-bounce-in hidden md:block" />
+      <div className="absolute bottom-20 left-10 w-40 h-40 bg-brand-accent border-4 border-black rotate-12 shadow-brutal-xl animate-slide-in-left hidden md:block" />
+      <div className="absolute top-40 left-1/4 w-24 h-24 bg-brand-tertiary border-4 border-black -rotate-12 shadow-brutal hidden md:block" />
+      
+      {/* Optional Background Image/Video with brutalist frame */}
+      {(backgroundVideo || backgroundImage) && (
+        <div className="absolute inset-0 flex items-center justify-center p-8">
+          <div className="relative w-full max-w-4xl h-96 border-4 border-black rounded-2xl overflow-hidden shadow-brutal-xl">
+            {backgroundVideo && (
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover opacity-20"
+              >
+                <source src={backgroundVideo} type="video/mp4" />
+              </video>
+            )}
+            {!backgroundVideo && backgroundImage && (
+              <Image
+                src={urlFor(backgroundImage).width(1920).url()}
+                alt="Hero background"
+                fill
+                className="object-cover opacity-20"
+                priority
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-retro-multi opacity-30" />
+          </div>
+        </div>
       )}
       
-      {/* Animated gradient overlay */}
-      <div className="absolute inset-0 bg-linear-to-tr from-black/60 via-black/40 to-transparent" />
-      
-      {/* Floating shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-brand-primary-10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-brand-secondary-10 rounded-full blur-3xl animate-pulse delay-1000" />
-      </div>
-      
       {/* Content */}
-      <div className={`relative z-10 text-center text-white px-4 max-w-5xl mx-auto transition-all duration-1000 ${
+      <div className={`relative z-10 text-center px-4 max-w-6xl mx-auto transition-all duration-700 ${
         isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}>
         {/* Rotating badge */}
-        <div className="flex justify-center mb-6">
-            <Badge 
-            variant="secondary" 
-            className="bg-white/20 backdrop-blur-md text-on-dark border-white/30 px-4 py-2 text-sm font-semibold hover:bg-white/30 transition-all duration-300"
-          >
-            <CurrentBadgeIcon className="w-4 h-4 mr-2 inline animate-pulse" />
-            {badges[currentBadge]?.text}
-          </Badge>
+        <div className="flex justify-center mb-8 animate-bounce-in">
+          <div className={`${badges[currentBadge]?.color} border-3 border-black px-6 py-2 rounded-full shadow-brutal-sm flex items-center gap-2 transition-all duration-300 hover-lift`}>
+            <CurrentBadgeIcon className="w-5 h-5 text-black animate-pulse" strokeWidth={2.5} />
+            <span className="font-black text-black text-sm uppercase tracking-wide">
+              {badges[currentBadge]?.text}
+            </span>
+          </div>
         </div>
 
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-          <span className="text-white">
-            {headline}
+        {/* Main Headline - Retro typography */}
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-none tracking-tight">
+          <span className="inline-block animate-slide-in-bottom">
+            {headline.split(' ').map((word, i) => {
+              const colors = ['text-foreground', 'text-brand-primary', 'text-brand-secondary', 'text-brand-accent']
+              return (
+                <span 
+                  key={`${word}-${i}`} 
+                  className={`${colors[i % colors.length]} inline-block mr-3 md:mr-4`}
+                  style={{ 
+                    animationDelay: `${i * 0.1}s`,
+                    textShadow: '4px 4px 0px rgba(0,0,0,0.1)'
+                  }}
+                >
+                  {word}
+                </span>
+              )
+            })}
           </span>
         </h1>
         
         {subheadline && (
-          <p className="text-xl md:text-2xl mb-10 text-gray-100 max-w-3xl mx-auto leading-relaxed font-light">
+          <p className="text-xl md:text-3xl mb-12 text-foreground max-w-4xl mx-auto leading-relaxed font-bold animate-fade-in border-4 border-black bg-white p-6 md:p-8 rounded-2xl shadow-brutal-lg">
             {subheadline}
           </p>
         )}
         
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        {/* CTA Buttons - Neo-brutalist style */}
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 animate-slide-in-bottom">
           {cta && (
             <Button 
-              href={cta.link} 
-              size="lg" 
-              variant="primary"
-              className="group shadow-xl hover:shadow-2xl transition-all duration-300 bg-white text-gray-900 hover:bg-gray-100 px-8 py-6 text-lg"
+              variant="default" 
+              size="lg"
+              asChild
             >
-              {cta.text}
-              <ArrowRight className="ml-2 w-5 h-5 inline group-hover:translate-x-1 transition-transform" />
+              <a href={cta.link} className="group text-lg md:text-xl">
+                {cta.text}
+                <ArrowRight className="ml-3 w-6 h-6 inline group-hover:translate-x-2 transition-transform" strokeWidth={3} />
+              </a>
             </Button>
           )}
           {secondaryCta && (
             <Button 
-              href={secondaryCta.link} 
-              size="lg" 
-              variant="outline"
-              className="border-2 border-white/40 backdrop-blur-sm hover:bg-white/10 text-white px-8 py-6 text-lg"
+              variant="outline" 
+              size="lg"
+              asChild
             >
-              {secondaryCta.text}
+              <a href={secondaryCta.link} className="text-lg md:text-xl">
+                {secondaryCta.text}
+              </a>
             </Button>
           )}
         </div>
 
-        {/* Trust indicators */}
-        <div className="mt-16 flex flex-wrap justify-center items-center gap-8 text-sm text-white/80">
-          <div className="flex items-center gap-2">
-            <div className="flex -space-x-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white" />
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white" />
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-2 border-white" />
+        {/* Trust indicators - Retro style */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto animate-fade-in">
+          <div className="bg-brand-secondary border-3 border-black rounded-xl p-6 shadow-brutal hover-lift">
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <div className="flex -space-x-2">
+                <div className="w-10 h-10 rounded-full bg-brand-primary border-3 border-black flex items-center justify-center text-white font-black">
+                  50
+                </div>
+                <div className="w-10 h-10 rounded-full bg-brand-accent border-3 border-black flex items-center justify-center text-black font-black">
+                  0+
+                </div>
+              </div>
             </div>
-            <span className="font-semibold">500+ Happy Clients</span>
+            <p className="font-black text-black text-lg">Happy Clients</p>
           </div>
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-yellow-400" />
-            <span className="font-semibold">4.9/5 Rating</span>
+          
+          <div className="bg-brand-accent border-3 border-black rounded-xl p-6 shadow-brutal hover-lift">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Star className="w-6 h-6 fill-black text-black" strokeWidth={2} />
+              <Star className="w-6 h-6 fill-black text-black" strokeWidth={2} />
+              <Star className="w-6 h-6 fill-black text-black" strokeWidth={2} />
+              <Star className="w-6 h-6 fill-black text-black" strokeWidth={2} />
+              <Star className="w-6 h-6 fill-black text-black" strokeWidth={2} />
+            </div>
+            <p className="font-black text-black text-lg">4.9/5 Rating</p>
           </div>
-          <div className="flex items-center gap-2">
-            <Zap className="w-5 h-5 text-brand-primary" />
-            <span className="font-semibold">24/7 Support</span>
+          
+          <div className="bg-brand-tertiary border-3 border-black rounded-xl p-6 shadow-brutal hover-lift">
+            <div className="flex items-center justify-center mb-2">
+              <Zap className="w-12 h-12 text-black" strokeWidth={2.5} />
+            </div>
+            <p className="font-black text-black text-lg">24/7 Support</p>
           </div>
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center p-2">
-          <div className="w-1 h-3 bg-white/50 rounded-full" />
         </div>
       </div>
     </section>
