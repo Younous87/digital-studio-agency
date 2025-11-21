@@ -1,5 +1,6 @@
 import Image from 'next/image'
-import { Button } from '../ui/Button'
+import { Button } from '@/components/retroui/Button'
+import Link from 'next/link'
 import FullScreenSection from '../ui/FullScreenSection'
 import { urlFor } from '@/lib/sanity/image'
 import { ArrowRight, Sparkles } from 'lucide-react'
@@ -70,19 +71,19 @@ export default function CTASection({
 
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
           {primaryCta && (
-            <ConfettiButton variant="default" size="lg" asChild>
-              <a href={primaryCta.link} className="text-xl group">
+            <Link href={primaryCta.link}>
+              <ConfettiButton variant="default" size="lg" className="text-xl group">
                 {primaryCta.text}
                 <ArrowRight className="ml-3 w-6 h-6 inline group-hover:translate-x-2 transition-transform" strokeWidth={3} />
-              </a>
-            </ConfettiButton>
+              </ConfettiButton>
+            </Link>
           )}
           {secondaryCta && (
-            <Button variant="outline" size="lg" asChild>
-              <a href={secondaryCta.link} className="text-xl">
+            <Link href={secondaryCta.link}>
+              <Button variant="outline" size="lg" className="text-xl">
                 {secondaryCta.text}
-              </a>
-            </Button>
+              </Button>
+            </Link>
           )}
         </div>
       </div>

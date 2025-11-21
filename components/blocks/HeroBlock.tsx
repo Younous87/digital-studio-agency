@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Button } from '../ui/Button'
+import { Button } from '@/components/retroui/Button'
+import Link from 'next/link'
 import { urlFor } from '@/lib/sanity/image'
 import { ArrowRight, Sparkles, Zap, TrendingUp, Star } from 'lucide-react'
 
@@ -130,27 +131,19 @@ export default function HeroBlock({
         {/* CTA Buttons - Neo-brutalist style */}
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 animate-slide-in-bottom">
           {cta && (
-            <Button
-              variant="default"
-              size="lg"
-              asChild
-            >
-              <a href={cta.link} className="group text-lg md:text-xl">
+            <Link href={cta.link}>
+              <Button variant="default" size="lg" className="group text-lg md:text-xl">
                 {cta.text}
                 <ArrowRight className="ml-3 w-6 h-6 inline group-hover:translate-x-2 transition-transform" strokeWidth={3} />
-              </a>
-            </Button>
+              </Button>
+            </Link>
           )}
           {secondaryCta && (
-            <Button
-              variant="outline"
-              size="lg"
-              asChild
-            >
-              <a href={secondaryCta.link} className="text-lg md:text-xl">
+            <Link href={secondaryCta.link}>
+              <Button variant="outline" size="lg" className="text-lg md:text-xl">
                 {secondaryCta.text}
-              </a>
-            </Button>
+              </Button>
+            </Link>
           )}
         </div>
 

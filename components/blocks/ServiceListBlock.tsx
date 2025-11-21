@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/image'
 import Card, { CardBody } from '@/components/ui/Card'
-import Button from '@/components/ui/Button'
+import { Button } from '@/components/retroui/Button'
+import Link from 'next/link'
 import Container from '@/components/ui/Container'
 
 interface Service {
@@ -88,13 +89,11 @@ export default function ServiceListBlock({
                     <p className="text-lg mb-6 leading-relaxed text-gray-700 font-medium">
                       {service.shortDescription}
                     </p>
-                    <Button
-                      variant="default"
-                      href={`/services/${service.slug.current}`}
-                      className="font-black"
-                    >
-                      LEARN MORE →
-                    </Button>
+                    <Link href={`/services/${service.slug.current}`}>
+                      <Button variant="default" className="font-black">
+                        LEARN MORE →
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </Card>
@@ -158,13 +157,11 @@ export default function ServiceListBlock({
                 <p className="text-lg mb-8 leading-relaxed text-gray-700 font-medium">
                   {service.shortDescription}
                 </p>
-                <Button
-                  variant="default"
-                  href={`/services/${service.slug.current}`}
-                  className="font-black"
-                >
-                  LEARN MORE →
-                </Button>
+                <Link href={`/services/${service.slug.current}`}>
+                  <Button variant="default" className="font-black">
+                    LEARN MORE →
+                  </Button>
+                </Link>
               </CardBody>
             </Card>
           ))}

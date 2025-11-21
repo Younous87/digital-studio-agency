@@ -1,6 +1,7 @@
 import React from 'react'
 import { urlFor } from '@/lib/sanity/image'
-import Button from '../ui/Button'
+import { Button } from '@/components/retroui/Button'
+import Link from 'next/link'
 import FullScreenSection from '../ui/FullScreenSection'
 
 interface PageHeroBlockProps {
@@ -79,13 +80,11 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
             </p>
           )}
           {cta?.text && cta?.link && (
-            <Button
-              href={cta.link}
-              variant="default"
-              className="text-lg font-black"
-            >
-              {cta.text}
-            </Button>
+            <Link href={cta.link}>
+              <Button variant="default" className="text-lg font-black">
+                {cta.text}
+              </Button>
+            </Link>
           )}
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Section from '@/components/ui/Section'
-import Button from '@/components/ui/Button'
+import { Button } from '@/components/retroui/Button'
 import { Input } from '@/components/retroui/Input'
 import { Textarea } from '@/components/retroui/Textarea'
 import { Mail, Phone, MapPin } from 'lucide-react'
