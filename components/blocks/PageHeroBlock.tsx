@@ -41,7 +41,7 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
       background="transparent"
       className="relative overflow-hidden text-center"
       style={getBackgroundStyle()}
-      minHeight="auto" // Allow it to be smaller if needed, or 'screen' if we want full screen
+      minHeight="screen" // Set to full screen height for proper hero display
     >
       {/* Video Background */}
       {background.type === 'video' && background.video ? (
