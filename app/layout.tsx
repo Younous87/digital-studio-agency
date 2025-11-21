@@ -22,12 +22,12 @@ async function getSiteSettings() {
     // In development, don't cache to see changes immediately
     // In production, revalidate every hour
     const settings = await client.fetch(
-      siteSettingsQuery, 
-      {}, 
-      { 
-        next: { 
-          revalidate: process.env.NODE_ENV === 'production' ? 3600 : 0 
-        } 
+      siteSettingsQuery,
+      {},
+      {
+        next: {
+          revalidate: process.env.NODE_ENV === 'production' ? 3600 : 0
+        }
       }
     );
     return settings;
@@ -67,9 +67,9 @@ export default async function RootLayout({
         />
       </head>
       <body className={`${inter.variable} font-sans antialiased`} suppressHydrationWarning={true}>
-        <Header 
-          logo={settings?.logo} 
-          navigation={settings?.navigation || []} 
+        <Header
+          logo={settings?.logo}
+          navigation={settings?.navigation || []}
         />
         <main className="pt-20">{children}</main>
         <Footer

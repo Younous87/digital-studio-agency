@@ -1,6 +1,7 @@
 import React from 'react'
 import { urlFor } from '@/lib/sanity/image'
 import Button from '../ui/Button'
+import FullScreenSection from '../ui/FullScreenSection'
 
 interface PageHeroBlockProps {
   readonly title: string
@@ -36,7 +37,13 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
   }
 
   return (
-    <section className="relative min-h-[60vh] flex items-center justify-center text-center overflow-hidden" style={getBackgroundStyle()}>
+    <FullScreenSection
+      background="transparent"
+      className="relative overflow-hidden text-center"
+      style={getBackgroundStyle()}
+      minHeight="auto" // Allow it to be smaller if needed, or 'screen' if we want full screen
+    >
+      {/* Video Background */}
       {background.type === 'video' && background.video ? (
         <video
           className="absolute inset-0 w-full h-full object-cover"
@@ -50,7 +57,7 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
       ) : null}
 
       {/* Pattern overlay */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute inset-0" style={{
           backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(0,0,0,0.1) 20px, rgba(0,0,0,0.1) 21px)',
         }} />
@@ -58,7 +65,7 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
 
       {/* Dark overlay for better text readability on images/videos */}
       {(background.type === 'image' || background.type === 'video') && (
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-60 pointer-events-none"></div>
       )}
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -82,6 +89,6 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
           )}
         </div>
       </div>
-    </section>
+    </FullScreenSection>
   )
 }

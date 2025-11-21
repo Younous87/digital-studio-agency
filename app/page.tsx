@@ -11,6 +11,8 @@ import Image from 'next/image'
 import Button from '@/components/ui/Button'
 import FullScreenSection from '@/components/ui/FullScreenSection'
 import { urlFor } from '@/lib/sanity/image'
+import ScrollReveal from '@/components/ui/ScrollReveal'
+import RetroMarquee from '@/components/ui/RetroMarquee'
 
 export const revalidate = 60 // Revalidate every 60 seconds
 
@@ -51,150 +53,170 @@ export default async function HomePage() {
         switch (block._type) {
           case 'hero':
             return (
-              <HeroBlock
-                key={index}
-                headline={block.headline}
-                subheadline={block.subheadline}
-                cta={block.cta}
-                secondaryCta={block.secondaryCta}
-                backgroundImage={block.backgroundImage}
-                backgroundVideo={block.backgroundVideo}
-              />
+              <>
+                <ScrollReveal>
+                  <HeroBlock
+                    key={index}
+                    headline={block.headline}
+                    subheadline={block.subheadline}
+                    cta={block.cta}
+                    secondaryCta={block.secondaryCta}
+                    backgroundImage={block.backgroundImage}
+                    backgroundVideo={block.backgroundVideo}
+                  />
+                </ScrollReveal>
+                <RetroMarquee
+                  items={["Digital Experiences", "Creative Strategy", "Brand Identity", "Web Development", "Motion Design"]}
+                  speed={25}
+                  className="rotate-1 scale-105 z-20 shadow-brutal"
+                />
+              </>
             )
-          
+
           case 'servicesOverview':
             return (
-              <ServicesGrid
-                key={index}
-                title={block.title}
-                description={block.description}
-                services={block.services || []}
-                layout={block.layout}
-              />
+              <ScrollReveal delay={0.2}>
+                <ServicesGrid
+                  key={index}
+                  title={block.title}
+                  description={block.description}
+                  services={block.services || []}
+                  layout={block.layout}
+                />
+              </ScrollReveal>
             )
-          
+
           case 'featuredProjects':
             return (
-              <ProjectGrid
-                key={index}
-                title={block.title}
-                description={block.description}
-                projects={block.projects || []}
-                layout={block.layout}
-              />
+              <ScrollReveal delay={0.2}>
+                <ProjectGrid
+                  key={index}
+                  title={block.title}
+                  description={block.description}
+                  projects={block.projects || []}
+                  layout={block.layout}
+                />
+              </ScrollReveal>
             )
-          
+
           case 'testimonials':
             return (
-              <TestimonialCarousel
-                key={index}
-                title={block.title}
-                description={block.description}
-                testimonials={block.testimonials || []}
-                layout={block.layout}
-              />
+              <ScrollReveal delay={0.2}>
+                <TestimonialCarousel
+                  key={index}
+                  title={block.title}
+                  description={block.description}
+                  testimonials={block.testimonials || []}
+                  layout={block.layout}
+                />
+              </ScrollReveal>
             )
-          
+
           case 'aboutSection':
             return (
-              <FullScreenSection key={index} background="white">
-                <div className={`grid md:grid-cols-2 gap-12 items-center ${
-                  block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''
-                }`}>
-                  <div className={block.imagePosition === 'left' ? 'md:order-2' : ''}>
-                    {block.title && (
-                      <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">
-                        {block.title}
-                      </h2>
-                    )}
-                    {block.content && (
-                      <RichTextRenderer content={block.content} />
-                    )}
-                    {block.cta && (
-                      <div className="mt-6">
-                        <Button href={block.cta.link}>
-                          {block.cta.text}
-                        </Button>
+              <ScrollReveal>
+                <FullScreenSection key={index} background="white">
+                  <div className={`grid md:grid-cols-2 gap-12 items-center ${block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''
+                    }`}>
+                    <div className={block.imagePosition === 'left' ? 'md:order-2' : ''}>
+                      {block.title && (
+                        <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">
+                          {block.title}
+                        </h2>
+                      )}
+                      {block.content && (
+                        <RichTextRenderer content={block.content} />
+                      )}
+                      {block.cta && (
+                        <div className="mt-6">
+                          <Button href={block.cta.link}>
+                            {block.cta.text}
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                    {block.image && (
+                      <div className={`relative h-96 rounded-lg overflow-hidden ${block.imagePosition === 'left' ? 'md:order-1' : ''
+                        }`}>
+                        <Image
+                          src={urlFor(block.image).width(800).url()}
+                          alt={block.title || 'About'}
+                          fill
+                          className="object-cover"
+                        />
                       </div>
                     )}
                   </div>
-                  {block.image && (
-                    <div className={`relative h-96 rounded-lg overflow-hidden ${
-                      block.imagePosition === 'left' ? 'md:order-1' : ''
-                    }`}>
-                      <Image
-                        src={urlFor(block.image).width(800).url()}
-                        alt={block.title || 'About'}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-                </div>
-              </FullScreenSection>
+                </FullScreenSection>
+              </ScrollReveal>
             )
-          
+
           case 'ctaSection':
             return (
-              <CTASection
-                key={index}
-                title={block.title}
-                description={block.description}
-                primaryCta={block.primaryCta}
-                secondaryCta={block.secondaryCta}
-                backgroundImage={block.backgroundImage}
-                backgroundColor={block.backgroundColor}
-              />
+              <ScrollReveal>
+                <CTASection
+                  key={index}
+                  title={block.title}
+                  description={block.description}
+                  primaryCta={block.primaryCta}
+                  secondaryCta={block.secondaryCta}
+                  backgroundImage={block.backgroundImage}
+                  backgroundColor={block.backgroundColor}
+                />
+              </ScrollReveal>
             )
-          
+
           case 'textImageBlock':
             return (
-              <FullScreenSection key={index}>
-                <div className={`grid md:grid-cols-2 gap-12 items-center ${
-                  block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''
-                }`}>
-                  <div className={block.imagePosition === 'left' ? 'md:order-2' : ''}>
-                    {block.title && (
-                      <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">
-                        {block.title}
-                      </h2>
-                    )}
-                    {block.content && (
-                      <RichTextRenderer content={block.content} />
-                    )}
-                    {block.cta && (
-                      <div className="mt-6">
-                        <Button href={block.cta.link}>
-                          {block.cta.text}
-                        </Button>
+              <ScrollReveal>
+                <FullScreenSection key={index}>
+                  <div className={`grid md:grid-cols-2 gap-12 items-center ${block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''
+                    }`}>
+                    <div className={block.imagePosition === 'left' ? 'md:order-2' : ''}>
+                      {block.title && (
+                        <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">
+                          {block.title}
+                        </h2>
+                      )}
+                      {block.content && (
+                        <RichTextRenderer content={block.content} />
+                      )}
+                      {block.cta && (
+                        <div className="mt-6">
+                          <Button href={block.cta.link}>
+                            {block.cta.text}
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                    {block.image && (
+                      <div className={`relative h-96 rounded-lg overflow-hidden ${block.imagePosition === 'left' ? 'md:order-1' : ''
+                        }`}>
+                        <Image
+                          src={urlFor(block.image).width(800).url()}
+                          alt={block.title || 'Image'}
+                          fill
+                          className="object-cover"
+                        />
                       </div>
                     )}
                   </div>
-                  {block.image && (
-                    <div className={`relative h-96 rounded-lg overflow-hidden ${
-                      block.imagePosition === 'left' ? 'md:order-1' : ''
-                    }`}>
-                      <Image
-                        src={urlFor(block.image).width(800).url()}
-                        alt={block.title || 'Image'}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-                </div>
-              </FullScreenSection>
+                </FullScreenSection>
+              </ScrollReveal>
             )
-          
+
           case 'statsSection':
             return (
-              <AnimatedStats
-                key={index}
-                title={block.title}
-                stats={block.stats || []}
-              />
+              <ScrollReveal delay={0.3}>
+                <AnimatedStats
+                  key={index}
+                  title={block.title}
+                  stats={block.stats || []}
+                />
+              </ScrollReveal>
             )
-          
+
+
           default:
             return null
         }

@@ -1,7 +1,7 @@
-import { ReactNode } from 'react'
+import { ReactNode, HTMLAttributes } from 'react'
 import Container from './Container'
 
-interface FullScreenSectionProps {
+interface FullScreenSectionProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode
   className?: string
   containerSize?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
@@ -18,7 +18,8 @@ export default function FullScreenSection({
   background = 'white',
   minHeight = 'screen',
   verticalAlign = 'center',
-  horizontalAlign = 'center'
+  horizontalAlign = 'center',
+  ...props
 }: FullScreenSectionProps) {
   const backgrounds = {
     white: 'bg-white text-on-light',
@@ -46,7 +47,10 @@ export default function FullScreenSection({
   }
 
   return (
-    <section className={`${backgrounds[background]} ${minHeights[minHeight]} flex ${verticalAlignments[verticalAlign]} ${horizontalAlignments[horizontalAlign]} ${className}`}>
+    <section
+      className={`${backgrounds[background]} ${minHeights[minHeight]} flex ${verticalAlignments[verticalAlign]} ${horizontalAlignments[horizontalAlign]} ${className}`}
+      {...props}
+    >
       <Container size={containerSize} className="w-full">
         {children}
       </Container>

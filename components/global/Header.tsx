@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/image'
 import { Menu, ChevronDown, Sparkles, X } from 'lucide-react'
 import Container from '../ui/Container'
-import { Button } from '../retroui/Button'
+import { Button } from '../ui/Button'
 
 interface NavigationItem {
   label: string
@@ -33,11 +33,10 @@ export default function Header({ logo, navigation = [] }: Readonly<HeaderProps>)
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
-        isScrolled 
-          ? 'bg-background border-b-4 border-black shadow-brutal' 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${isScrolled
+          ? 'bg-background border-b-4 border-black shadow-brutal'
           : 'bg-background/95 border-b-2 border-black'
-      }`}
+        }`}
     >
       <Container>
         <nav className="flex items-center justify-between py-4">
@@ -105,9 +104,9 @@ export default function Header({ logo, navigation = [] }: Readonly<HeaderProps>)
                 )}
               </div>
             ))}
-            
-            <Button 
-              variant="default" 
+
+            <Button
+              variant="default"
               size="md"
               asChild
             >
@@ -165,9 +164,9 @@ export default function Header({ logo, navigation = [] }: Readonly<HeaderProps>)
                   )}
                 </div>
               ))}
-              
-              <Button 
-                variant="default" 
+
+              <Button
+                variant="default"
                 size="lg"
                 className="w-full"
                 asChild
