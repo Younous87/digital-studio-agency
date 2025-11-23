@@ -174,14 +174,14 @@ export default function ContactFormSection({ block }: Readonly<ContactFormSectio
                     required
                   />
                 </div>
-                <Button variant="secondary" type="submit" disabled={status === 'sending'} className="flex items-center w-full justify-center">
+                <Button variant="default" type="submit" disabled={status === 'sending'} className="flex items-center w-full justify-center">
                   {status === 'sending' ? 'SENDING...' : 'LAUNCH PROJECT'}
                   <Rocket className="ml-2 size-5" />
                 </Button>
               </form>
             </Card>
             {status === 'success' && (
-              <Alert className="bg-white border-4 border-black shadow-md mt-6">
+              <Alert className="bg-white border-2 border-black shadow-md mt-6">
                 <Alert.Title className="font-black text-black">✓ Thank you! We'll get back to you soon.</Alert.Title>
               </Alert>
             )}

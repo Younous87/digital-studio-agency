@@ -97,7 +97,7 @@ function ServiceCard({ service }: Readonly<{ service: Service }>) {
         <Card.Header>
           <div className="flex items-start justify-between mb-4">
             {service.icon && (
-              <div className="p-4 bg-brand-secondary border-1 border-black rounded-xl group-hover:bg-brand-accent transition-all shadow-sm group-hover:rotate-6">
+              <div className="p-4 border-1 border-black rounded-xl group-hover:bg-brand-accent transition-all shadow-sm group-hover:rotate-6">
                 <Image
                   src={urlFor(service.icon).width(80).url()}
                   alt={service.title}

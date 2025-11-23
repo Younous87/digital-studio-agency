@@ -72,7 +72,7 @@ export default function ServiceListBlock({
               <div className="flex flex-col md:flex-row items-center gap-8 p-8">
                 {service.icon ? (
                   <div className="shrink-0">
-                    <div className="bg-[var(--brand-accent)] border-2 border-black p-6" style={{ transform: `rotate(${(idx % 2 === 0 ? -3 : 3)}deg)` }}>
+                    <div className="border-2 border-black p-6" style={{ transform: `rotate(${(idx % 2 === 0 ? -3 : 3)}deg)` }}>
                       <Image
                         src={urlFor(service.icon as any).width(80).height(80).url()}
                         alt={service.title}
