@@ -100,7 +100,7 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
 
                 {/* Quick view overlay */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-                  <div className="bg-white border-3 border-black shadow-md px-6 py-4 font-black text-black flex items-center gap-2 hover:bg-(--brand-primary) hover:text-white transition-colors">
+                  <div className="bg-white border-2 border-black shadow-md px-6 py-4 font-black text-black flex items-center gap-2 hover:bg-(--brand-primary) hover:text-white transition-colors">
                     <Eye className="w-5 h-5" strokeWidth={3} />
                     QUICK VIEW
                   </div>
@@ -166,7 +166,6 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
             </div>
           )}
 
-          <Separator className="my-6" />
 
           <Card.Content className="space-y-6">
             {project.categories && project.categories.length > 0 && (

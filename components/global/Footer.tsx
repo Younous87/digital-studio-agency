@@ -133,8 +133,8 @@ export default function Footer({
           </div>
         </div>
 
-        <div className="border-t-3 border-black py-8 text-center">
-          <p className="text-lg font-black text-foreground bg-brand-secondary border-3 border-black rounded-full py-3 px-8 inline-block shadow-md">
+        <div className="border-t-2 border-black py-8 text-center">
+          <p className="text-lg font-black text-foreground bg-brand-secondary border-2 border-black rounded-full py-3 px-8 inline-block">
             {copyright || `© ${currentYear} ${displayCompanyName}. All rights reserved.`}
           </p>
         </div>

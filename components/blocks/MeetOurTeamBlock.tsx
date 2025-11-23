@@ -45,8 +45,8 @@ export default function MeetOurTeamBlock({ title, showTeam = true, members = [],
         </h2>
       )}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {members.map((member) => (
-          <div key={member._key || member.name} className="group">
+        {members.map((member, index) => (
+          <div key={member._key || (member as any)._id || index} className="group">
             <div className="bg-white border-4 border-black shadow-md hover:shadow-lg transition-all duration-300 p-8 text-center hover:-translate-y-2">
               {member.image && (
                 <div className="relative w-48 h-48 mx-auto mb-6 border-4 border-black overflow-hidden -rotate-3 group-hover:rotate-3 transition-transform duration-300">

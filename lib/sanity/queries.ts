@@ -335,7 +335,7 @@ export const aboutQuery = `*[_type == "about"][0]{
       title, content, backgroundColor
     },
     _type == "ourValues" => {
-      title, values[]{ title, description, icon }, backgroundColor
+      title, values[]{ _key, title, description, icon }, backgroundColor
     },
     _type == "meetOurTeam" => {
       title, showTeam, "teamMembers": teamMembers[]->{ _id, name, slug, role, bio, photo, socialLinks }, backgroundColor
