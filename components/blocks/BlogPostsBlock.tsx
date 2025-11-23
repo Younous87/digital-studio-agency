@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Section from '@/components/ui/Section'
-import Card from '@/components/ui/Card'
+import { Card } from '@/components/retroui/Card'
 import { urlFor } from '@/lib/sanity/image'
 
 interface BlogPost {
@@ -61,7 +61,7 @@ export default function BlogPostsBlock({
         <div className={`gap-8 ${layout === 'grid' ? 'grid md:grid-cols-2 lg:grid-cols-3' : 'space-y-8'}`}>
           {posts.map((post) => (
             <Link key={post._id} href={`/blog/${post.slug.current}`}>
-              <Card hover className="h-full group border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 overflow-hidden">
+              <Card className="h-full group border-4 border-black shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden hover:-translate-y-1">
                 <div className={`relative overflow-hidden ${layout === 'list' ? 'h-64 md:h-80' : 'h-64'} border-b-4 border-black`}>
                   <Image
                     src={urlFor(post.featuredImage).width(600).height(400).url()}
@@ -71,7 +71,7 @@ export default function BlogPostsBlock({
                   />
                   {post.categories && post.categories.length > 0 && (
                     <div className="absolute top-4 left-4">
-                      <span className="bg-[var(--brand-secondary)] border-3 border-black px-4 py-2 text-sm font-black text-black shadow-brutal-sm">
+                      <span className="bg-[var(--brand-secondary)] border-3 border-black px-4 py-2 text-sm font-black text-black shadow-sm">
                         {post.categories[0]}
                       </span>
                     </div>

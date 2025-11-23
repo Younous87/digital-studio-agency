@@ -3,8 +3,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import FullScreenSection from '../ui/FullScreenSection'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/Card'
+import { Tabs, TabsContent, TabsTriggerList, TabsTrigger, TabsPanels } from '../retroui/Tab'
+import { Card } from '../retroui/Card'
 import { urlFor } from '@/lib/sanity/image'
 import { ArrowRight, Sparkles } from 'lucide-react'
 
@@ -40,7 +40,7 @@ export default function ServicesGrid({
         <div className="text-center mb-16 animate-fade-in">
           {title && (
             <h2 className="text-4xl md:text-6xl font-black text-foreground mb-6 flex items-center justify-center gap-3">
-              <div className="w-12 h-12 bg-brand-primary border-3 border-black rounded-lg flex items-center justify-center shadow-brutal rotate-6">
+              <div className="w-12 h-12 bg-brand-primary border-3 border-black rounded-lg flex items-center justify-center shadow-md rotate-6">
                 <Sparkles className="w-7 h-7 text-white" strokeWidth={3} />
               </div>
               {title}
@@ -55,29 +55,30 @@ export default function ServicesGrid({
       )}
 
       {hasCategories ? (
-        <Tabs defaultValue={categories[0]} className="w-full">
-          <TabsList className="mb-12 flex justify-center flex-wrap h-auto gap-3 bg-transparent">
+        <Tabs defaultIndex={0} className="w-full">
+          <TabsTriggerList className="mb-12 flex justify-center flex-wrap h-auto gap-3 bg-transparent">
             {categories.map((category) => (
               <TabsTrigger 
                 key={category} 
-                value={category}
-                className="border-3 border-black bg-muted data-[state=active]:bg-brand-secondary data-[state=active]:shadow-brutal px-6 py-3 rounded-lg font-black text-base"
+                className="border-3 border-black bg-muted data-selected:bg-brand-secondary data-selected:shadow-md px-6 py-3 rounded-lg font-black text-base"
               >
                 {category}
               </TabsTrigger>
             ))}
-          </TabsList>
-          {categories.map((category) => (
-            <TabsContent key={category} value={category}>
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {services
-                  .filter(s => (s.category || 'All Services') === category)
-                  .map((service) => (
-                    <ServiceCard key={service._id} service={service} />
-                  ))}
-              </div>
-            </TabsContent>
-          ))}
+          </TabsTriggerList>
+          <TabsPanels>
+            {categories.map((category) => (
+              <TabsContent key={category}>
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                  {services
+                    .filter(s => (s.category || 'All Services') === category)
+                    .map((service) => (
+                      <ServiceCard key={service._id} service={service} />
+                    ))}
+                </div>
+              </TabsContent>
+            ))}
+          </TabsPanels>
         </Tabs>
       ) : (
         <div className={`grid gap-8 ${
@@ -96,10 +97,10 @@ function ServiceCard({ service }: Readonly<{ service: Service }>) {
   return (
     <Link href={`/services/${service.slug.current}`} className="group block">
       <Card className="h-full hover-lift border-3 hover:border-brand-primary bg-white">
-        <CardHeader>
+        <Card.Header>
           <div className="flex items-start justify-between mb-4">
             {service.icon && (
-              <div className="p-4 bg-brand-secondary border-3 border-black rounded-xl group-hover:bg-brand-accent transition-all shadow-brutal-sm group-hover:rotate-6">
+              <div className="p-4 bg-brand-secondary border-3 border-black rounded-xl group-hover:bg-brand-accent transition-all shadow-sm group-hover:rotate-6">
                 <Image
                   src={urlFor(service.icon).width(80).url()}
                   alt={service.title}
@@ -115,18 +116,18 @@ function ServiceCard({ service }: Readonly<{ service: Service }>) {
               </div>
             )}
           </div>
-          <CardTitle className="text-2xl mb-3 group-hover:text-brand-primary transition-colors flex items-center gap-2">
+          <Card.Title className="text-2xl mb-3 group-hover:text-brand-primary transition-colors flex items-center gap-2">
             {service.title}
             <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-2 transition-all" strokeWidth={3} />
-          </CardTitle>
-          <CardDescription className="text-base">{service.shortDescription}</CardDescription>
-        </CardHeader>
-        <CardContent>
+          </Card.Title>
+          <Card.Description className="text-base">{service.shortDescription}</Card.Description>
+        </Card.Header>
+        <Card.Content>
           <div className="text-base text-brand-primary font-black group-hover:underline flex items-center gap-2">
             Learn more
             <ArrowRight className="w-4 h-4" strokeWidth={3} />
           </div>
-        </CardContent>
+        </Card.Content>
       </Card>
     </Link>
   )

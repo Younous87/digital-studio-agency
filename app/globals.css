@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "tailwindcss-animate";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -41,10 +42,38 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-xs: 1px 1px 0 0 var(--border);
+  --shadow-sm: 2px 2px 0 0 var(--border);
+  --shadow: 3px 3px 0 0 var(--border);
+  --shadow-md: 4px 4px 0 0 var(--border);
+  --shadow-lg: 6px 6px 0 0 var(--border);
+  --shadow-xl: 10px 10px 0 1px var(--border);
+  --shadow-2xl: 16px 16px 0 1px var(--border);
+  
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0;
   
   /* Retro Neo-Brutalist Brand Colors */
   --brand-primary: #FF6B35;     /* Bold Orange */
@@ -88,15 +117,9 @@
   --destructive-foreground: #FFFFFF;
   
   /* Borders & Inputs */
-  --border: #0A0A0A;              /* Bold black borders */
+  --border: #000000;              /* Bold black borders */
   --input: #FFFFFF;
   --ring: var(--brand-primary);
-  
-  /* Shadows - Neo-Brutalist offset shadows */
-  --shadow-sm: 2px 2px 0px #0A0A0A;
-  --shadow-md: 4px 4px 0px #0A0A0A;
-  --shadow-lg: 6px 6px 0px #0A0A0A;
-  --shadow-xl: 8px 8px 0px #0A0A0A;
   
   /* Charts */
   --chart-1: var(--brand-primary);
@@ -132,7 +155,7 @@
   --accent: var(--brand-accent);
   --accent-foreground: #0A0A0A;
   --destructive: #FF6B6B;
-  --border: #FFFBF5;
+  --border: #3a3a3a;
   --input: #2A2A2A;
   --ring: var(--brand-primary);
   --sidebar: #2A2A2A;
@@ -163,25 +186,7 @@
 }
 
 /* Retro Neo-Brutalist Shadows */
-.shadow-brutal {
-  box-shadow: var(--shadow-md);
-}
-
-.shadow-brutal-sm {
-  box-shadow: var(--shadow-sm);
-}
-
-.shadow-brutal-lg {
-  box-shadow: var(--shadow-lg);
-}
-
-.shadow-brutal-xl {
-  box-shadow: var(--shadow-xl);
-}
-
-.hover\:shadow-brutal:hover {
-  box-shadow: var(--shadow-md);
-}
+/* Removed shadow-brutal classes as they are now handled by standard shadow utilities */
 
 .hover\:shadow-none:hover {
   box-shadow: none;

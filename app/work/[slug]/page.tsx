@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import Section from '@/components/ui/Section'
-import Button from '@/components/ui/Button'
+import { Button } from '@/components/retroui/Button'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
 import { urlFor } from '@/lib/sanity/image'
 
@@ -40,7 +40,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   {project.categories.map((category: string, index: number) => (
                     <span
                       key={`${category}-${index}`}
-                      className="bg-(--brand-secondary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-brutal-sm"
+                      className="bg-(--brand-secondary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-sm"
                     >
                       {category}
                     </span>
@@ -61,7 +61,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 </p>
               )}
             </div>
-            <div className="relative h-96 border-4 border-black shadow-brutal-lg overflow-hidden rounded-none">
+            <div className="relative h-96 border-4 border-black shadow-lg overflow-hidden rounded-none">
               <Image
                 src={urlFor(project.featuredImage).width(800).url()}
                 alt={project.title}
@@ -85,7 +85,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {/* Case Study */}
       {project.caseStudy && (
         <Section background="white">
-          <div className="max-w-4xl mx-auto bg-white border-4 border-black shadow-brutal-lg p-12">
+          <div className="max-w-4xl mx-auto bg-white border-4 border-black shadow-lg p-12">
             <RichTextRenderer content={project.caseStudy} />
           </div>
         </Section>
@@ -96,7 +96,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <Section background="gray">
           <div className="grid md:grid-cols-2 gap-8">
             {project.gallery.map((image: any, index: number) => (
-              <div key={`${image.caption || 'image'}-${index}`} className="relative h-96 border-4 border-black shadow-brutal-lg overflow-hidden rounded-none">
+              <div key={`${image.caption || 'image'}-${index}`} className="relative h-96 border-4 border-black shadow-lg overflow-hidden rounded-none">
                 <Image
                   src={urlFor(image).width(800).url()}
                   alt={image.caption || `Gallery image ${index + 1}`}
@@ -122,7 +122,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {project.results.map((result: any, index: number) => (
-              <div key={`${result.metric}-${index}`} className="text-center bg-white border-4 border-black shadow-brutal-lg p-8">
+              <div key={`${result.metric}-${index}`} className="text-center bg-white border-4 border-black shadow-lg p-8">
                 <div className="text-4xl md:text-5xl font-black text-(--brand-primary) mb-2 retro-text-shadow">
                   {result.value}
                 </div>
@@ -141,7 +141,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {/* Testimonial */}
       {project.testimonial && (
         <Section background="gray">
-          <div className="max-w-4xl mx-auto text-center bg-white border-4 border-black shadow-brutal-lg p-12">
+          <div className="max-w-4xl mx-auto text-center bg-white border-4 border-black shadow-lg p-12">
             {project.testimonial.rating && (
               <div className="flex justify-center mb-6">
                 {[...Array(5)].map((_, i) => (
@@ -168,7 +168,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   alt={project.testimonial.clientName}
                   width={80}
                   height={80}
-                  className="rounded-none mr-4 border-4 border-black shadow-brutal-sm"
+                  className="rounded-none mr-4 border-4 border-black shadow-sm"
                 />
               )}
               <div>
@@ -194,13 +194,19 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </h2>
           <div className="flex flex-wrap justify-center gap-4">
             {project.services.map((service: any) => (
-              <Link
+              <Button
                 key={service._id}
-                href={`/services/${service.slug.current}`}
-                className="bg-(--brand-primary) border-3 border-black px-6 py-3 font-black text-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300"
+                asChild
+                variant="default"
+                size="lg"
+                className="shadow-md hover:shadow-lg"
               >
-                {service.title}
-              </Link>
+                <Link
+                  href={`/services/${service.slug.current}`}
+                >
+                  {service.title}
+                </Link>
+              </Button>
             ))}
           </div>
         </Section>
@@ -209,14 +215,16 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {/* Project URL */}
       {project.projectUrl && (
         <Section background="dark" padding="lg">
-          <div className="text-center bg-white border-4 border-black shadow-brutal-lg p-12 max-w-3xl mx-auto">
+          <div className="text-center bg-white border-4 border-black shadow-lg p-12 max-w-3xl mx-auto">
             <h2 className="text-2xl font-black mb-4 retro-text-shadow">View Live Project</h2>
             <Button
-              href={project.projectUrl}
+              asChild
               size="lg"
               variant="default"
             >
-              Visit Website
+              <Link href={project.projectUrl}>
+                Visit Website
+              </Link>
             </Button>
           </div>
         </Section>

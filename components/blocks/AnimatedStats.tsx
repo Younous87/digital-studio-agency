@@ -2,8 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import FullScreenSection from '../ui/FullScreenSection'
-import { Card, CardContent } from '../ui/Card'
-import { Skeleton } from '../ui/skeleton'
+import { Card } from '../retroui/Card'
 import { TrendingUp, Users, Award, Briefcase } from 'lucide-react'
 
 interface Stat {
@@ -116,9 +115,9 @@ export default function AnimatedStats({ title, stats }: Readonly<AnimatedStatsPr
             return (
               <Card 
                 key={`stat-${stat.label}-${index}`}
-                className="text-center bg-white border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 hover:-translate-y-1"
+                className="text-center bg-white border-4 border-black shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
               >
-                <CardContent className="p-6">
+                <Card.Content className="p-6">
                   {Icon && (
                     <div className="flex justify-center mb-4">
                       <div className="p-3 bg-[var(--brand-accent)] border-3 border-black -rotate-6">
@@ -127,7 +126,7 @@ export default function AnimatedStats({ title, stats }: Readonly<AnimatedStatsPr
                     </div>
                   )}
                   {!isVisible ? (
-                    <Skeleton className="h-12 w-24 mx-auto mb-2 bg-gray-200" />
+                    <div className="h-12 w-24 mx-auto mb-2 bg-gray-200 animate-pulse rounded" />
                   ) : (
                     <div className="text-5xl md:text-6xl font-black mb-2 text-black">
                       {animatedValues[index] || stat.value}
@@ -141,7 +140,7 @@ export default function AnimatedStats({ title, stats }: Readonly<AnimatedStatsPr
                       {stat.description}
                     </p>
                   )}
-                </CardContent>
+                </Card.Content>
               </Card>
             )
           })}

@@ -145,7 +145,10 @@ export default async function ServicesPage() {
                 />
               )
             case 'textImageBlock': {
-              const textOrder = block.image ? (block.imagePosition === 'right' ? 'order-1' : 'order-2') : 'order-1'
+              let textOrder = 'order-1'
+              if (block.image && block.imagePosition !== 'right') {
+                textOrder = 'order-2'
+              }
               return (
                 <FullScreenSection key={block._key || block._id || `${block._type}-${index}`}>
                   <div className="max-w-6xl mx-auto">
@@ -186,7 +189,7 @@ export default async function ServicesPage() {
         <>
           {/* Hero Section */}
           <FullScreenSection background="gray">
-            <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-brutal-lg p-12">
+            <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-lg p-12">
               <h1 className="text-5xl md:text-7xl font-black text-black mb-6 retro-text-shadow">
                 Our Services
               </h1>
@@ -205,7 +208,7 @@ export default async function ServicesPage() {
               </p>
             </div>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              <div className="text-center p-8 bg-white border-4 border-black shadow-brutal">
+              <div className="text-center p-8 bg-white border-4 border-black shadow-md">
                 <p className="text-black font-bold">No services configured yet. Please set up your services page in Sanity Studio.</p>
               </div>
             </div>

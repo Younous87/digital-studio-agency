@@ -11,7 +11,7 @@ function Card({ className, hover = false, ...props }: Readonly<CardProps>) {
     <RetroCard
       className={cn(
         "flex flex-col gap-6 py-6",
-        hover ? "transition-transform duration-200 hover:-translate-y-1 hover:shadow-brutal-lg" : "",
+        hover ? "transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg" : "",
         className
       )}
       {...props}

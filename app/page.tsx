@@ -8,11 +8,13 @@ import CTASection from '@/components/blocks/CTASection'
 import AnimatedStats from '@/components/blocks/AnimatedStats'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
 import Image from 'next/image'
-import Button from '@/components/ui/Button'
+import { Button } from '@/components/retroui/Button'
 import FullScreenSection from '@/components/ui/FullScreenSection'
 import { urlFor } from '@/lib/sanity/image'
 import ScrollReveal from '@/components/ui/ScrollReveal'
 import RetroMarquee from '@/components/ui/RetroMarquee'
+import Link from 'next/link'
+import React from 'react'
 
 export const revalidate = 60 // Revalidate every 60 seconds
 
@@ -32,15 +34,17 @@ export default async function HomePage() {
   if (!homepage?.pageBuilder) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center bg-white border-4 border-black shadow-brutal-lg p-12">
+        <div className="text-center bg-white border-4 border-black shadow-lg p-12">
           <h1 className="text-5xl font-black text-black mb-6 retro-text-shadow">
             Welcome to Digital Studio
           </h1>
           <p className="text-xl text-black mb-10 font-bold">
             Configure your homepage in Sanity Studio
           </p>
-          <Button href="/studio" className="font-black">
-            GO TO STUDIO
+          <Button asChild>
+            <Link href="/studio">
+              GO TO STUDIO
+            </Link>
           </Button>
         </div>
       </div>
@@ -53,10 +57,10 @@ export default async function HomePage() {
         switch (block._type) {
           case 'hero':
             return (
-              <>
+              <React.Fragment key={block._key || block._id || `${block._type}-${index}`}>
                 <ScrollReveal>
                   <HeroBlock
-                    key={index}
+                    key={block._key || block._id || index}
                     headline={block.headline}
                     subheadline={block.subheadline}
                     cta={block.cta}
@@ -68,16 +72,16 @@ export default async function HomePage() {
                 <RetroMarquee
                   items={["Digital Experiences", "Creative Strategy", "Brand Identity", "Web Development", "Motion Design"]}
                   speed={25}
-                  className="rotate-1 scale-105 z-20 shadow-brutal"
+                  className="rotate-1 scale-105 z-20 shadow-md"
                 />
-              </>
+              </React.Fragment>
             )
 
           case 'servicesOverview':
             return (
-              <ScrollReveal delay={0.2}>
+              <ScrollReveal key={block._key || block._id || `${block._type}-${index}`} delay={0.2}>
                 <ServicesGrid
-                  key={index}
+                  key={block._key || block._id || index}
                   title={block.title}
                   description={block.description}
                   services={block.services || []}
@@ -88,9 +92,9 @@ export default async function HomePage() {
 
           case 'featuredProjects':
             return (
-              <ScrollReveal delay={0.2}>
+              <ScrollReveal key={block._key || block._id || `${block._type}-${index}`} delay={0.2}>
                 <ProjectGrid
-                  key={index}
+                  key={block._key || block._id || index}
                   title={block.title}
                   description={block.description}
                   projects={block.projects || []}
@@ -101,9 +105,9 @@ export default async function HomePage() {
 
           case 'testimonials':
             return (
-              <ScrollReveal delay={0.2}>
+              <ScrollReveal key={block._key || block._id || `${block._type}-${index}`} delay={0.2}>
                 <TestimonialCarousel
-                  key={index}
+                  key={block._key || block._id || index}
                   title={block.title}
                   description={block.description}
                   testimonials={block.testimonials || []}
@@ -114,8 +118,8 @@ export default async function HomePage() {
 
           case 'aboutSection':
             return (
-              <ScrollReveal>
-                <FullScreenSection key={index} background="white">
+              <ScrollReveal key={block._key || block._id || `${block._type}-${index}`}>
+                <FullScreenSection key={block._key || block._id || index} background="white">
                   <div className={`grid md:grid-cols-2 gap-12 items-center ${block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''
                     }`}>
                     <div className={block.imagePosition === 'left' ? 'md:order-2' : ''}>
@@ -129,8 +133,8 @@ export default async function HomePage() {
                       )}
                       {block.cta && (
                         <div className="mt-6">
-                          <Button href={block.cta.link}>
-                            {block.cta.text}
+                          <Button asChild>
+                            <Link href={block.cta.link}>{block.cta.text}</Link>
                           </Button>
                         </div>
                       )}
@@ -153,9 +157,9 @@ export default async function HomePage() {
 
           case 'ctaSection':
             return (
-              <ScrollReveal>
+              <ScrollReveal key={block._key || block._id || `${block._type}-${index}`}>
                 <CTASection
-                  key={index}
+                  key={block._key || block._id || index}
                   title={block.title}
                   description={block.description}
                   primaryCta={block.primaryCta}
@@ -168,8 +172,8 @@ export default async function HomePage() {
 
           case 'textImageBlock':
             return (
-              <ScrollReveal>
-                <FullScreenSection key={index}>
+              <ScrollReveal key={block._key || block._id || `${block._type}-${index}`}>
+                <FullScreenSection key={block._key || block._id || index}>
                   <div className={`grid md:grid-cols-2 gap-12 items-center ${block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''
                     }`}>
                     <div className={block.imagePosition === 'left' ? 'md:order-2' : ''}>
@@ -183,8 +187,8 @@ export default async function HomePage() {
                       )}
                       {block.cta && (
                         <div className="mt-6">
-                          <Button href={block.cta.link}>
-                            {block.cta.text}
+                          <Button asChild>
+                            <Link href={block.cta.link}>{block.cta.text}</Link>
                           </Button>
                         </div>
                       )}
@@ -207,9 +211,9 @@ export default async function HomePage() {
 
           case 'statsSection':
             return (
-              <ScrollReveal delay={0.3}>
+              <ScrollReveal key={block._key || block._id || `${block._type}-${index}`} delay={0.3}>
                 <AnimatedStats
-                  key={index}
+                  key={block._key || block._id || index}
                   title={block.title}
                   stats={block.stats || []}
                 />
@@ -224,3 +228,4 @@ export default async function HomePage() {
     </>
   )
 }
+

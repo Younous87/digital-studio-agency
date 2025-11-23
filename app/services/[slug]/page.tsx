@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import Section from '@/components/ui/Section'
-import Card from '@/components/ui/Card'
-import Button from '@/components/ui/Button'
+import { Card } from '@/components/retroui/Card'
+import { Button } from '@/components/retroui/Button'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
 import { urlFor } from '@/lib/sanity/image'
 
@@ -41,7 +41,7 @@ export default async function ServicePage({ params }: Readonly<{ params: Promise
                 alt={service.title}
                 width={120}
                 height={120}
-                className="border-4 border-black shadow-brutal-sm rounded-none"
+                className="border-4 border-black shadow-sm rounded-none"
               />
             </div>
           )}
@@ -92,7 +92,7 @@ export default async function ServicePage({ params }: Readonly<{ params: Promise
             {service.processSteps.map((step: any, index: number) => (
               <div key={`${step.title}-${index}`} className="flex gap-6">
                 <div className="shrink-0">
-                  <div className="w-12 h-12 bg-(--brand-primary) border-3 border-black text-black rounded-none flex items-center justify-center text-xl font-black shadow-brutal-sm">
+                  <div className="w-12 h-12 bg-(--brand-primary) border-3 border-black text-black rounded-none flex items-center justify-center text-xl font-black shadow-sm">
                     {step.step}
                   </div>
                 </div>
@@ -117,7 +117,7 @@ export default async function ServicePage({ params }: Readonly<{ params: Promise
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {service.relatedProjects.map((project: any) => (
               <Link key={project._id} href={`/work/${project.slug.current}`}>
-                <Card hover className="h-full border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 overflow-hidden">
+                <Card className="h-full border-4 border-black shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
                   <div className="relative h-64 border-b-4 border-black">
                     <Image
                       src={urlFor(project.featuredImage).width(600).height(400).url()}
@@ -142,7 +142,7 @@ export default async function ServicePage({ params }: Readonly<{ params: Promise
       {/* CTA Section */}
       {service.cta && (
         <Section padding="xl" background="dark">
-          <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-brutal-lg p-12">
+          <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-lg p-12">
             <h2 className="text-3xl md:text-4xl font-black mb-4 retro-text-shadow">
               {service.cta.title}
             </h2>
@@ -152,8 +152,10 @@ export default async function ServicePage({ params }: Readonly<{ params: Promise
               </p>
             )}
             {service.cta.buttonText && service.cta.buttonLink && (
-              <Button href={service.cta.buttonLink} size="lg">
-                {service.cta.buttonText}
+              <Button asChild size="lg">
+                <Link href={service.cta.buttonLink}>
+                  {service.cta.buttonText}
+                </Link>
               </Button>
             )}
           </div>

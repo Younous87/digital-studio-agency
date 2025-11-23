@@ -1,4 +1,3 @@
-import Container from '../ui/Container'
 import FullScreenSection from '../ui/FullScreenSection'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/image'
@@ -45,7 +44,7 @@ export default function AboutValuesBlock({ title, values, backgroundColor }: Rea
           <h2 className={`text-4xl md:text-5xl font-black ${textColor} inline-block relative z-10`}>
             {title}
           </h2>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xs h-12 bg-[var(--brand-secondary)] -rotate-2 opacity-50 blur-xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xs h-12 bg-(--brand-secondary) -rotate-2 opacity-50 blur-xl" />
         </div>
       )}
 
@@ -53,9 +52,9 @@ export default function AboutValuesBlock({ title, values, backgroundColor }: Rea
         {values?.map((value) => (
           <div
             key={value._key}
-            className="bg-white border-3 border-black shadow-brutal p-8 hover:translate-x-1 hover:-translate-y-1 hover:shadow-brutal-lg transition-all duration-200 group"
+            className="bg-white border-3 border-black shadow-md p-8 hover:translate-x-1 hover:-translate-y-1 hover:shadow-lg transition-all duration-200 group"
           >
-            <div className="w-16 h-16 bg-[var(--brand-primary)] border-3 border-black flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
+            <div className="w-16 h-16 bg-(--brand-primary) border-3 border-black flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
               {value.icon ? (
                 <Image
                   src={urlFor(value.icon).url()}

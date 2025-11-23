@@ -1,12 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import FullScreenSection from '../ui/FullScreenSection'
-import { Card, CardContent, CardDescription, CardHeader } from '../ui/Card'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Card } from '../retroui/Card'
+import { Avatar } from '../retroui/Avatar'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel'
-import { Badge } from '../ui/badge'
+import { Badge } from '../retroui/Badge'
 import { urlFor } from '@/lib/sanity/image'
 import { Quote, Star } from 'lucide-react'
 
@@ -55,7 +54,7 @@ export default function TestimonialCarousel({
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial) => (
             <Card key={testimonial._id} className="bg-linear-to-br from-white to-gray-50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardHeader>
+              <Card.Header>
                 <div className="flex items-start justify-between mb-4">
                   <Quote className="w-10 h-10 text-brand-secondary/20" />
                   {testimonial.rating && (
@@ -71,33 +70,33 @@ export default function TestimonialCarousel({
                     </div>
                   )}
                 </div>
-              </CardHeader>
-              <CardContent>
+              </Card.Header>
+              <Card.Content>
                 <p className="text-gray-700 mb-6 text-base leading-relaxed">
                   &ldquo;{testimonial.quote}&rdquo;
                 </p>
                 <div className="flex items-center gap-4 pt-4 border-t">
                   <Avatar className="h-12 w-12 ring-2 ring-brand-primary/20">
                     {testimonial.photo ? (
-                      <AvatarImage
+                      <Avatar.Image
                         src={urlFor(testimonial.photo).width(80).height(80).url()}
                         alt={testimonial.clientName}
                       />
                     ) : null}
-                    <AvatarFallback className="bg-linear-to-br from-brand-primary/20 to-brand-secondary/20 text-brand-primary font-semibold">
+                    <Avatar.Fallback className="bg-linear-to-br from-brand-primary/20 to-brand-secondary/20 text-brand-primary font-semibold">
                       {testimonial.clientName.split(' ').map(n => n[0]).join('').toUpperCase()}
-                    </AvatarFallback>
+                    </Avatar.Fallback>
                   </Avatar>
                   <div className="flex-1">
                     <p className="font-semibold text-gray-900">{testimonial.clientName}</p>
                     {testimonial.role && testimonial.company && (
-                      <CardDescription className="text-sm">
+                      <Card.Description className="text-sm">
                         {testimonial.role} • {testimonial.company}
-                      </CardDescription>
+                      </Card.Description>
                     )}
                   </div>
                 </div>
-              </CardContent>
+              </Card.Content>
             </Card>
           ))}
         </div>
@@ -136,7 +135,7 @@ export default function TestimonialCarousel({
             {testimonials.map((testimonial) => (
               <CarouselItem key={testimonial._id} className="md:basis-1/2 lg:basis-1/2">
                 <Card className="h-full bg-linear-to-br from-white via-white to-brand-primary/5 hover:shadow-xl transition-all duration-300">
-                  <CardHeader>
+                  <Card.Header>
                     <div className="flex items-start justify-between mb-4">
                       <Quote className="w-12 h-12 text-brand-secondary/20" />
                       {testimonial.rating && (
@@ -146,33 +145,33 @@ export default function TestimonialCarousel({
                         </Badge>
                       )}
                     </div>
-                  </CardHeader>
-                  <CardContent>
+                  </Card.Header>
+                  <Card.Content>
                     <p className="text-gray-700 mb-8 text-lg leading-relaxed italic">
                       &ldquo;{testimonial.quote}&rdquo;
                     </p>
                     <div className="flex items-center gap-4 pt-6 border-t">
                       <Avatar className="h-14 w-14 ring-2 ring-brand-primary/20">
                         {testimonial.photo ? (
-                          <AvatarImage
+                          <Avatar.Image
                             src={urlFor(testimonial.photo).width(100).height(100).url()}
                             alt={testimonial.clientName}
                           />
                         ) : null}
-                        <AvatarFallback className="bg-linear-to-br from-brand-primary to-brand-secondary text-white font-semibold text-lg">
+                        <Avatar.Fallback className="bg-linear-to-br from-brand-primary to-brand-secondary text-white font-semibold text-lg">
                           {testimonial.clientName.split(' ').map(n => n[0]).join('').toUpperCase()}
-                        </AvatarFallback>
+                        </Avatar.Fallback>
                       </Avatar>
                       <div className="flex-1">
                         <p className="font-bold text-gray-900 text-lg">{testimonial.clientName}</p>
                         {testimonial.role && testimonial.company && (
-                          <CardDescription className="text-sm font-medium">
+                          <Card.Description className="text-sm font-medium">
                             {testimonial.role} • {testimonial.company}
-                          </CardDescription>
+                          </Card.Description>
                         )}
                       </div>
                     </div>
-                  </CardContent>
+                  </Card.Content>
                 </Card>
               </CarouselItem>
             ))}

@@ -52,13 +52,13 @@ export default function Footer({
           {/* Company Info */}
           <div>
             <h3 className="text-foreground text-3xl font-black mb-4 flex items-center gap-2">
-              <div className="w-10 h-10 bg-brand-primary border-3 border-black rounded-lg flex items-center justify-center shadow-brutal-sm">
+              <div className="w-10 h-10 bg-brand-primary border-3 border-black rounded-lg flex items-center justify-center shadow-sm">
                 <span className="text-white text-xl font-black">DS</span>
               </div>
               Digital Studio
             </h3>
             {footerText && (
-              <p className="text-base font-medium text-muted-foreground bg-muted border-2 border-black rounded-lg p-4 shadow-brutal-sm">
+              <p className="text-base font-medium text-muted-foreground bg-muted border-2 border-black rounded-lg p-4 shadow-sm">
                 {footerText}
               </p>
             )}
@@ -96,7 +96,7 @@ export default function Footer({
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 bg-background border-3 border-black rounded-lg flex items-center justify-center hover:bg-brand-primary hover:text-white transition-all shadow-brutal-sm hover-lift group"
+                  className="w-12 h-12 bg-background border-3 border-black rounded-lg flex items-center justify-center hover:bg-brand-primary hover:text-white transition-all shadow-sm hover-lift group"
                   aria-label={social.platform}
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -109,7 +109,7 @@ export default function Footer({
         </div>
 
         <div className="border-t-3 border-black py-8 text-center">
-          <p className="text-lg font-black text-foreground bg-brand-secondary border-3 border-black rounded-full py-3 px-8 inline-block shadow-brutal">
+          <p className="text-lg font-black text-foreground bg-brand-secondary border-3 border-black rounded-full py-3 px-8 inline-block shadow-md">
             {copyright || `© ${currentYear} Digital Studio. All rights reserved.`}
           </p>
         </div>

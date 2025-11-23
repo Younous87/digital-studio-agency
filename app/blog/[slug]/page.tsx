@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import Section from '@/components/ui/Section'
-import Card from '@/components/ui/Card'
+import { Card } from '@/components/retroui/Card'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
 import { urlFor } from '@/lib/sanity/image'
 
@@ -38,7 +38,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               {post.categories.map((category: string, index: number) => (
                 <span
                   key={index}
-                  className="bg-(--brand-secondary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-brutal-sm"
+                  className="bg-(--brand-secondary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-sm"
                 >
                   {category}
                 </span>
@@ -55,7 +55,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 alt={post.author.name}
                 width={60}
                 height={60}
-                className="rounded-none mr-4 border-4 border-black shadow-brutal-sm"
+                className="rounded-none mr-4 border-4 border-black shadow-sm"
               />
             )}
             <div>
@@ -110,7 +110,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               {post.tags.map((tag: string, index: number) => (
                 <span
                   key={index}
-                  className="bg-(--brand-primary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-brutal-sm"
+                  className="bg-(--brand-primary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-sm"
                 >
                   #{tag}
                 </span>
@@ -175,7 +175,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <div className="grid md:grid-cols-3 gap-8">
               {post.relatedPosts.map((relatedPost: any) => (
                 <Link key={relatedPost._id} href={`/blog/${relatedPost.slug.current}`}>
-                  <Card hover className="h-full border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 overflow-hidden">
+                  <Card className="h-full border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:shadow-brutal-lg">
                     <div className="relative h-48 border-b-4 border-black">
                       <Image
                         src={urlFor(relatedPost.featuredImage).width(400).height(300).url()}

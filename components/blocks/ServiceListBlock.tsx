@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/image'
-import Card, { CardBody } from '@/components/ui/Card'
+import { Card } from '@/components/retroui/Card'
 import { Button } from '@/components/retroui/Button'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
@@ -64,39 +64,38 @@ export default function ServiceListBlock({
 
           <div className="space-y-6">
             {services.map((service, idx) => (
-              <Card
-                key={service._id}
-                hover
-                className="border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 bg-white"
-              >
-                <div className="flex flex-col md:flex-row items-center gap-8 p-8">
-                  {service.icon ? (
-                    <div className="shrink-0">
-                      <div className="bg-[var(--brand-accent)] border-4 border-black p-6" style={{ transform: `rotate(${(idx % 2 === 0 ? -3 : 3)}deg)` }}>
-                        <Image
-                          src={urlFor(service.icon as any).width(80).height(80).url()}
-                          alt={service.title}
-                          width={80}
-                          height={80}
-                        />
-                      </div>
+            <Card
+              key={service._id}
+              className="group"
+            >
+              <div className="flex flex-col md:flex-row items-center gap-8 p-8">
+                {service.icon ? (
+                  <div className="shrink-0">
+                    <div className="bg-[var(--brand-accent)] border-4 border-black p-6" style={{ transform: `rotate(${(idx % 2 === 0 ? -3 : 3)}deg)` }}>
+                      <Image
+                        src={urlFor(service.icon as any).width(80).height(80).url()}
+                        alt={service.title}
+                        width={80}
+                        height={80}
+                      />
                     </div>
-                  ) : null}
-                  <div className="flex-1 text-center md:text-left">
-                    <h3 className="text-3xl font-black mb-3 text-gray-900">
-                      {service.title}
-                    </h3>
-                    <p className="text-lg mb-6 leading-relaxed text-gray-700 font-medium">
-                      {service.shortDescription}
-                    </p>
-                    <Link href={`/services/${service.slug.current}`}>
-                      <Button variant="default" className="font-black">
-                        LEARN MORE →
-                      </Button>
-                    </Link>
                   </div>
+                ) : null}
+                <div className="flex-1 text-center md:text-left">
+                  <h3 className="text-3xl font-black mb-3 text-gray-900">
+                    {service.title}
+                  </h3>
+                  <p className="text-lg mb-6 leading-relaxed text-gray-700 font-medium">
+                    {service.shortDescription}
+                  </p>
+                  <Button asChild variant="default">
+                    <Link href={`/services/${service.slug.current}`}>
+                      LEARN MORE →
+                    </Link>
+                  </Button>
                 </div>
-              </Card>
+              </div>
+            </Card>
             ))}
           </div>
         </Container>
@@ -133,10 +132,8 @@ export default function ServiceListBlock({
           {services.map((service) => (
             <Card
               key={service._id}
-              hover
-              className="group h-full border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 bg-white overflow-hidden"
+              className="group h-full w-full p-8 text-center"
             >
-              <CardBody className="p-8 text-center">
                 {service.icon ? (
                   <div className="mb-6">
                     <div className="relative inline-block">
@@ -157,12 +154,11 @@ export default function ServiceListBlock({
                 <p className="text-lg mb-8 leading-relaxed text-gray-700 font-medium">
                   {service.shortDescription}
                 </p>
-                <Link href={`/services/${service.slug.current}`}>
-                  <Button variant="default" className="font-black">
+                <Button asChild variant="default">
+                  <Link href={`/services/${service.slug.current}`}>
                     LEARN MORE →
-                  </Button>
-                </Link>
-              </CardBody>
+                  </Link>
+                </Button>
             </Card>
           ))}
         </div>

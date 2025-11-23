@@ -70,7 +70,7 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
       )}
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white border-4 border-black shadow-brutal-lg p-8 md:p-12 inline-block rotate-1">
+        <div className="bg-white border-4 border-black shadow-lg p-8 md:p-12 inline-block rotate-1">
           <h1 className="text-5xl md:text-7xl font-black text-gray-900 mb-6 retro-text-shadow">
             {title}
           </h1>
@@ -80,11 +80,11 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
             </p>
           )}
           {cta?.text && cta?.link && (
-            <Link href={cta.link}>
-              <Button variant="default" className="text-lg font-black">
+            <Button variant="default" size="lg" asChild>
+              <Link href={cta.link}>
                 {cta.text}
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           )}
         </div>
       </div>

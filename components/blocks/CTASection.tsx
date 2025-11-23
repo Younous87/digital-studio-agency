@@ -52,7 +52,7 @@ export default function CTASection({
 
       {/* Content */}
       <div className="relative z-10 text-center max-w-5xl mx-auto">
-        <div className="inline-flex items-center gap-2 mb-6 px-6 py-3 bg-brand-secondary border-3 border-black rounded-full shadow-brutal animate-bounce-in">
+        <div className="inline-flex items-center gap-2 mb-6 px-6 py-3 bg-brand-secondary border-3 border-black rounded-full shadow-md animate-bounce-in">
           <Sparkles className="w-5 h-5 text-black" strokeWidth={3} />
           <span className="font-black text-black text-sm uppercase tracking-wide">
             Let's Work Together
@@ -64,7 +64,7 @@ export default function CTASection({
         </h2>
 
         {description && (
-          <p className="text-xl md:text-2xl mb-12 text-foreground font-bold max-w-3xl mx-auto bg-white border-3 border-black rounded-2xl p-6 md:p-8 shadow-brutal-lg">
+          <p className="text-xl md:text-2xl mb-12 text-foreground font-bold max-w-3xl mx-auto bg-white border-3 border-black rounded-2xl p-6 md:p-8 shadow-lg">
             {description}
           </p>
         )}
@@ -72,18 +72,18 @@ export default function CTASection({
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
           {primaryCta && (
             <Link href={primaryCta.link}>
-              <ConfettiButton variant="default" size="lg" className="text-xl group">
+              <ConfettiButton variant="default" size="lg" className="group">
                 {primaryCta.text}
                 <ArrowRight className="ml-3 w-6 h-6 inline group-hover:translate-x-2 transition-transform" strokeWidth={3} />
               </ConfettiButton>
             </Link>
           )}
           {secondaryCta && (
-            <Link href={secondaryCta.link}>
-              <Button variant="outline" size="lg" className="text-xl">
+            <Button variant="outline" size="lg" asChild>
+              <Link href={secondaryCta.link}>
                 {secondaryCta.text}
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           )}
         </div>
       </div>

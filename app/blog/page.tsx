@@ -93,7 +93,7 @@ export default async function BlogPage() {
         // Fallback if no pageBuilder
         <>
           <FullScreenSection background="gray">
-            <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-brutal-lg p-12">
+            <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-lg p-12">
               <h1 className="text-5xl md:text-7xl font-black text-black mb-6 retro-text-shadow">
                 Blog & Insights
               </h1>
@@ -107,7 +107,7 @@ export default async function BlogPage() {
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {posts.map((post: any) => (
                 <a key={post._id} href={`/blog/${post.slug.current}`} className="group">
-                  <div className="bg-white border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 overflow-hidden">
+                  <div className="bg-white border-4 border-black shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
                     <div className="relative h-64 overflow-hidden border-b-4 border-black">
                       <img
                         src={post.featuredImage ? client.getUrl(post.featuredImage) : '/placeholder-blog.jpg'}
@@ -116,7 +116,7 @@ export default async function BlogPage() {
                       />
                       {post.categories && post.categories.length > 0 && (
                         <div className="absolute top-4 left-4">
-                          <span className="bg-(--brand-secondary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-brutal-sm">
+                          <span className="bg-(--brand-secondary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-sm">
                             {post.categories[0]}
                           </span>
                         </div>

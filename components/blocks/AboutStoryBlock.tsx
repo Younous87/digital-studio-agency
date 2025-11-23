@@ -1,5 +1,5 @@
 import RichTextRenderer from './RichTextRenderer'
-import Container from '../ui/Container'
+import FullScreenSection from '../ui/FullScreenSection'
 
 interface AboutStoryBlockProps {
   title?: string
@@ -11,10 +11,6 @@ interface AboutStoryBlockProps {
     hsv: { h: number; s: number; v: number; a: number }
   }
 }
-
-import FullScreenSection from '../ui/FullScreenSection'
-
-// ... imports
 
 export default function AboutStoryBlock({ title, content, backgroundColor }: Readonly<AboutStoryBlockProps>) {
   const bgColor = backgroundColor?.hex || '#FFD23F'
@@ -38,13 +34,13 @@ export default function AboutStoryBlock({ title, content, backgroundColor }: Rea
         <div className="relative mb-12">
           <h2 className={`text-4xl md:text-6xl font-black text-center ${textColor} relative inline-block w-full`}>
             <span className="relative z-10">{title}</span>
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-3 bg-[var(--brand-primary)] -rotate-1" />
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-3 bg-(--brand-primary) -rotate-1" />
           </h2>
         </div>
       )}
       {content ? (
         <div className="max-w-4xl mx-auto relative">
-          <div className="bg-white border-4 border-black shadow-brutal-lg p-8 md:p-12 relative">
+          <div className="bg-white border-4 border-black shadow-lg p-8 md:p-12 relative">
             <RichTextRenderer content={content} />
           </div>
         </div>

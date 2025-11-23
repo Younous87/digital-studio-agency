@@ -13,9 +13,10 @@ type PageBlock = {
   title?: string
   subtitle?: string
   content?: unknown
-  values?: Array<{ title: string; description?: string; icon?: string }>
+  values?: Array<{ _key: string; title: string; description?: string; icon?: string }>
   showTeam?: boolean
   teamMembers?: Array<Record<string, unknown>>
+  members?: Array<Record<string, unknown>>
   cta?: { text?: string; link?: string }
   secondaryCta?: { text?: string; link?: string }
   backgroundImage?: Record<string, unknown>
@@ -93,9 +94,9 @@ export default async function AboutPage() {
             case 'ourStory':
               return <AboutStoryBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} content={block.content} backgroundColor={block.backgroundColor} />
             case 'ourValues':
-              return <AboutValuesBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} values={block.values} backgroundColor={block.backgroundColor} />
+              return <AboutValuesBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} values={block.values as any[]} backgroundColor={block.backgroundColor} />
             case 'meetOurTeam':
-              return <MeetOurTeamBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} showTeam={block.showTeam} teamMembers={block.teamMembers || team} backgroundColor={block.backgroundColor} />
+              return <MeetOurTeamBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} showTeam={block.showTeam} members={(block.teamMembers || block.members || team) as any[]} backgroundColor={block.backgroundColor} />
             case 'aboutSection':
               return (
                 <FullScreenSection key={block._key || block._id || `${block._type}-${index}`}>
@@ -114,14 +115,14 @@ export default async function AboutPage() {
         <>
           {/* existing fallback content omitted for brevity: render the default static sections using previous code paths */}
           <FullScreenSection background="gray">
-            <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-brutal-lg p-12">
+            <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-lg p-12">
               <h1 className="text-5xl md:text-7xl font-black text-black mb-6 retro-text-shadow">About Us</h1>
               <p className="text-xl text-black font-bold">We are a team of passionate creatives and technologists dedicated to crafting exceptional digital experiences.</p>
             </div>
           </FullScreenSection>
           {/* Fallback story/values/team as before */}
           <FullScreenSection>
-            <div className="max-w-4xl mx-auto bg-white border-4 border-black shadow-brutal-lg p-8 md:p-12">
+            <div className="max-w-4xl mx-auto bg-white border-4 border-black shadow-lg p-8 md:p-12">
               <h2 className="text-4xl md:text-6xl font-black text-black mb-8 text-center retro-text-shadow">Our Story</h2>
               <div className="prose prose-lg max-w-none">
                 <p className="text-lg text-black leading-relaxed mb-6 font-medium">Founded in 2020, Digital Studio emerged from a simple belief: that great digital experiences have the power to transform businesses and delight users.</p>

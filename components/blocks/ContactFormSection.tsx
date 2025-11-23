@@ -1,11 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import Section from '@/components/ui/Section'
 import { Button } from '@/components/retroui/Button'
 import { Input } from '@/components/retroui/Input'
 import { Textarea } from '@/components/retroui/Textarea'
-import { Mail, Phone, MapPin } from 'lucide-react'
+import { Select } from '@/components/retroui/Select'
+import { Label } from '@/components/retroui/Label'
+import { Alert } from '@/components/retroui/Alert'
+import { Card } from '@/components/retroui/Card'
+import { Facebook, Twitter, Dribbble, Github, Linkedin, Rocket } from 'lucide-react'
 
 interface ContactFormBlock {
   title?: string
@@ -32,7 +35,8 @@ export default function ContactFormSection({ block }: Readonly<ContactFormSectio
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    company: '',
+    projectType: '',
+    budget: '',
     message: '',
   })
   const [status, setStatus] = useState('')
@@ -45,171 +49,145 @@ export default function ContactFormSection({ block }: Readonly<ContactFormSectio
     // For now, we'll just simulate a submission
     setTimeout(() => {
       setStatus('success')
-      setFormData({ name: '', email: '', company: '', message: '' })
+      setFormData({ name: '', email: '', projectType: '', budget: '', message: '' })
       setTimeout(() => setStatus(''), 3000)
     }, 1000)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
-
   return (
-    <Section>
-      <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-        {/* Contact Info */}
-        <div>
-          <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 retro-text-shadow">
-            {block.title || 'Get in Touch'}
-          </h2>
-          <p className="text-lg text-gray-700 mb-10 font-bold">
-            {block.description || 'Fill out the form and we\'ll be in touch as soon as possible. Or reach out to us directly through the contact information below.'}
-          </p>
-
-          <div className="space-y-6">
-            {block.contactInfo?.email && (
-              <div className="bg-white border-4 border-black shadow-brutal p-6">
-                <div className="flex items-start gap-4">
-                  <div className="bg-[var(--brand-primary)] border-3 border-black p-3 -rotate-6">
-                    <Mail className="w-6 h-6 text-black" strokeWidth={3} />
+    <div className="py-16 px-4 bg-background">
+      <div className="max-w-5xl max-xl:px-4 mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+          <div className="space-y-8">
+            <div>
+              <h2 className="font-head text-3xl lg:text-4xl font-semibold mb-4">
+                {block.title || "LET'S<br>COLLABORATE"}
+              </h2>
+              <p className="font-sans text-base text-muted-foreground">
+                {block.description || "Ready to build something extraordinary? Let's turn your wildest ideas into digital reality!"}
+              </p>
+            </div>
+            <div>
+              <h4 className="font-head text-xl font-normal mb-2">EMAIL ME AT</h4>
+              <a href={`mailto:${block.contactInfo?.email || 'arif@retroui.dev'}`} className="text-lg">
+                {block.contactInfo?.email || 'arif@retroui.dev'}
+              </a>
+            </div>
+            <div>
+              <h4 className="font-head text-xl font-normal mb-2">FOLLOW ME AT</h4>
+              <div className="flex gap-4">
+                <Button asChild variant="secondary" size="icon" className="rounded-full h-12 w-12">
+                  <a href="#">
+                    <Facebook className="h-5 w-5" />
+                  </a>
+                </Button>
+                <Button asChild variant="secondary" size="icon" className="rounded-full h-12 w-12">
+                  <a href="#">
+                    <Twitter className="h-5 w-5" />
+                  </a>
+                </Button>
+                <Button asChild variant="secondary" size="icon" className="rounded-full h-12 w-12">
+                  <a href="#">
+                    <Dribbble className="h-5 w-5" />
+                  </a>
+                </Button>
+                <Button asChild variant="secondary" size="icon" className="rounded-full h-12 w-12">
+                  <a href="#">
+                    <Github className="h-5 w-5" />
+                  </a>
+                </Button>
+                <Button asChild variant="secondary" size="icon" className="rounded-full h-12 w-12">
+                  <a href="#">
+                    <Linkedin className="h-5 w-5" />
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <Card className="border-4 border-black shadow-md bg-white p-6 md:p-8 w-full">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="flex flex-col space-y-2">
+                    <Label htmlFor="name">Your Name</Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="Enter Name"
+                      required
+                    />
                   </div>
-                  <div>
-                    <h3 className="text-lg font-black text-gray-900 mb-2">Email</h3>
-                    <a href={`mailto:${block.contactInfo.email}`} className="text-[var(--brand-primary)] hover:underline font-bold">
-                      {block.contactInfo.email}
-                    </a>
+                  <div className="flex flex-col space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="Enter Email"
+                      required
+                    />
                   </div>
                 </div>
-              </div>
-            )}
-
-            {block.contactInfo?.phone && (
-              <div className="bg-white border-4 border-black shadow-brutal p-6">
-                <div className="flex items-start gap-4">
-                  <div className="bg-[var(--brand-accent)] border-3 border-black p-3 rotate-6">
-                    <Phone className="w-6 h-6 text-black" strokeWidth={3} />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-black text-gray-900 mb-2">Phone</h3>
-                    <a href={`tel:${block.contactInfo.phone}`} className="text-[var(--brand-primary)] hover:underline font-bold">
-                      {block.contactInfo.phone}
-                    </a>
-                  </div>
+                <div className="flex flex-col space-y-2">
+                  <Label>Project Type</Label>
+                  <Select value={formData.projectType} onValueChange={(value) => setFormData({ ...formData, projectType: value })}>
+                    <Select.Trigger className="w-full">
+                      <Select.Value placeholder="Project type" />
+                    </Select.Trigger>
+                    <Select.Content>
+                      <Select.Group>
+                        <Select.Item value="web-design">Web Design</Select.Item>
+                        <Select.Item value="mobile-app">Mobile App</Select.Item>
+                        <Select.Item value="branding">Branding</Select.Item>
+                        <Select.Item value="consulting">Consulting</Select.Item>
+                      </Select.Group>
+                    </Select.Content>
+                  </Select>
                 </div>
-              </div>
-            )}
-
-            {block.contactInfo?.address && (
-              <div className="bg-white border-4 border-black shadow-brutal p-6">
-                <div className="flex items-start gap-4">
-                  <div className="bg-[var(--brand-secondary)] border-3 border-black p-3 -rotate-3">
-                    <MapPin className="w-6 h-6 text-black" strokeWidth={3} />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-black text-gray-900 mb-2">Address</h3>
-                    <p className="text-gray-700 whitespace-pre-line font-medium">
-                      {block.contactInfo.address}
-                    </p>
-                  </div>
+                <div className="flex flex-col space-y-2">
+                  <Label>Budget</Label>
+                  <Select value={formData.budget} onValueChange={(value) => setFormData({ ...formData, budget: value })}>
+                    <Select.Trigger className="w-full">
+                      <Select.Value placeholder="$5k-$10K" />
+                    </Select.Trigger>
+                    <Select.Content>
+                      <Select.Group>
+                        <Select.Item value="5k-10k">$5k - $10k</Select.Item>
+                        <Select.Item value="10k-25k">$10k - $25k</Select.Item>
+                        <Select.Item value="25k-50k">$25k - $50k</Select.Item>
+                        <Select.Item value="50k+">$50k+</Select.Item>
+                      </Select.Group>
+                    </Select.Content>
+                  </Select>
                 </div>
-              </div>
+                <div className="flex flex-col space-y-2">
+                  <Label htmlFor="message">Project Details</Label>
+                  <Textarea
+                    id="message"
+                    value={formData.message}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="Project details, context or how can i help you"
+                    rows={4}
+                    required
+                  />
+                </div>
+                <Button variant="secondary" type="submit" disabled={status === 'sending'} className="flex items-center w-full justify-center">
+                  {status === 'sending' ? 'SENDING...' : 'LAUNCH PROJECT'}
+                  <Rocket className="ml-2 size-5" />
+                </Button>
+              </form>
+            </Card>
+            {status === 'success' && (
+              <Alert className="bg-white border-4 border-black shadow-md mt-6">
+                <Alert.Title className="font-black text-black">✓ Thank you! We'll get back to you soon.</Alert.Title>
+              </Alert>
             )}
           </div>
         </div>
-
-        {/* Contact Form */}
-        <div className="bg-[var(--brand-secondary)] border-4 border-black shadow-brutal-lg p-8">
-          {block.formTitle && (
-            <h3 className="text-2xl font-black text-gray-900 mb-2">
-              {block.formTitle}
-            </h3>
-          )}
-          {block.formDescription && (
-            <p className="text-gray-900 mb-6 font-bold">
-              {block.formDescription}
-            </p>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-black text-gray-900 mb-2">
-                NAME *
-              </label>
-              <Input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                placeholder="Your name"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-black text-gray-900 mb-2">
-                EMAIL *
-              </label>
-              <Input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="your@email.com"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="company" className="block text-sm font-black text-gray-900 mb-2">
-                COMPANY
-              </label>
-              <Input
-                type="text"
-                id="company"
-                name="company"
-                value={formData.company}
-                onChange={handleChange}
-                placeholder="Your company name"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="message" className="block text-sm font-black text-gray-900 mb-2">
-                MESSAGE *
-              </label>
-              <Textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={6}
-                placeholder="Tell us about your project..."
-              />
-            </div>
-
-            <Button
-              type="submit"
-              variant="default"
-              className="w-full"
-              disabled={status === 'sending'}
-            >
-              {status === 'sending' ? 'SENDING...' : (block.submitButtonText || 'SEND MESSAGE')}
-            </Button>
-
-            {status === 'success' && (
-              <div className="bg-white border-4 border-black shadow-brutal px-6 py-4">
-                <p className="font-black text-black">✓ Thank you! We'll get back to you soon.</p>
-              </div>
-            )}
-          </form>
-        </div>
       </div>
-    </Section>
+    </div>
   )
 }
