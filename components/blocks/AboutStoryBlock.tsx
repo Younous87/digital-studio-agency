@@ -40,7 +40,7 @@ export default function AboutStoryBlock({ title, content, backgroundColor }: Rea
       )}
       {content ? (
         <div className="max-w-4xl mx-auto relative">
-          <div className="bg-white border-4 border-black shadow-lg p-8 md:p-12 relative">
+          <div className="bg-white border-2 border-black shadow-lg p-8 md:p-12 relative">
             <RichTextRenderer content={content} />
           </div>
         </div>

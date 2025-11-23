@@ -52,9 +52,9 @@ export default function AboutValuesBlock({ title, values, backgroundColor }: Rea
         {values?.map((value, index) => (
           <div
             key={value._key || index}
-            className="bg-white border-3 border-black shadow-md p-8 hover:translate-x-1 hover:-translate-y-1 hover:shadow-lg transition-all duration-200 group"
+            className="bg-white border-2 border-black shadow-md p-8 hover:translate-x-1 hover:-translate-y-1 hover:shadow-lg transition-all duration-200 group"
           >
-            <div className="w-16 h-16 bg-(--brand-primary) border-3 border-black flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
+            <div className="w-16 h-16 bg-(--brand-primary) border-2 border-black flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
               {value.icon ? (
                 <Image
                   src={urlFor(value.icon).url()}
