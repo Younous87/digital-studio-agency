@@ -105,7 +105,7 @@ export default function ContactFormSection({ block }: Readonly<ContactFormSectio
             </div>
           </div>
           <div>
-            <Card className="border-4 border-black shadow-md bg-white p-6 md:p-8 w-full">
+            <Card variant="retro" className="p-6 md:p-8 w-full">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-2 gap-6">
                   <div className="flex flex-col space-y-2">

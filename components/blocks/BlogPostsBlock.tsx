@@ -61,7 +61,7 @@ export default function BlogPostsBlock({
         <div className={`gap-8 ${layout === 'grid' ? 'grid md:grid-cols-2 lg:grid-cols-3' : 'space-y-8'}`}>
           {posts.map((post) => (
             <Link key={post._id} href={`/blog/${post.slug.current}`}>
-              <Card className="h-full group border-4 border-black shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden hover:-translate-y-1">
+              <Card variant="retro" className="h-full group transition-all duration-300 overflow-hidden hover:-translate-y-1">
                 <div className={`relative overflow-hidden ${layout === 'list' ? 'h-64 md:h-80' : 'h-64'} border-b-4 border-black`}>
                   <Image
                     src={urlFor(post.featuredImage).width(600).height(400).url()}

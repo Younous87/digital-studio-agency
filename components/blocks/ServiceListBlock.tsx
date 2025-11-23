@@ -66,12 +66,13 @@ export default function ServiceListBlock({
             {services.map((service, idx) => (
             <Card
               key={service._id}
+              variant="retro"
               className="group"
             >
               <div className="flex flex-col md:flex-row items-center gap-8 p-8">
                 {service.icon ? (
                   <div className="shrink-0">
-                    <div className="bg-[var(--brand-accent)] border-4 border-black p-6" style={{ transform: `rotate(${(idx % 2 === 0 ? -3 : 3)}deg)` }}>
+                    <div className="bg-[var(--brand-accent)] border-2 border-black p-6" style={{ transform: `rotate(${(idx % 2 === 0 ? -3 : 3)}deg)` }}>
                       <Image
                         src={urlFor(service.icon as any).width(80).height(80).url()}
                         alt={service.title}
@@ -132,17 +133,18 @@ export default function ServiceListBlock({
           {services.map((service) => (
             <Card
               key={service._id}
+              variant="retro"
               className="group h-full w-full p-8 text-center"
             >
                 {service.icon ? (
                   <div className="mb-6">
                     <div className="relative inline-block">
-                      <div className="bg-[var(--brand-secondary)] border-4 border-black p-6 -rotate-6 group-hover:rotate-6 transition-transform duration-300">
+                      <div className=" p-6 group-hover:rotate-6 transition-transform duration-300">
                         <Image
-                          src={urlFor(service.icon as any).width(64).height(64).url()}
+                          src={urlFor(service.icon as any).width(100).height(100).url()}
                           alt={service.title}
-                          width={64}
-                          height={64}
+                          width={100}
+                          height={100}
                         />
                       </div>
                     </div>

@@ -1,43 +1,74 @@
 import { cn } from "@/lib/utils";
-import { HTMLAttributes } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import React, { HTMLAttributes } from "react";
 import { Text } from "@/components/retroui/Text";
 
-interface ICardProps extends HTMLAttributes<HTMLDivElement> {
-  className?: string;
-}
+const cardVariants = cva("inline-block rounded transition-all", {
+  variants: {
+    variant: {
+      default: "border-2 shadow-md bg-card",
+      retro: "border-2 shadow-md bg-white",
+      elevated: "border-2 shadow-lg bg-card",
+      plain: "bg-transparent border-0",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
 
-const Card = ({ className, ...props }: ICardProps) => {
+interface ICardProps
+  extends HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof cardVariants> {}
+
+const Card = React.forwardRef<HTMLDivElement, ICardProps>(function Card(
+  { variant = "default", className, ...props },
+  ref,
+) {
   return (
     <div
-      className={cn(
-        "inline-block border-2 rounded shadow-md transition-all hover:shadow-none bg-card",
-        className,
-      )}
+      ref={ref}
+      className={cn(cardVariants({ variant }), className)}
       {...props}
     />
   );
-};
+});
 
-const CardHeader = ({ className, ...props }: ICardProps) => {
+const CardHeader = React.forwardRef<HTMLDivElement, ICardProps>(function CardHeader(
+  { className, ...props },
+  ref,
+) {
   return (
     <div
+      ref={ref}
       className={cn("flex flex-col justify-start p-4", className)}
       {...props}
     />
   );
-};
+});
 
-const CardTitle = ({ className, ...props }: ICardProps) => {
-  return <Text as="h3" className={cn("mb-2", className)} {...props} />;
-};
+const CardTitle = React.forwardRef<HTMLDivElement, ICardProps>(function CardTitle(
+  { className, ...props },
+  ref,
+) {
+  return <Text as="h3" ref={ref} className={cn("mb-2", className)} {...props} />;
+});
 
-const CardDescription = ({ className, ...props }: ICardProps) => (
-  <p className={cn("text-muted-foreground", className)} {...props} />
-);
+const CardDescription = React.forwardRef<HTMLDivElement, ICardProps>(function CardDescription(
+  { className, ...props },
+  ref,
+) {
+  return (
+    <p ref={ref} className={cn("text-muted-foreground", className)} {...props} />
+  );
+});
 
-const CardContent = ({ className, ...props }: ICardProps) => {
-  return <div className={cn("p-4", className)} {...props} />;
-};
+const CardContent = React.forwardRef<HTMLDivElement, ICardProps>(function CardContent(
+  { className, ...props },
+  ref,
+) {
+  return <div ref={ref} className={cn("p-4", className)} {...props} />;
+});
 
 const CardComponent = Object.assign(Card, {
   Header: CardHeader,

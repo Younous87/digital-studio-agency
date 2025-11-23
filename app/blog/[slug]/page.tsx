@@ -175,7 +175,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <div className="grid md:grid-cols-3 gap-8">
               {post.relatedPosts.map((relatedPost: any) => (
                 <Link key={relatedPost._id} href={`/blog/${relatedPost.slug.current}`}>
-                  <Card className="h-full border-4 border-black shadow-brutal hover:shadow-brutal-hover transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:shadow-brutal-lg">
+                  <Card variant="retro" className="h-full transition-all duration-300 overflow-hidden hover:-translate-y-1">
                     <div className="relative h-48 border-b-4 border-black">
                       <Image
                         src={urlFor(relatedPost.featuredImage).width(400).height(300).url()}

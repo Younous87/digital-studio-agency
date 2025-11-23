@@ -10,6 +10,7 @@ import { Dialog } from '../retroui/Dialog'
 import { Button } from '../retroui/Button'
 import { urlFor } from '@/lib/sanity/image'
 import { Eye, ExternalLink, Calendar } from 'lucide-react'
+import { Separator } from '../ui/separator'
 
 interface Project {
   _id: string
@@ -66,7 +67,7 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
 
   return (
     <Dialog>
-      <Card className="h-full group shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden bg-white hover:-translate-y-1">
+      <Card variant="retro" className="h-full group transition-all duration-300 overflow-hidden hover:-translate-y-1">
         {/* Image area with quick view trigger */}
         <Dialog.Trigger asChild>
           <div className="cursor-pointer relative">
@@ -143,53 +144,55 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
       </Card>
 
       {/* Quick view dialog */}
-      <Dialog.Content className="max-w-4xl bg-white border-4 border-black shadow-lg">
-        <Dialog.Header className="border-b-4 border-black pb-6 items-start">
-          <div className="flex flex-col gap-1">
-            <h2 className="text-3xl font-black text-gray-900">{project.title}</h2>
-            <Dialog.Description className="text-lg font-bold text-black">
-              {project.clientName && `CLIENT: ${project.clientName}`}
-            </Dialog.Description>
-          </div>
-        </Dialog.Header>
+      <Dialog.Content>
+        <Card variant="retro" className="max-w-4xl">
+          <Card.Header className="pb-6 items-start">
+            <div className="flex flex-col gap-1">
+              <h2 className="text-3xl font-black text-gray-900">{project.title}</h2>
+              <Card.Description className="text-lg font-bold text-black">
+                {project.clientName && `CLIENT: ${project.clientName}`}
+              </Card.Description>
+            </div>
+          </Card.Header>
 
-        {project.featuredImage && (
-          <div className="relative h-96 overflow-hidden my-6">
-            <Image
-              src={urlFor(project.featuredImage).width(1200).height(800).url()}
-              alt={project.title}
-              fill
-              className="object-cover"
-            />
-          </div>
-        )}
-
-        <div className="border-b-4 border-black my-6" />
-
-        <div className="space-y-6">
-          {project.categories && project.categories.length > 0 && (
-            <div className="flex flex-wrap gap-3">
-              {project.categories.map((category) => (
-                <Badge key={category} variant="solid" size="lg">
-                  {category}
-                </Badge>
-              ))}
+          {project.featuredImage && (
+            <div className="relative h-96 overflow-hidden my-6">
+              <Image
+                src={urlFor(project.featuredImage).width(1200).height(800).url()}
+                alt={project.title}
+                fill
+                className="object-cover"
+              />
             </div>
           )}
 
-          <p className="text-black text-lg font-medium leading-relaxed">{project.shortDescription}</p>
+          <Separator className="my-6" />
 
-          <Button
-            asChild
-            variant="default"
-            size="lg"
-            className="inline-flex gap-2"
-          >
-            <Link href={`/work/${project.slug.current}`}>
-              VIEW FULL PROJECT <ExternalLink className="w-5 h-5" strokeWidth={3} />
-            </Link>
-          </Button>
-        </div>
+          <Card.Content className="space-y-6">
+            {project.categories && project.categories.length > 0 && (
+              <div className="flex flex-wrap gap-3">
+                {project.categories.map((category) => (
+                  <Badge key={category} variant="solid" size="lg">
+                    {category}
+                  </Badge>
+                ))}
+              </div>
+            )}
+
+            <p className="text-black text-lg font-medium leading-relaxed">{project.shortDescription}</p>
+
+            <Button
+              asChild
+              variant="default"
+              size="lg"
+              className="inline-flex gap-2"
+            >
+              <Link href={`/work/${project.slug.current}`}>
+                VIEW FULL PROJECT <ExternalLink className="w-5 h-5" strokeWidth={3} />
+              </Link>
+            </Button>
+          </Card.Content>
+        </Card>
       </Dialog.Content>
     </Dialog>
   )

@@ -69,7 +69,7 @@ export default async function ServicePage({ params }: Readonly<{ params: Promise
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {service.features.map((feature: any, index: number) => (
-              <Card key={`${feature.title}-${index}`}>
+              <Card key={`${feature.title}-${index}`} variant="default">
                 <div className="p-6">
                   <h3 className="text-xl font-black text-black mb-3">
                     {feature.title}
@@ -117,7 +117,7 @@ export default async function ServicePage({ params }: Readonly<{ params: Promise
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {service.relatedProjects.map((project: any) => (
               <Link key={project._id} href={`/work/${project.slug.current}`}>
-                <Card className="h-full border-4 border-black shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
+                <Card variant="retro" className="h-full transition-all duration-300 overflow-hidden">
                   <div className="relative h-64 border-b-4 border-black">
                     <Image
                       src={urlFor(project.featuredImage).width(600).height(400).url()}

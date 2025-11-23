@@ -40,9 +40,6 @@ export default function ServicesGrid({
         <div className="text-center mb-16 animate-fade-in">
           {title && (
             <h2 className="text-4xl md:text-6xl font-black text-foreground mb-6 flex items-center justify-center gap-3">
-              <div className="w-12 h-12 bg-brand-primary border-3 border-black rounded-lg flex items-center justify-center shadow-md rotate-6">
-                <Sparkles className="w-7 h-7 text-white" strokeWidth={3} />
-              </div>
               {title}
             </h2>
           )}
@@ -60,7 +57,7 @@ export default function ServicesGrid({
             {categories.map((category) => (
               <TabsTrigger 
                 key={category} 
-                className="border-3 border-black bg-muted data-selected:bg-brand-secondary data-selected:shadow-md px-6 py-3 rounded-lg font-black text-base"
+                className="border-2 border-black bg-muted data-selected:bg-brand-secondary data-selected:shadow-md px-6 py-3 rounded-lg font-black text-base"
               >
                 {category}
               </TabsTrigger>
@@ -96,11 +93,11 @@ export default function ServicesGrid({
 function ServiceCard({ service }: Readonly<{ service: Service }>) {
   return (
     <Link href={`/services/${service.slug.current}`} className="group block">
-      <Card className="h-full hover-lift border-3 hover:border-brand-primary bg-white">
+      <Card variant="retro" className="h-full hover-lift">
         <Card.Header>
           <div className="flex items-start justify-between mb-4">
             {service.icon && (
-              <div className="p-4 bg-brand-secondary border-3 border-black rounded-xl group-hover:bg-brand-accent transition-all shadow-sm group-hover:rotate-6">
+              <div className="p-4 bg-brand-secondary border-1 border-black rounded-xl group-hover:bg-brand-accent transition-all shadow-sm group-hover:rotate-6">
                 <Image
                   src={urlFor(service.icon).width(80).url()}
                   alt={service.title}

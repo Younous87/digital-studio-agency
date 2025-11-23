@@ -53,7 +53,7 @@ export default function TestimonialCarousel({
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial) => (
-            <Card key={testimonial._id} className="bg-linear-to-br from-white to-gray-50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <Card key={testimonial._id} variant="default" className="bg-linear-to-br from-white to-gray-50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <Card.Header>
                 <div className="flex items-start justify-between mb-4">
                   <Quote className="w-10 h-10 text-brand-secondary/20" />
@@ -76,7 +76,7 @@ export default function TestimonialCarousel({
                   &ldquo;{testimonial.quote}&rdquo;
                 </p>
                 <div className="flex items-center gap-4 pt-4 border-t">
-                  <Avatar className="h-12 w-12 ring-2 ring-brand-primary/20">
+                  <Avatar className="h-12 w-12 ring-1 ring-brand-primary/20">
                     {testimonial.photo ? (
                       <Avatar.Image
                         src={urlFor(testimonial.photo).width(80).height(80).url()}
@@ -134,7 +134,7 @@ export default function TestimonialCarousel({
           <CarouselContent>
             {testimonials.map((testimonial) => (
               <CarouselItem key={testimonial._id} className="md:basis-1/2 lg:basis-1/2">
-                <Card className="h-full bg-linear-to-br from-white via-white to-brand-primary/5 hover:shadow-xl transition-all duration-300">
+                <Card variant="default" className="h-full bg-linear-to-br from-white via-white to-brand-primary/5 transition-all duration-300">
                   <Card.Header>
                     <div className="flex items-start justify-between mb-4">
                       <Quote className="w-12 h-12 text-brand-secondary/20" />
@@ -151,7 +151,7 @@ export default function TestimonialCarousel({
                       &ldquo;{testimonial.quote}&rdquo;
                     </p>
                     <div className="flex items-center gap-4 pt-6 border-t">
-                      <Avatar className="h-14 w-14 ring-2 ring-brand-primary/20">
+                      <Avatar className="h-14 w-14 ring-brand-primary/20">
                         {testimonial.photo ? (
                           <Avatar.Image
                             src={urlFor(testimonial.photo).width(100).height(100).url()}
@@ -176,8 +176,8 @@ export default function TestimonialCarousel({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="shadow-lg" />
-          <CarouselNext className="shadow-lg" />
+          <CarouselPrevious className="shadow" />
+          <CarouselNext className="shadow" />
         </Carousel>
       </div>
     </FullScreenSection>

@@ -189,7 +189,7 @@ export default async function ServicesPage() {
         <>
           {/* Hero Section */}
           <FullScreenSection background="gray">
-            <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-lg p-12">
+            <div className="text-center max-w-3xl mx-auto bg-white border-3 border-black shadow-lg p-12">
               <h1 className="text-5xl md:text-7xl font-black text-black mb-6 retro-text-shadow">
                 Our Services
               </h1>

@@ -2,7 +2,7 @@ import * as React from "react"
 import { Card as RetroCard } from "@/components/retroui/Card"
 import { cn } from "@/lib/utils"
 
-interface CardProps extends React.ComponentProps<"div"> {
+interface CardProps extends React.ComponentProps<typeof RetroCard> {
   hover?: boolean
 }
 

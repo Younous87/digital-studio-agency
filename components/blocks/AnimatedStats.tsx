@@ -115,13 +115,14 @@ export default function AnimatedStats({ title, stats }: Readonly<AnimatedStatsPr
             return (
               <Card 
                 key={`stat-${stat.label}-${index}`}
-                className="text-center bg-white border-4 border-black shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                variant="retro"
+                className="text-center"
               >
                 <Card.Content className="p-6">
                   {Icon && (
                     <div className="flex justify-center mb-4">
-                      <div className="p-3 bg-[var(--brand-accent)] border-3 border-black -rotate-6">
-                        <Icon className="w-8 h-8 text-black" strokeWidth={3} />
+                      <div className="p-3 bg-[var(--brand-accent)] border-2 border-black -rotate-6">
+                        <Icon className="w-8 h-8 text-black" strokeWidth={2} />
                       </div>
                     </div>
                   )}

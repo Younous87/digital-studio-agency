@@ -52,19 +52,14 @@ export default function CTASection({
 
       {/* Content */}
       <div className="relative z-10 text-center max-w-5xl mx-auto">
-        <div className="inline-flex items-center gap-2 mb-6 px-6 py-3 bg-brand-secondary border-3 border-black rounded-full shadow-md animate-bounce-in">
-          <Sparkles className="w-5 h-5 text-black" strokeWidth={3} />
-          <span className="font-black text-black text-sm uppercase tracking-wide">
-            Let's Work Together
-          </span>
-        </div>
+
 
         <h2 className="text-5xl md:text-7xl font-black mb-8 text-foreground leading-none">
           {title}
         </h2>
 
         {description && (
-          <p className="text-xl md:text-2xl mb-12 text-foreground font-bold max-w-3xl mx-auto bg-white border-3 border-black rounded-2xl p-6 md:p-8 shadow-lg">
+          <p className="text-xl md:text-2xl mb-12 text-foreground font-bold max-w-3xl mx-auto bg-white border-2 border-black rounded-2xl p-6 md:p-8 shadow-lg">
             {description}
           </p>
         )}
