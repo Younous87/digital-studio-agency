@@ -44,7 +44,7 @@ export default function AboutValuesBlock({ title, values, backgroundColor }: Rea
           <h2 className={`text-4xl md:text-5xl font-black ${textColor} inline-block relative z-10`}>
             {title}
           </h2>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xs h-12 bg-(--brand-secondary) -rotate-2 opacity-50 blur-xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xs h-12 -rotate-2 opacity-50 blur-xl" />
         </div>
       )}
 
