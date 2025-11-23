@@ -42,13 +42,13 @@ export default function ServiceListBlock({
     return (
       <section className="py-20 relative" style={{ backgroundColor: bgColor }}>
         {/* Pattern background */}
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
           <div className="absolute inset-0" style={{
             backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(0,0,0,0.1) 30px, rgba(0,0,0,0.1) 31px)',
           }} />
         </div>
 
-        <Container>
+        <Container className="relative">
           {title && (
             <div className="text-center mb-16 relative">
               <h2 className={`text-4xl md:text-6xl font-black mb-4 ${textColor} retro-text-shadow`}>
@@ -108,14 +108,14 @@ export default function ServiceListBlock({
   return (
     <section className="py-20 relative" style={{ backgroundColor: bgColor }}>
       {/* Grid pattern */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute inset-0" style={{
           backgroundImage: 'linear-gradient(rgba(0,0,0,0.1) 2px, transparent 2px), linear-gradient(90deg, rgba(0,0,0,0.1) 2px, transparent 2px)',
           backgroundSize: '30px 30px',
         }} />
       </div>
 
-      <Container>
+      <Container className="relative">
         {title && (
           <div className="text-center mb-16 relative">
             <h2 className={`text-4xl md:text-6xl font-black mb-4 ${textColor} retro-text-shadow`}>

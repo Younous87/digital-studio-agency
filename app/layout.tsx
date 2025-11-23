@@ -73,6 +73,7 @@ export default async function RootLayout({
         />
         <main className="pt-20">{children}</main>
         <Footer
+          companyName={settings?.title}
           footerText={settings?.footer?.text}
           copyright={settings?.footer?.copyright}
           links={settings?.footer?.links || []}

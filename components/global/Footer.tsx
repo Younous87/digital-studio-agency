@@ -12,6 +12,7 @@ interface FooterLink {
 }
 
 interface FooterProps {
+  companyName?: string
   footerText?: string
   copyright?: string
   links?: FooterLink[]
@@ -19,12 +20,36 @@ interface FooterProps {
 }
 
 export default function Footer({
+  companyName,
   footerText,
   copyright,
   links = [],
   socialMedia = []
 }: Readonly<FooterProps>) {
   const currentYear = new Date().getFullYear()
+
+  // Default fallback data
+  const defaultCompanyName = "Digital Studio"
+  const defaultFooterText = "We create exceptional digital experiences for forward-thinking brands."
+  
+  const defaultLinks: FooterLink[] = [
+    { label: 'Work', url: '/work' },
+    { label: 'Services', url: '/services' },
+    { label: 'About', url: '/about' },
+    { label: 'Blog', url: '/blog' },
+    { label: 'Contact', url: '/contact' },
+  ]
+
+  const defaultSocialMedia: SocialLink[] = [
+    { platform: 'twitter', url: 'https://twitter.com' },
+    { platform: 'instagram', url: 'https://instagram.com' },
+    { platform: 'linkedin', url: 'https://linkedin.com' },
+  ]
+
+  const displayCompanyName = companyName || defaultCompanyName
+  const displayFooterText = footerText || defaultFooterText
+  const displayLinks = links.length > 0 ? links : defaultLinks
+  const displaySocialMedia = socialMedia.length > 0 ? socialMedia : defaultSocialMedia
 
   const getSocialIcon = (platform: string) => {
     const icons: { [key: string]: string } = {
@@ -52,14 +77,14 @@ export default function Footer({
           {/* Company Info */}
           <div>
             <h3 className="text-foreground text-3xl font-black mb-4 flex items-center gap-2">
-              <div className="w-10 h-10 bg-brand-primary border-3 border-black rounded-lg flex items-center justify-center shadow-sm">
+              <div className="w-10 h-10 bg-brand-primary border-2 border-black rounded-lg flex items-center justify-center shadow-sm">
                 <span className="text-white text-xl font-black">DS</span>
               </div>
-              Digital Studio
+              {displayCompanyName}
             </h3>
-            {footerText && (
+            {displayFooterText && (
               <p className="text-base font-medium text-muted-foreground bg-muted border-2 border-black rounded-lg p-4 shadow-sm">
-                {footerText}
+                {displayFooterText}
               </p>
             )}
           </div>
@@ -70,7 +95,7 @@ export default function Footer({
               Quick Links
             </h4>
             <ul className="space-y-3">
-              {links.map((link) => (
+              {displayLinks.map((link) => (
                 <li key={link.url}>
                   <Link 
                     href={link.url} 
@@ -90,7 +115,7 @@ export default function Footer({
               Follow Us
             </h4>
             <div className="flex flex-wrap gap-4">
-              {socialMedia.map((social) => (
+              {displaySocialMedia.map((social) => (
                 <a
                   key={social.platform}
                   href={social.url}
@@ -110,7 +135,7 @@ export default function Footer({
 
         <div className="border-t-3 border-black py-8 text-center">
           <p className="text-lg font-black text-foreground bg-brand-secondary border-3 border-black rounded-full py-3 px-8 inline-block shadow-md">
-            {copyright || `© ${currentYear} Digital Studio. All rights reserved.`}
+            {copyright || `© ${currentYear} ${displayCompanyName}. All rights reserved.`}
           </p>
         </div>
       </Container>

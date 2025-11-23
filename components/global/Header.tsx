@@ -43,12 +43,12 @@ export default function Header({ logo, navigation = [] }: Readonly<HeaderProps>)
           {/* Logo - Retro Style */}
           <Link href="/" className="flex items-center space-x-3 group hover-lift">
             {logo?.light ? (
-              <div className="relative border-3 border-black rounded-lg overflow-hidden shadow-sm group-hover:shadow-md">
+              <div className="relative border-2 border-black rounded-lg overflow-hidden shadow">
                 <Image
-                  src={urlFor(logo.dark).width(150).url()}
+                  src={urlFor(logo.dark).width(100).url()}
                   alt="Logo"
-                  width={150}
-                  height={50}
+                  width={100}
+                  height={100}
                   className="h-12 w-auto"
                 />
               </div>
