@@ -37,6 +37,14 @@ export default defineType({
       validation: (Rule) => Rule.required().max(200),
     },
     {
+      name: 'heroBackground',
+      title: 'Hero Background',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
       name: 'fullDescription',
       title: 'Full Description',
       type: 'array',
@@ -146,6 +154,7 @@ export default defineType({
       type: 'array',
       of: [
         { type: 'hero' },
+        { type: 'pageHero' },
         { type: 'servicesOverview' },
         { type: 'featuredProjects' },
         { type: 'testimonials' },
@@ -158,6 +167,8 @@ export default defineType({
         { type: 'blogPosts' },
         { type: 'featuresSection' },
         { type: 'processSection' },
+        { type: 'fullDescriptionSection' },
+        { type: 'serviceCtaSection' },
       ],
     },
     {

@@ -11,6 +11,8 @@ import StatsSection from '@/components/blocks/AnimatedStats'
 import BackgroundWrapper from '@/components/blocks/BackgroundWrapper'
 import FeaturesSection from '@/components/blocks/FeaturesSection'
 import ProcessSection from '@/components/blocks/ProcessSection'
+import FullDescriptionSection from '@/components/blocks/FullDescriptionSection'
+import ServiceCtaSection from '@/components/blocks/ServiceCtaSection'
 import ServiceListBlock from '@/components/blocks/ServiceListBlock'
 import BlogPostsBlock from '@/components/blocks/BlogPostsBlock'
 import ContactFormSection from '@/components/blocks/ContactFormSection'
@@ -202,6 +204,25 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
           key={block._key || block._id || `${block._type}-${index}`}
           title={block.title}
           steps={block.steps as any}
+          backgroundImage={block.backgroundImage}
+        />
+      )
+    case 'fullDescriptionSection':
+      return (
+        <FullDescriptionSection
+          key={block._key || block._id || `${block._type}-${index}`}
+          content={block.content}
+          backgroundImage={block.backgroundImage}
+        />
+      )
+    case 'serviceCtaSection':
+      return (
+        <ServiceCtaSection
+          key={block._key || block._id || `${block._type}-${index}`}
+          title={block.title}
+          description={block.description}
+          buttonText={block.buttonText}
+          buttonLink={block.buttonLink}
           backgroundImage={block.backgroundImage}
         />
       )

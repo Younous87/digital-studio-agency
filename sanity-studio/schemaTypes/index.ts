@@ -29,6 +29,8 @@ import contactForm from './blocks/contactForm'
 import blogPosts from './blocks/blogPosts'
 import featuresSection from './blocks/featuresSection'
 import processSection from './blocks/processSection'
+import fullDescriptionSection from './blocks/fullDescriptionSection'
+import serviceCtaSection from './blocks/serviceCtaSection'
 
 export const schemaTypes = [
   // Documents
@@ -63,4 +65,6 @@ export const schemaTypes = [
   blogPosts,
   featuresSection,
   processSection,
+  fullDescriptionSection,
+  serviceCtaSection,
 ]

@@ -215,6 +215,8 @@ export const serviceBySlugQuery = `*[_type == "service" && slug.current == $slug
     _type == "statsSection" => { title, stats, backgroundImage },
     _type == "featuresSection" => { title, features, backgroundImage },
     _type == "processSection" => { title, steps, backgroundImage },
+    _type == "fullDescriptionSection" => { content, backgroundImage },
+    _type == "serviceCtaSection" => { title, description, buttonText, buttonLink, backgroundImage },
     _type == "contactForm" => { title, description, contactInfo, formTitle, formDescription, submitButtonText, backgroundImage },
     _type == "serviceList" => { title, description, layout, showAll, "services": select(showAll == true => *[_type == "service"]{ _id, title, slug, shortDescription, icon }, services[]->{ _id, title, slug, shortDescription, icon }), backgroundColor, backgroundImage },
     _type == "blogPosts" => { title, description, layout, showFeatured, "posts": select(showFeatured == true => *[_type == "post" && featured == true] | order(publishedAt desc) { _id, title, slug, excerpt, featuredImage, publishedAt, "author": author->{ name, role, photo }, categories, tags }, posts[]->{ _id, title, slug, excerpt, featuredImage, publishedAt, "author": author->{ name, role, photo }, categories, tags }), backgroundImage }
