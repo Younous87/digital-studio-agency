@@ -44,6 +44,14 @@ export default defineType({
       title: 'Background Color',
       type: 'color',
     },
+    {
+      name: 'backgroundImage',
+      title: 'Background Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
   ],
   preview: {
     select: {

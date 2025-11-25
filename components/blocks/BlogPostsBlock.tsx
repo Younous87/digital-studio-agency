@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Section from '@/components/ui/Section'
+import BackgroundWrapper from './BackgroundWrapper'
 import { Card } from '@/components/retroui/Card'
 import { urlFor } from '@/lib/sanity/image'
 
@@ -28,78 +29,82 @@ interface BlogPostsBlockProps {
   readonly description?: string
   readonly layout?: 'grid' | 'list'
   readonly posts?: BlogPost[]
+  readonly backgroundImage?: any
 }
 
 export default function BlogPostsBlock({
   title = 'Latest Posts',
   description,
   layout = 'grid',
-  posts = []
+  posts = [],
+  backgroundImage
 }: BlogPostsBlockProps) {
   if (!posts || posts.length === 0) {
     return null
   }
 
   return (
-    <Section>
-      <div className="max-w-7xl mx-auto">
-        {(title || description) && (
-          <div className="text-center mb-16">
-            {title && (
-              <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 retro-text-shadow">
-                {title}
-              </h2>
-            )}
-            {description && (
-              <p className="text-xl text-gray-700 max-w-3xl mx-auto font-bold">
-                {description}
-              </p>
-            )}
-          </div>
-        )}
+    <BackgroundWrapper backgroundImage={backgroundImage}>
+      <Section background={backgroundImage ? 'transparent' : 'white'}>
+        <div className="max-w-7xl mx-auto">
+          {(title || description) && (
+            <div className="text-center mb-16">
+              {title && (
+                <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 retro-text-shadow">
+                  {title}
+                </h2>
+              )}
+              {description && (
+                <p className="text-xl text-gray-700 max-w-3xl mx-auto font-bold">
+                  {description}
+                </p>
+              )}
+            </div>
+          )}
 
-        <div className={`gap-8 ${layout === 'grid' ? 'grid md:grid-cols-2 lg:grid-cols-3' : 'space-y-8'}`}>
-          {posts.map((post) => (
-            <Link key={post._id} href={`/blog/${post.slug.current}`}>
-              <Card variant="retro" className="h-full group transition-all duration-300 overflow-hidden hover:-translate-y-1">
-                <div className={`relative overflow-hidden ${layout === 'list' ? 'h-64 md:h-80' : 'h-64'} border-b-4 border-black`}>
-                  <Image
-                    src={urlFor(post.featuredImage).width(600).height(400).url()}
-                    alt={post.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  {post.categories && post.categories.length > 0 && (
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-[var(--brand-secondary)] border-3 border-black px-4 py-2 text-sm font-black text-black shadow-sm">
-                        {post.categories[0]}
+          <div className={`gap-8 ${layout === 'grid' ? 'grid md:grid-cols-2 lg:grid-cols-3' : 'space-y-8'}`}>
+            {posts.map((post) => (
+              <Link key={post._id} href={`/blog/${post.slug.current}`}>
+                <Card variant="retro" className="h-full group transition-all duration-300 overflow-hidden hover:-translate-y-1">
+                  <div className={`relative overflow-hidden ${layout === 'list' ? 'h-64 md:h-80' : 'h-64'} border-b-4 border-black`}>
+                    <Image
+                      src={urlFor(post.featuredImage).width(600).height(400).url()}
+                      alt={post.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                    {post.categories && post.categories.length > 0 && (
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-(--brand-secondary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-sm">
+                          {post.categories[0]}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6 bg-white">
+                    <div className="flex items-center text-sm font-bold text-gray-600 mb-3">
+                      {post.author && (
+                        <span className="mr-4">{post.author.name}</span>
+                      )}
+                      <span>
+                        {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
                       </span>
                     </div>
-                  )}
-                </div>
-                <div className="p-6 bg-white">
-                  <div className="flex items-center text-sm font-bold text-gray-600 mb-3">
-                    {post.author && (
-                      <span className="mr-4">{post.author.name}</span>
-                    )}
-                    <span>
-                      {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </span>
+                    <h3 className="text-2xl font-black text-gray-900 mb-3 group-hover:text-(--brand-primary) transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="text-gray-700 line-clamp-3 font-medium">{post.excerpt}</p>
                   </div>
-                  <h3 className="text-2xl font-black text-gray-900 mb-3 group-hover:text-[var(--brand-primary)] transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-gray-700 line-clamp-3 font-medium">{post.excerpt}</p>
-                </div>
-              </Card>
-            </Link>
-          ))}
+                </Card>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
-    </Section>
+      </Section>
+    </BackgroundWrapper>
   )
 }

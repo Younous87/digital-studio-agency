@@ -1,14 +1,14 @@
 import { defineType, defineField } from 'sanity'
 
 export default defineType({
-  name: 'ourValues',
-  title: 'Our Values',
+  name: 'featuresSection',
+  title: 'Features Section',
   type: 'object',
   fields: [
     defineField({ name: 'title', title: 'Title', type: 'string' }),
     defineField({
-      name: 'values',
-      title: 'Values',
+      name: 'features',
+      title: 'Features',
       type: 'array',
       of: [
         {
@@ -16,18 +16,10 @@ export default defineType({
           fields: [
             { name: 'title', title: 'Title', type: 'string' },
             { name: 'description', title: 'Description', type: 'text' },
-            { name: 'icon', title: 'Icon (optional)', type: 'string' },
+            { name: 'icon', title: 'Icon (optional)', type: 'image' },
           ]
         }
       ]
-    }),
-    defineField({
-      name: 'backgroundColor',
-      title: 'Background Color',
-      type: 'color',
-      options: {
-        disableAlpha: true
-      }
     }),
     defineField({
       name: 'backgroundImage',
@@ -40,6 +32,6 @@ export default defineType({
   ],
   preview: {
     select: { title: 'title' },
-    prepare(selection) { return { title: 'Our Values', subtitle: selection.title } }
+    prepare(selection) { return { title: 'Features Section', subtitle: selection.title } }
   }
 })

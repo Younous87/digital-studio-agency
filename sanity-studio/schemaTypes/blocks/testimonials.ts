@@ -46,6 +46,14 @@ export default defineType({
       },
       initialValue: 'carousel',
     },
+    {
+      name: 'backgroundImage',
+      title: 'Background Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
   ],
   preview: {
     select: {

@@ -77,9 +77,6 @@ export default function Footer({
           {/* Company Info */}
           <div>
             <h3 className="text-foreground text-3xl font-black mb-4 flex items-center gap-2">
-              <div className="w-10 h-10 bg-brand-primary border-2 border-black rounded-lg flex items-center justify-center shadow-sm">
-                <span className="text-white text-xl font-black">DS</span>
-              </div>
               {displayCompanyName}
             </h3>
             {displayFooterText && (

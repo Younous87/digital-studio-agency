@@ -8,6 +8,8 @@ import { Card } from '@/components/retroui/Card'
 import { Button } from '@/components/retroui/Button'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
 import { urlFor } from '@/lib/sanity/image'
+import BlockRenderer from '@/components/blocks/BlockRenderer'
+import ScrollReveal from '@/components/ui/ScrollReveal'
 
 export const revalidate = 60
 
@@ -61,53 +63,6 @@ export default async function ServicePage({ params }: Readonly<{ params: Promise
         </Section>
       )}
 
-      {/* Features */}
-      {service.features && service.features.length > 0 && (
-        <Section background="gray">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-            What's Included
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {service.features.map((feature: any, index: number) => (
-              <Card key={`${feature.title}-${index}`} variant="default">
-                <div className="p-6">
-                  <h3 className="text-xl font-black text-black mb-3">
-                    {feature.title}
-                  </h3>
-                  <p className="text-black font-medium">{feature.description}</p>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </Section>
-      )}
-
-      {/* Process Steps */}
-      {service.processSteps && service.processSteps.length > 0 && (
-        <Section>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-            Our Process
-          </h2>
-          <div className="space-y-8 max-w-4xl mx-auto">
-            {service.processSteps.map((step: any, index: number) => (
-              <div key={`${step.title}-${index}`} className="flex gap-6">
-                <div className="shrink-0">
-                  <div className="w-12 h-12 bg-(--brand-primary) border-3 border-black text-black rounded-none flex items-center justify-center text-xl font-black shadow-sm">
-                    {step.step}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-black text-black mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-black font-medium">{step.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Section>
-      )}
-
       {/* Related Projects */}
       {service.relatedProjects && service.relatedProjects.length > 0 && (
         <Section background="gray">
@@ -138,6 +93,13 @@ export default async function ServicePage({ params }: Readonly<{ params: Promise
           </div>
         </Section>
       )}
+
+      {/* Page Builder Blocks */}
+      {service.pageBuilder?.map((block: any, index: number) => (
+        <ScrollReveal key={block._key || block._id || `${block._type}-${index}`}>
+          <BlockRenderer block={block} index={index} />
+        </ScrollReveal>
+      ))}
 
       {/* CTA Section */}
       {service.cta && (

@@ -8,6 +8,12 @@ import ServicesOverview from '@/components/blocks/ServicesGrid'
 import Testimonials from '@/components/blocks/TestimonialCarousel'
 import CTASection from '@/components/blocks/CTASection'
 import StatsSection from '@/components/blocks/AnimatedStats'
+import BackgroundWrapper from '@/components/blocks/BackgroundWrapper'
+import FeaturesSection from '@/components/blocks/FeaturesSection'
+import ProcessSection from '@/components/blocks/ProcessSection'
+import ServiceListBlock from '@/components/blocks/ServiceListBlock'
+import BlogPostsBlock from '@/components/blocks/BlogPostsBlock'
+import ContactFormSection from '@/components/blocks/ContactFormSection'
 
 type PageBlock = {
   _type: string
@@ -30,6 +36,7 @@ type PageBlock = {
   secondaryCta?: { text?: string; link?: string }
   primaryCta?: { text?: string; link?: string }
   backgroundImage?: Record<string, unknown>
+  sectionBackgroundImage?: Record<string, unknown>
   backgroundVideo?: Record<string, unknown>
   background?: {
     type: 'color' | 'image' | 'video'
@@ -45,6 +52,12 @@ type PageBlock = {
   }
   image?: Record<string, unknown>
   imagePosition?: string
+  features?: Array<Record<string, unknown>>
+  steps?: Array<Record<string, unknown>>
+  contactInfo?: any
+  formTitle?: string
+  formDescription?: string
+  submitButtonText?: string
 }
 
 interface BlockRendererProps {
@@ -52,7 +65,7 @@ interface BlockRendererProps {
   index: number
 }
 
-export default function BlockRenderer({ block, index }: BlockRendererProps) {
+export default function BlockRenderer({ block, index }: Readonly<BlockRendererProps>) {
   switch (block._type) {
     case 'hero':
       return (
@@ -64,6 +77,7 @@ export default function BlockRenderer({ block, index }: BlockRendererProps) {
           secondaryCta={block.secondaryCta ? { text: String(block.secondaryCta.text ?? ''), link: String(block.secondaryCta.link ?? '') } : undefined}
           backgroundImage={block.backgroundImage}
           backgroundVideo={typeof block.backgroundVideo === 'string' ? block.backgroundVideo : undefined}
+          sectionBackgroundImage={block.sectionBackgroundImage}
         />
       )
     case 'pageHero':
@@ -84,6 +98,7 @@ export default function BlockRenderer({ block, index }: BlockRendererProps) {
           description={block.description}
           layout={block.layout as 'grid' | 'masonry' | 'carousel' | undefined}
           projects={block.projects as any}
+          backgroundImage={block.backgroundImage}
         />
       )
     case 'servicesOverview':
@@ -94,6 +109,7 @@ export default function BlockRenderer({ block, index }: BlockRendererProps) {
           description={block.description}
           layout={block.layout as 'grid' | 'list' | undefined}
           services={block.services as any}
+          backgroundImage={block.backgroundImage}
         />
       )
     case 'testimonials':
@@ -104,6 +120,7 @@ export default function BlockRenderer({ block, index }: BlockRendererProps) {
           description={block.description}
           layout={block.layout as 'grid' | 'carousel' | undefined}
           testimonials={block.testimonials as any}
+          backgroundImage={block.backgroundImage}
         />
       )
     case 'ctaSection':
@@ -126,26 +143,28 @@ export default function BlockRenderer({ block, index }: BlockRendererProps) {
         textOrder = isRightPosition ? 'order-1' : 'order-2'
       }
       return (
-        <FullScreenSection key={block._key || block._id || `${block._type}-${index}`}>
-          <div className="max-w-6xl mx-auto">
-            <div className="grid gap-12 lg:grid-cols-2">
-              {hasImage && block.imagePosition === 'left' && (
-                <div className="order-1">
-                  {/* Image component would go here */}
+        <BackgroundWrapper key={block._key || block._id || `${block._type}-${index}`} backgroundImage={block.backgroundImage}>
+          <FullScreenSection background={block.backgroundImage ? 'transparent' : 'white'}>
+            <div className="max-w-6xl mx-auto">
+              <div className="grid gap-12 lg:grid-cols-2">
+                {hasImage && block.imagePosition === 'left' && (
+                  <div className="order-1">
+                    {/* Image component would go here */}
+                  </div>
+                )}
+                <div className={textOrder}>
+                  {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">{block.title}</h2>}
+                  {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
                 </div>
-              )}
-              <div className={textOrder}>
-                {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">{block.title}</h2>}
-                {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
+                {hasImage && block.imagePosition === 'right' && (
+                  <div className="order-2">
+                    {/* Image component would go here */}
+                  </div>
+                )}
               </div>
-              {hasImage && block.imagePosition === 'right' && (
-                <div className="order-2">
-                  {/* Image component would go here */}
-                </div>
-              )}
             </div>
-          </div>
-        </FullScreenSection>
+          </FullScreenSection>
+        </BackgroundWrapper>
       )
     }
     case 'statsSection':
@@ -154,16 +173,67 @@ export default function BlockRenderer({ block, index }: BlockRendererProps) {
           key={block._key || block._id || `${block._type}-${index}`}
           title={block.title}
           stats={block.stats as any}
+          backgroundImage={block.backgroundImage}
         />
       )
     case 'aboutSection':
       return (
-        <FullScreenSection key={block._key || block._id || `${block._type}-${index}`}>
-          <div className="max-w-4xl mx-auto">
-            {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 text-center retro-text-shadow">{block.title}</h2>}
-            {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
-          </div>
-        </FullScreenSection>
+        <BackgroundWrapper key={block._key || block._id || `${block._type}-${index}`} backgroundImage={block.backgroundImage}>
+          <FullScreenSection background={block.backgroundImage ? 'transparent' : 'white'}>
+            <div className="max-w-4xl mx-auto">
+              {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 text-center retro-text-shadow">{block.title}</h2>}
+              {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
+            </div>
+          </FullScreenSection>
+        </BackgroundWrapper>
+      )
+    case 'featuresSection':
+      return (
+        <FeaturesSection
+          key={block._key || block._id || `${block._type}-${index}`}
+          title={block.title}
+          features={block.features as any}
+          backgroundImage={block.backgroundImage}
+        />
+      )
+    case 'processSection':
+      return (
+        <ProcessSection
+          key={block._key || block._id || `${block._type}-${index}`}
+          title={block.title}
+          steps={block.steps as any}
+          backgroundImage={block.backgroundImage}
+        />
+      )
+    case 'serviceList':
+      return (
+        <ServiceListBlock
+          key={block._key || block._id || `${block._type}-${index}`}
+          title={block.title}
+          description={block.description}
+          layout={block.layout as 'grid' | 'list' | undefined}
+          services={block.services as any}
+          backgroundColor={block.backgroundColor}
+          backgroundImage={block.backgroundImage}
+        />
+      )
+    case 'blogPosts':
+      return (
+        <BlogPostsBlock
+          key={block._key || block._id || `${block._type}-${index}`}
+          title={block.title}
+          description={block.description}
+          layout={block.layout as 'grid' | 'list' | undefined}
+          posts={block.projects as any} // Note: reusing projects prop name from query alias if needed, but query maps to 'posts'
+          backgroundImage={block.backgroundImage}
+        />
+      )
+    case 'contactForm':
+      return (
+        <ContactFormSection
+          key={block._key || block._id || `${block._type}-${index}`}
+          block={block as any}
+        />
       )
     default:
       return null

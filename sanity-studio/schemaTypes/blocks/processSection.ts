@@ -1,33 +1,25 @@
 import { defineType, defineField } from 'sanity'
 
 export default defineType({
-  name: 'ourValues',
-  title: 'Our Values',
+  name: 'processSection',
+  title: 'Process Section',
   type: 'object',
   fields: [
     defineField({ name: 'title', title: 'Title', type: 'string' }),
     defineField({
-      name: 'values',
-      title: 'Values',
+      name: 'steps',
+      title: 'Steps',
       type: 'array',
       of: [
         {
           type: 'object',
           fields: [
+            { name: 'step', title: 'Step Number', type: 'string' },
             { name: 'title', title: 'Title', type: 'string' },
             { name: 'description', title: 'Description', type: 'text' },
-            { name: 'icon', title: 'Icon (optional)', type: 'string' },
           ]
         }
       ]
-    }),
-    defineField({
-      name: 'backgroundColor',
-      title: 'Background Color',
-      type: 'color',
-      options: {
-        disableAlpha: true
-      }
     }),
     defineField({
       name: 'backgroundImage',
@@ -40,6 +32,6 @@ export default defineType({
   ],
   preview: {
     select: { title: 'title' },
-    prepare(selection) { return { title: 'Our Values', subtitle: selection.title } }
+    prepare(selection) { return { title: 'Process Section', subtitle: selection.title } }
   }
 })

@@ -38,6 +38,7 @@ import AboutStoryBlock from '@/components/blocks/AboutStoryBlock'
 import AboutValuesBlock from '@/components/blocks/AboutValuesBlock'
 import MeetOurTeamBlock from '@/components/blocks/MeetOurTeamBlock'
 import PageHeroBlock from '@/components/blocks/PageHeroBlock'
+import BackgroundWrapper from '@/components/blocks/BackgroundWrapper'
 
 export const revalidate = 60
 
@@ -92,19 +93,21 @@ export default async function AboutPage() {
                 />
               )
             case 'ourStory':
-              return <AboutStoryBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} content={block.content} backgroundColor={block.backgroundColor} />
+              return <AboutStoryBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} content={block.content} backgroundColor={block.backgroundColor} backgroundImage={block.backgroundImage} />
             case 'ourValues':
-              return <AboutValuesBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} values={block.values as any[]} backgroundColor={block.backgroundColor} />
+              return <AboutValuesBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} values={block.values as any[]} backgroundColor={block.backgroundColor} backgroundImage={block.backgroundImage} />
             case 'meetOurTeam':
-              return <MeetOurTeamBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} showTeam={block.showTeam} members={(block.teamMembers || block.members || team) as any[]} backgroundColor={block.backgroundColor} />
+              return <MeetOurTeamBlock key={block._key || block._id || `${block._type}-${index}`} title={block.title} showTeam={block.showTeam} members={(block.teamMembers || block.members || team) as any[]} backgroundColor={block.backgroundColor} backgroundImage={block.backgroundImage} />
             case 'aboutSection':
               return (
-                <FullScreenSection key={block._key || block._id || `${block._type}-${index}`}>
-                  <div className="max-w-4xl mx-auto">
-                    {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 text-center retro-text-shadow">{block.title}</h2>}
-                    {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
-                  </div>
-                </FullScreenSection>
+                <BackgroundWrapper key={block._key || block._id || `${block._type}-${index}`} backgroundImage={block.backgroundImage}>
+                  <FullScreenSection background={block.backgroundImage ? 'transparent' : 'white'}>
+                    <div className="max-w-4xl mx-auto">
+                      {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 text-center retro-text-shadow">{block.title}</h2>}
+                      {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
+                    </div>
+                  </FullScreenSection>
+                </BackgroundWrapper>
               )
             default:
               return null

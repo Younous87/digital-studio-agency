@@ -4,13 +4,13 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import FullScreenSection from '../ui/FullScreenSection'
+import BackgroundWrapper from './BackgroundWrapper'
 import { Card } from '../retroui/Card'
 import { Badge } from '../retroui/Badge'
 import { Dialog } from '../retroui/Dialog'
 import { Button } from '../retroui/Button'
 import { urlFor } from '@/lib/sanity/image'
 import { Eye, ExternalLink, Calendar } from 'lucide-react'
-import { Separator } from '../ui/separator'
 
 interface Project {
   _id: string
@@ -28,37 +28,41 @@ interface ProjectGridProps {
   description?: string
   projects: Project[]
   layout?: 'grid' | 'masonry' | 'carousel'
+  backgroundImage?: any
 }
 
 export default function ProjectGrid({
   title,
   description,
   projects,
-  layout = 'grid'
+  layout = 'grid',
+  backgroundImage
 }: Readonly<ProjectGridProps>) {
   return (
-    <FullScreenSection>
-      {(title || description) && (
-        <div className="text-center mb-16 relative">
-          {title && (
-            <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 retro-text-shadow">
-              {title}
-            </h2>
-          )}
-          {description && (
-            <p className="text-xl text-black max-w-3xl mx-auto font-bold">
-              {description}
-            </p>
-          )}
-        </div>
-      )}
+    <BackgroundWrapper backgroundImage={backgroundImage}>
+      <FullScreenSection background={backgroundImage ? 'transparent' : 'white'}>
+        {(title || description) && (
+          <div className="text-center mb-16 relative">
+            {title && (
+              <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 retro-text-shadow">
+                {title}
+              </h2>
+            )}
+            {description && (
+              <p className="text-xl text-black max-w-3xl mx-auto font-bold">
+                {description}
+              </p>
+            )}
+          </div>
+        )}
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {projects.map((project) => (
-          <ProjectCard key={project._id} project={project} />
-        ))}
-      </div>
-    </FullScreenSection>
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <ProjectCard key={project._id} project={project} />
+          ))}
+        </div>
+      </FullScreenSection>
+    </BackgroundWrapper>
   )
 }
 
@@ -72,7 +76,7 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
         <Dialog.Trigger asChild>
           <div className="cursor-pointer relative">
             {project.featuredImage && (
-              <div className="relative h-64 overflow-hidden bg-[var(--brand-secondary)]">
+              <div className="relative h-64 overflow-hidden bg-(--brand-secondary)">
                 <Image
                   src={urlFor(project.featuredImage).width(600).height(400).url()}
                   alt={project.title}
@@ -83,11 +87,11 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
                   onLoad={() => setImageLoaded(true)}
                 />
                 {!imageLoaded && (
-                  <div className="absolute inset-0 animate-pulse bg-[var(--brand-accent)]" />
+                  <div className="absolute inset-0 animate-pulse bg-(--brand-accent)" />
                 )}
 
                 {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-[var(--brand-primary)]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />                {/* Categories badges */}
+                <div className="absolute inset-0 bg-(--brand-primary)/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />                {/* Categories badges */}
                 {project.categories && project.categories.length > 0 && (
                   <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
                     {project.categories.slice(0, 3).map((category) => (
@@ -113,12 +117,12 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
         {/* Card content with link to full project */}
         <Link href={`/work/${project.slug.current}`}>
           <Card.Header className="p-6">
-              <Card.Title className="text-2xl font-black group-hover:text-[var(--brand-primary)] transition-colors mb-2">
+              <Card.Title className="text-2xl font-black group-hover:text-(--brand-primary) transition-colors mb-2">
               {project.title}
             </Card.Title>
             {project.clientName && (
               <Card.Description className="flex items-center gap-2 text-black font-bold">
-                <span className="text-[var(--brand-primary)]">CLIENT:</span> {project.clientName}
+                <span className="text-(--brand-primary)">CLIENT:</span> {project.clientName}
               </Card.Description>
             )}
           </Card.Header>

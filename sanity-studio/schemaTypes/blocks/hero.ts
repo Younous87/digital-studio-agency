@@ -53,7 +53,15 @@ export default defineType({
     },
     {
       name: 'backgroundImage',
-      title: 'Background Image',
+      title: 'Frame Background Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
+      name: 'sectionBackgroundImage',
+      title: 'Section Background Image',
       type: 'image',
       options: {
         hotspot: true,

@@ -3,10 +3,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import FullScreenSection from '../ui/FullScreenSection'
+import BackgroundWrapper from './BackgroundWrapper'
 import { Tabs, TabsContent, TabsTriggerList, TabsTrigger, TabsPanels } from '../retroui/Tab'
 import { Card } from '../retroui/Card'
 import { urlFor } from '@/lib/sanity/image'
-import { ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 interface Service {
   _id: string
@@ -22,71 +23,75 @@ interface ServicesGridProps {
   description?: string
   services: Service[]
   layout?: 'grid' | 'carousel' | 'list'
+  backgroundImage?: any
 }
 
 export default function ServicesGrid({
   title,
   description,
   services,
-  layout = 'grid'
+  layout = 'grid',
+  backgroundImage
 }: Readonly<ServicesGridProps>) {
   // Group services by category if they have one
   const categories = [...new Set(services.map(s => s.category || 'All Services').filter(Boolean))]
   const hasCategories = categories.length > 1 && services.some(s => s.category)
 
   return (
-    <FullScreenSection background="white">
-      {(title || description) && (
-        <div className="text-center mb-16 animate-fade-in">
-          {title && (
-            <h2 className="text-4xl md:text-6xl font-black text-foreground mb-6 flex items-center justify-center gap-3">
-              {title}
-            </h2>
-          )}
-          {description && (
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-bold">
-              {description}
-            </p>
-          )}
-        </div>
-      )}
+    <BackgroundWrapper backgroundImage={backgroundImage}>
+      <FullScreenSection background={backgroundImage ? 'transparent' : 'white'}>
+        {(title || description) && (
+          <div className="text-center mb-16 animate-fade-in">
+            {title && (
+              <h2 className="text-4xl md:text-6xl font-black text-foreground mb-6 flex items-center justify-center gap-3">
+                {title}
+              </h2>
+            )}
+            {description && (
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-bold">
+                {description}
+              </p>
+            )}
+          </div>
+        )}
 
-      {hasCategories ? (
-        <Tabs defaultIndex={0} className="w-full">
-          <TabsTriggerList className="mb-12 flex justify-center flex-wrap h-auto gap-3 bg-transparent">
-            {categories.map((category) => (
-              <TabsTrigger 
-                key={category} 
-                className="border-2 border-black bg-muted data-selected:bg-brand-secondary data-selected:shadow-md px-6 py-3 rounded-lg font-black text-base"
-              >
-                {category}
-              </TabsTrigger>
+        {hasCategories ? (
+          <Tabs defaultIndex={0} className="w-full">
+            <TabsTriggerList className="mb-12 flex justify-center flex-wrap h-auto gap-3 bg-transparent">
+              {categories.map((category) => (
+                <TabsTrigger 
+                  key={category} 
+                  className="border-2 border-black bg-muted data-selected:bg-brand-secondary data-selected:shadow-md px-6 py-3 rounded-lg font-black text-base"
+                >
+                  {category}
+                </TabsTrigger>
+              ))}
+            </TabsTriggerList>
+            <TabsPanels>
+              {categories.map((category) => (
+                <TabsContent key={category}>
+                  <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    {services
+                      .filter(s => (s.category || 'All Services') === category)
+                      .map((service) => (
+                        <ServiceCard key={service._id} service={service} />
+                      ))}
+                  </div>
+                </TabsContent>
+              ))}
+            </TabsPanels>
+          </Tabs>
+        ) : (
+          <div className={`grid gap-8 ${
+            layout === 'grid' ? 'md:grid-cols-2 lg:grid-cols-3' : 'md:grid-cols-1'
+          }`}>
+            {services.map((service) => (
+              <ServiceCard key={service._id} service={service} />
             ))}
-          </TabsTriggerList>
-          <TabsPanels>
-            {categories.map((category) => (
-              <TabsContent key={category}>
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                  {services
-                    .filter(s => (s.category || 'All Services') === category)
-                    .map((service) => (
-                      <ServiceCard key={service._id} service={service} />
-                    ))}
-                </div>
-              </TabsContent>
-            ))}
-          </TabsPanels>
-        </Tabs>
-      ) : (
-        <div className={`grid gap-8 ${
-          layout === 'grid' ? 'md:grid-cols-2 lg:grid-cols-3' : 'md:grid-cols-1'
-        }`}>
-          {services.map((service) => (
-            <ServiceCard key={service._id} service={service} />
-          ))}
-        </div>
-      )}
-    </FullScreenSection>
+          </div>
+        )}
+      </FullScreenSection>
+    </BackgroundWrapper>
   )
 }
 
@@ -97,7 +102,7 @@ function ServiceCard({ service }: Readonly<{ service: Service }>) {
         <Card.Header>
           <div className="flex items-start justify-between mb-4">
             {service.icon && (
-              <div className="p-4 border-1 border-black rounded-xl group-hover:bg-brand-accent transition-all shadow-sm group-hover:rotate-6">
+              <div className="p-4 border border-black rounded-xl group-hover:bg-brand-accent transition-all shadow-sm group-hover:rotate-6">
                 <Image
                   src={urlFor(service.icon).width(80).url()}
                   alt={service.title}

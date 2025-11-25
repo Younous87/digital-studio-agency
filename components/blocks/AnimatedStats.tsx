@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import FullScreenSection from '../ui/FullScreenSection'
+import BackgroundWrapper from './BackgroundWrapper'
 import { Card } from '../retroui/Card'
 import { TrendingUp, Users, Award, Briefcase } from 'lucide-react'
 
@@ -15,6 +16,7 @@ interface Stat {
 interface AnimatedStatsProps {
   title?: string
   stats: Stat[]
+  backgroundImage?: any
 }
 
 const iconMap = {
@@ -24,7 +26,7 @@ const iconMap = {
   briefcase: Briefcase,
 }
 
-export default function AnimatedStats({ title, stats }: Readonly<AnimatedStatsProps>) {
+export default function AnimatedStats({ title, stats, backgroundImage }: Readonly<AnimatedStatsProps>) {
   const [isVisible, setIsVisible] = useState(false)
   const [animatedValues, setAnimatedValues] = useState<string[]>([])
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -94,59 +96,63 @@ export default function AnimatedStats({ title, stats }: Readonly<AnimatedStatsPr
   }, [isVisible, stats])
 
   return (
-    <FullScreenSection background="dark">
-      <div ref={sectionRef} className="relative">
-        {/* Pattern background */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 20px, white 20px, white 21px), repeating-linear-gradient(90deg, transparent, transparent 20px, white 20px, white 21px)',
-          }} />
-        </div>
+    <BackgroundWrapper backgroundImage={backgroundImage}>
+      <FullScreenSection background={backgroundImage ? 'transparent' : 'dark'}>
+        <div ref={sectionRef} className="relative">
+          {/* Pattern background - only show if no background image */}
+          {!backgroundImage && (
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute inset-0" style={{
+                backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 20px, white 20px, white 21px), repeating-linear-gradient(90deg, transparent, transparent 20px, white 20px, white 21px)',
+              }} />
+            </div>
+          )}
 
-        {title && (
-          <h2 className="text-3xl md:text-5xl font-black text-center mb-16 text-white retro-text-shadow relative">
-            {title}
-          </h2>
-        )}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 relative">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon ? iconMap[stat.icon] : null
+          {title && (
+            <h2 className="text-3xl md:text-5xl font-black text-center mb-16 text-white retro-text-shadow relative">
+              {title}
+            </h2>
+          )}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 relative">
+            {stats.map((stat, index) => {
+              const Icon = stat.icon ? iconMap[stat.icon] : null
 
-            return (
-              <Card 
-                key={`stat-${stat.label}-${index}`}
-                variant="retro"
-                className="text-center"
-              >
-                <Card.Content className="p-6">
-                  {Icon && (
-                    <div className="flex justify-center mb-4">
-                      <div className="p-3 bg-[var(--brand-accent)] border-2 border-black -rotate-6">
-                        <Icon className="w-8 h-8 text-black" strokeWidth={2} />
+              return (
+                <Card 
+                  key={`stat-${stat.label}-${index}`}
+                  variant="retro"
+                  className="text-center"
+                >
+                  <Card.Content className="p-6">
+                    {Icon && (
+                      <div className="flex justify-center mb-4">
+                        <div className="p-3 bg-(--brand-accent) border-2 border-black -rotate-6">
+                          <Icon className="w-8 h-8 text-black" strokeWidth={2} />
+                        </div>
                       </div>
+                    )}
+                    {!isVisible ? (
+                      <div className="h-12 w-24 mx-auto mb-2 bg-gray-200 animate-pulse rounded" />
+                    ) : (
+                      <div className="text-5xl md:text-6xl font-black mb-2 text-black">
+                        {animatedValues[index] || stat.value}
+                      </div>
+                    )}
+                    <div className="text-lg md:text-xl font-bold mb-2 text-gray-900">
+                      {stat.label}
                     </div>
-                  )}
-                  {!isVisible ? (
-                    <div className="h-12 w-24 mx-auto mb-2 bg-gray-200 animate-pulse rounded" />
-                  ) : (
-                    <div className="text-5xl md:text-6xl font-black mb-2 text-black">
-                      {animatedValues[index] || stat.value}
-                    </div>
-                  )}
-                  <div className="text-lg md:text-xl font-bold mb-2 text-gray-900">
-                    {stat.label}
-                  </div>
-                  {stat.description && (
-                    <p className="text-sm text-gray-700">
-                      {stat.description}
-                    </p>
-                  )}
-                </Card.Content>
-              </Card>
-            )
-          })}
+                    {stat.description && (
+                      <p className="text-sm text-gray-700">
+                        {stat.description}
+                      </p>
+                    )}
+                  </Card.Content>
+                </Card>
+              )
+            })}
+          </div>
         </div>
-      </div>
-    </FullScreenSection>
+      </FullScreenSection>
+    </BackgroundWrapper>
   )
 }

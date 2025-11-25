@@ -93,7 +93,15 @@ export default defineType({
       title: 'Submit Button Text',
       type: 'string',
       initialValue: 'Send Message'
-    })
+    }),
+    defineField({
+      name: 'backgroundImage',
+      title: 'Background Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    }),
   ],
   preview: {
     select: {

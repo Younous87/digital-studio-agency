@@ -193,6 +193,32 @@ export const serviceBySlugQuery = `*[_type == "service" && slug.current == $slug
     shortDescription
   },
   cta,
+  pageBuilder[]{
+    _type,
+    _type == "hero" => {
+      headline, subheadline, cta, secondaryCta, backgroundImage, backgroundVideo, sectionBackgroundImage
+    },
+    _type == "servicesOverview" => {
+      title, description, layout, "services": services[]->{ _id, title, slug, shortDescription, icon }, backgroundImage
+    },
+    _type == "featuredProjects" => {
+      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories }), backgroundImage
+    },
+    _type == "testimonials" => {
+      title, description, layout, showFeatured, "testimonials": select(showFeatured == true => *[_type == "testimonial" && featured == true]{ _id, clientName, company, role, quote, photo, rating }, testimonials[]->{ _id, clientName, company, role, quote, photo, rating }), backgroundImage
+    },
+    _type == "aboutSection" => {
+      title, content, image, imagePosition, cta, backgroundImage
+    },
+    _type == "ctaSection" => { title, description, primaryCta, secondaryCta, backgroundImage, backgroundColor },
+    _type == "textImageBlock" => { title, content, image, imagePosition, cta, backgroundImage },
+    _type == "statsSection" => { title, stats, backgroundImage },
+    _type == "featuresSection" => { title, features, backgroundImage },
+    _type == "processSection" => { title, steps, backgroundImage },
+    _type == "contactForm" => { title, description, contactInfo, formTitle, formDescription, submitButtonText, backgroundImage },
+    _type == "serviceList" => { title, description, layout, showAll, "services": select(showAll == true => *[_type == "service"]{ _id, title, slug, shortDescription, icon }, services[]->{ _id, title, slug, shortDescription, icon }), backgroundColor, backgroundImage },
+    _type == "blogPosts" => { title, description, layout, showFeatured, "posts": select(showFeatured == true => *[_type == "post" && featured == true] | order(publishedAt desc) { _id, title, slug, excerpt, featuredImage, publishedAt, "author": author->{ name, role, photo }, categories, tags }, posts[]->{ _id, title, slug, excerpt, featuredImage, publishedAt, "author": author->{ name, role, photo }, categories, tags }), backgroundImage }
+  },
   seo
 }`
 
