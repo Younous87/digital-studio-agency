@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from '@/components/retroui/Button'
 import Link from 'next/link'
+import FullScreenSection from '@/components/ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
 
 interface ServiceCtaSectionProps {
@@ -20,7 +21,13 @@ export default function ServiceCtaSection({
 }: Readonly<ServiceCtaSectionProps>) {
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
-      <section className={`py-20 ${backgroundImage ? 'bg-transparent' : 'bg-gray-900'}`}>
+      <FullScreenSection
+        background="transparent"
+        minHeight="auto"
+        verticalAlign="center"
+        horizontalAlign="center"
+        className="py-20"
+      >
         <div className="max-w-3xl mx-auto text-center">
           <div className={`p-12 border-4 border-black shadow-lg ${backgroundImage ? 'bg-white bg-opacity-95' : 'bg-white'}`}>
             {title && (
@@ -42,7 +49,7 @@ export default function ServiceCtaSection({
             )}
           </div>
         </div>
-      </section>
+      </FullScreenSection>
     </BackgroundWrapper>
   )
 }

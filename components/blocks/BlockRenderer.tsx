@@ -60,6 +60,8 @@ type PageBlock = {
   formTitle?: string
   formDescription?: string
   submitButtonText?: string
+  buttonText?: string
+  buttonLink?: string
 }
 
 interface BlockRendererProps {
@@ -211,7 +213,7 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
       return (
         <FullDescriptionSection
           key={block._key || block._id || `${block._type}-${index}`}
-          content={block.content}
+          content={block.content as any}
           backgroundImage={block.backgroundImage}
         />
       )

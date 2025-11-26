@@ -1,4 +1,4 @@
-import { ElementType, HTMLAttributes } from "react";
+import { ElementType, HTMLAttributes, forwardRef } from "react";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -27,11 +27,11 @@ interface TextProps
   className?: string;
 }
 
-export const Text = (props: TextProps) => {
+export const Text = forwardRef<HTMLElement, TextProps>((props, ref) => {
   const { className, as, ...otherProps } = props;
   const Tag: ElementType = as || "p";
 
   return (
-    <Tag className={cn(textVariants({ as }), className)} {...otherProps} />
+    <Tag ref={ref as any} className={cn(textVariants({ as }), className)} {...otherProps} />
   );
-};
+});

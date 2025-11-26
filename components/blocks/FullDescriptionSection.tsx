@@ -1,5 +1,5 @@
 import React from 'react'
-import Container from '@/components/ui/Container'
+import FullScreenSection from '@/components/ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
 import RichTextRenderer from './RichTextRenderer'
 
@@ -11,11 +11,17 @@ interface FullDescriptionSectionProps {
 export default function FullDescriptionSection({ content, backgroundImage }: Readonly<FullDescriptionSectionProps>) {
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
-      <section className={`py-20 ${backgroundImage ? 'bg-transparent' : 'bg-white'}`}>
-        <Container>
+      <FullScreenSection
+        background="transparent"
+        minHeight="auto"
+        verticalAlign="start"
+        horizontalAlign="center"
+        className="py-20"
+      >
+        <div className="max-w-4xl mx-auto text-center">
           {content && <RichTextRenderer content={content} />}
-        </Container>
-      </section>
+        </div>
+      </FullScreenSection>
     </BackgroundWrapper>
   )
 }
