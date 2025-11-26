@@ -182,6 +182,33 @@ Set up Sanity webhooks to trigger rebuilds:
 3. Get deploy hook from Vercel:
    - Project Settings > Git > Deploy Hooks
 
+   ### On-demand Incremental Revalidation (recommended)
+
+   Instead of triggering a full site redeploy, you can configure Sanity to POST a notification to a Next.js API route that revalidates only the pages affected by the content change.
+
+   1. Add `SANITY_WEBHOOK_SECRET` env var to Vercel (Settings → Environment Variables). Use a strong secret value.
+   2. Create a Sanity webhook (Project > API > Webhooks) with a target URL like:
+       `https://your-site.vercel.app/api/revalidate?secret=YOUR_SECRET_VALUE`
+       - Trigger on: Create, Update, Delete
+       - Optional: Use the `types` filter for only selected document types: `project`, `service`, `blogPost`, etc.
+   3. When you publish a change in the Studio, Sanity will POST the changed document to the `/api/revalidate` endpoint; Next.js will revalidate the specific pages (e.g., the item slug and the listing pages) so updates are visible instantly without a full rebuild.
+
+   To test the endpoint locally or from your terminal run:
+
+   ```bash
+   # Local dev (if running locally with `vercel dev` or `next dev`):
+   curl -X POST "http://localhost:3000/api/revalidate?secret=YOUR_SECRET_VALUE" \
+      -H "Content-Type: application/json" \
+      -d '{"document": {"_type": "project", "slug": {"current": "my-slug"}}}'
+
+   # Remote (after deployment):
+   curl -X POST "https://your-site.vercel.app/api/revalidate?secret=YOUR_SECRET_VALUE" \
+      -H "Content-Type: application/json" \
+      -d '{"document": {"_type": "post", "slug": {"current": "my-blog-slug"}}}'
+   ```
+
+   Note: If you're using other hosting services or a multi-app monorepo, you can still use this approach as long as the public Next.js app route can accept the webhook and run revalidation.
+
 ## Environment-Specific Builds
 
 Create environment-specific env files:
