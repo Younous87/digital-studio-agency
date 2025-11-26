@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { client } from '@/lib/sanity/client'
 
-// Security: add SANITY_WEBHOOK_SECRET to Vercel/GitHub Actions env
+// Security: add SANITYWEBHOOKSECRET to Vercel/GitHub Actions env (no underscores)
 // Use in webhook: https://your-site/external/api/revalidate?secret=MY_SECRET
 
 function basePathsForDoc(docType: string | undefined, slug?: string | undefined) {
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
   try {
     const url = new URL(req.url)
     const secret = url.searchParams.get('secret')
-    if (!secret || secret !== process.env.SANITY_WEBHOOK_SECRET) {
+    if (!secret || secret !== process.env.SANITYWEBHOOKSECRET) {
       return new NextResponse('Unauthorized', { status: 401 })
     }
 

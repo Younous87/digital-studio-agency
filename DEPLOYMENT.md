@@ -186,7 +186,7 @@ Set up Sanity webhooks to trigger rebuilds:
 
    Instead of triggering a full site redeploy, you can configure Sanity to POST a notification to a Next.js API route that revalidates only the pages affected by the content change.
 
-   1. Add `SANITY_WEBHOOK_SECRET` env var to Vercel (Settings → Environment Variables). Use a strong secret value.
+   1. Add `SANITYWEBHOOKSECRET` env var to Vercel (Settings → Environment Variables). Use a strong secret value.
    2. Create a Sanity webhook (Project > API > Webhooks) with a target URL like:
        `https://your-site.vercel.app/api/revalidate?secret=YOUR_SECRET_VALUE`
        - Trigger on: Create, Update, Delete
