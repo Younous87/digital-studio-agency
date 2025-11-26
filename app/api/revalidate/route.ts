@@ -7,29 +7,54 @@ import { client } from '@/lib/sanity/client'
 
 function basePathsForDoc(docType: string | undefined, slug?: string | undefined) {
   const set = new Set<string>()
-  if (docType === 'project' || docType === 'work' || docType === 'projectType') {
-    if (slug) set.add(`/work/${slug}`)
-    set.add('/work')
-    return set
+  const mapping: Record<string, string[]> = {
+    homepage: ['/'],
+    homePage: ['/'],
+    about: ['/about'],
+    aboutPage: ['/about'],
+    servicesPage: ['/services'],
+    servicePage: ['/services'],
+    projectsPage: ['/work'],
+    projects: ['/work'],
+    contactPage: ['/contact'],
+    siteSettings: ['/', '/about', '/contact', '/services', '/work', '/blog'],
+    testimonial: ['/', '/services', '/work'],
+    teamMember: ['/about'],
   }
-  if (docType === 'service') {
-    if (slug) set.add(`/services/${slug}`)
-    set.add('/services')
-    return set
+
+  if (docType && mapping[docType]) {
+    for (const p of mapping[docType]) set.add(p)
   }
-  if (docType === 'post' || docType === 'article' || docType === 'blogPost') {
-    if (slug) set.add(`/blog/${slug}`)
-    set.add('/blog')
-    return set
-  }
-  if (docType === 'homePage' || docType === 'siteSettings') {
-    const sitePaths = ['/', '/about', '/contact', '/services', '/work', '/blog']
-    for (const p of sitePaths) set.add(p)
-    return set
-  }
+
+  // Merge slug-based paths
+  for (const p of slugPaths(docType, slug)) set.add(p)
   return set
 }
 
+  function slugPaths(docType: string | undefined, slug?: string | undefined) {
+    const set = new Set<string>()
+    if (docType === 'project' || docType === 'work' || docType === 'projectType') {
+      if (slug) set.add(`/work/${slug}`)
+      set.add('/work')
+      set.add('/')
+      set.add('/services')
+      set.add('/blog')
+    }
+    if (docType === 'service') {
+      if (slug) set.add(`/services/${slug}`)
+      set.add('/services')
+      set.add('/')
+    }
+    if (docType === 'post' || docType === 'article' || docType === 'blogPost') {
+      if (slug) set.add(`/blog/${slug}`)
+      set.add('/blog')
+      set.add('/')
+    }
+    if (docType === 'teamMember') {
+      if (slug) set.add(`/team/${slug}`)
+    }
+    return set
+  }
 async function siteSettingsDynamicPaths() {
   const set = new Set<string>()
   try {
@@ -47,8 +72,20 @@ async function siteSettingsDynamicPaths() {
   return set
 }
 
-async function getPathsForDoc(docType: string | undefined, slug?: string | undefined) {
+async function getPathsForDoc(docType: string | undefined, slug?: string | undefined, id?: string | undefined) {
   const set = basePathsForDoc(docType, slug)
+  // If there is no slug but we have an id for a sluggable doc type, fetch the slug
+  const sluggable = ['project', 'work', 'projectType', 'service', 'post', 'article', 'blogPost', 'teamMember']
+  let currentSlug = slug
+  if (!currentSlug && id && sluggable.includes(docType || '')) {
+    try {
+      currentSlug = await client.fetch(`*[_id == $id][0].slug.current`, { id })
+    } catch (e) {
+      console.error('Error fetching slug by id', id, e)
+    }
+  }
+  // Add slug-based paths if available
+  for (const p of slugPaths(docType, currentSlug)) set.add(p)
   if (docType === 'siteSettings') {
     const dynamic = await siteSettingsDynamicPaths()
     for (const p of dynamic) set.add(p)
@@ -75,23 +112,29 @@ export async function POST(req: Request) {
     const doc = payload?.document || payload?.result || payload?.body || payload
     const docType = doc?._type || payload?.type || payload?.event || payload?.action
     const slug = doc?.slug?.current || doc?.slug
+    const id = doc?._id || payload?.id || payload?.documentId
 
     const pathsToRevalidate = new Set<string>(['/'])
 
-    const docPaths = await getPathsForDoc(docType, slug)
+    const docPaths = await getPathsForDoc(docType, slug, id)
     for (const p of docPaths) pathsToRevalidate.add(p)
 
     // Always revalidate the index and maybe search/list pages
     // For safety, avoid revalidating everything; only revalidate mapped paths
 
+    const revalidated: string[] = []
     for (const path of pathsToRevalidate) {
       try {
-        await revalidatePath(path)
+        revalidatePath(path)
+        revalidated.push(path)
       } catch (err) {
         console.error('Revalidate failed for path', path, err)
       }
     }
 
+    if (process.env.DEBUG_REVALIDATE === 'true') {
+      return NextResponse.json({ status: 'Revalidated', paths: revalidated }, { status: 200 })
+    }
     return new NextResponse('Revalidated', { status: 200 })
   } catch (error) {
     console.error('Revalidate endpoint error', error)

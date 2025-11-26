@@ -30,7 +30,19 @@ To make your Next.js site reflect Sanity content changes immediately, configure 
 
 1. There is an API endpoint located at `/api/revalidate` in the Next.js app that accepts POST requests and revalidates affected pages. The endpoint requires a secret (env var `SANITYWEBHOOKSECRET`) to authorize requests.
 2. Add `SANITYWEBHOOKSECRET` to your Vercel project's Environment Variables (Settings → Environment Variables). Set the same value in the Sanity webhook's URL as `?secret=YOUR_SECRET_VALUE`.
-3. Create a Sanity webhook via the Sanity management UI (Project → API → Webhooks) with the webhook URL similar to `https://your-site.vercel.app/api/revalidate?secret=YOUR_SECRET_VALUE`. Choose `create`, `update`, and `delete` triggers for the document types you want to revalidate (e.g., `project`, `service`, `blogPost`).
+3. Create a Sanity webhook via the Sanity management UI (Project → API → Webhooks) with the webhook URL similar to `https://your-site.vercel.app/api/revalidate?secret=YOUR_SECRET_VALUE`. Choose `create`, `update`, and `delete` triggers for the document types you want to revalidate.
+
+Recommended Filter (GROQ):
+```
+_type in ["siteSettings","homepage","about","servicesPage","projectsPage","contactPage","project","service","post","testimonial","teamMember"]
+```
+
+Recommended Projection (so the webhook payload includes slug and id):
+```
+{ _id, _type, "slug": slug.current }
+```
+4. Debugging: return revalidated paths
+- To help verify which pages were revalidated, you can set a Vercel environment variable `DEBUG_REVALIDATE=true` (Project → Settings → Environment Variables). When set to `true`, the `/api/revalidate` response will return JSON with the list of revalidated paths — useful for testing.
 4. When a document is published from the Studio, Sanity will send a webhook payload that contains the changed document's slug and type; the Next.js webhook route will revalidate the paths related to that document (e.g., `/work/<slug>`, `/services/<slug>`, `/blog/<slug>`), plus index pages like `/work` or `/blog`.
 
 Example Sanity webhook JSON payload (sanitised):

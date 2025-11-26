@@ -188,8 +188,13 @@ Set up Sanity webhooks to trigger rebuilds:
 
    1. Add `SANITYWEBHOOKSECRET` env var to Vercel (Settings → Environment Variables). Use a strong secret value.
    2. Create a Sanity webhook (Project > API > Webhooks) with a target URL like:
-       `https://your-site.vercel.app/api/revalidate?secret=YOUR_SECRET_VALUE`
-       - Trigger on: Create, Update, Delete
+      `https://your-site.vercel.app/api/revalidate?secret=YOUR_SECRET_VALUE`
+      - Trigger on: Create, Update, Delete
+      - Filter (recommended): `_type in ["siteSettings","homepage","about","servicesPage","projectsPage","contactPage","project","service","post","testimonial","teamMember"]`
+      - Projection (recommended): `{ _id, _type, "slug": slug.current }`
+
+   Debugging: return revalidated paths
+    - If you want to verify which pages were revalidated by an incoming webhook call, set the environment variable `DEBUG_REVALIDATE=true` on Vercel and the webhook response will include the revalidated paths.
        - Optional: Use the `types` filter for only selected document types: `project`, `service`, `blogPost`, etc.
    3. When you publish a change in the Studio, Sanity will POST the changed document to the `/api/revalidate` endpoint; Next.js will revalidate the specific pages (e.g., the item slug and the listing pages) so updates are visible instantly without a full rebuild.
 
