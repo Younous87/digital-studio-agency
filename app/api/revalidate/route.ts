@@ -60,7 +60,12 @@ export async function POST(req: Request) {
   try {
     const url = new URL(req.url)
     const secret = url.searchParams.get('secret')
-    if (!secret || secret !== process.env.SANITYWEBHOOKSECRET) {
+    const headerSecret = req.headers.get('x-sanity-webhook-secret') || req.headers.get('x-sanity-secret')
+    const envVarPresent = !!process.env.SANITYWEBHOOKSECRET
+    const authorized = envVarPresent && (secret === process.env.SANITYWEBHOOKSECRET || headerSecret === process.env.SANITYWEBHOOKSECRET)
+    console.log('Revalidate webhook: env set=', envVarPresent, 'querySecretPresent=', !!secret, 'headerSecretPresent=', !!headerSecret)
+    if (!authorized) {
+      console.info('Revalidate webhook - unauthorized attempt; check SANITYWEBHOOKSECRET value and the webhook query/header on Sanity and Vercel settings')
       return new NextResponse('Unauthorized', { status: 401 })
     }
 
