@@ -24,7 +24,7 @@ export default function BackgroundWrapper({ backgroundImage, children, className
           priority={false}
         />
         {/* Optional overlay to ensure text readability */}
-        <div className="absolute inset-0 bg-white/80 dark:bg-black/80" />
+        <div className="absolute inset-0" />
       </div>
       <div className="relative z-10">
         {children}
