@@ -234,7 +234,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <BackgroundWrapper backgroundImage={project.ctaBackground}>
           <FullScreenSection background={project.ctaBackground ? 'transparent' : 'dark'}>
             <div className="text-center bg-white border-4 border-black shadow-lg p-12 max-w-3xl mx-auto">
-              <h2 className="text-2xl font-black mb-4 retro-text-shadow">View Live Project</h2>
+              <h2 className="text-2xl font-black mb-4">View Live Project</h2>
               <Button
                 asChild
                 size="lg"
