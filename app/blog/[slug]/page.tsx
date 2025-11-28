@@ -84,17 +84,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       {/* Featured Image */}
       {post.featuredImage && (
-        <FullScreenSection>
-          <div className="relative h-[500px] w-full">
-            <Image
-              src={urlFor(post.featuredImage).width(1600).url()}
-              alt={post.title}
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-        </FullScreenSection>
+
+        <div className="relative h-[500px] w-full">
+          <Image
+            src={urlFor(post.featuredImage).width(1600).url()}
+            alt={post.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+
       )}
 
       {/* Content */}
@@ -104,26 +104,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </div>
       </FullScreenSection>
 
-      {/* Tags */}
-      {post.tags && post.tags.length > 0 && (
-        <BackgroundWrapper backgroundImage={post.tagsBackground}>
-          <FullScreenSection background={post.tagsBackground ? 'transparent' : 'gray'}>
-            <div className="max-w-4xl mx-auto">
-              <h3 className="text-lg font-black text-black mb-4 retro-text-shadow">Tags:</h3>
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag: string, index: number) => (
-                  <span
-                    key={index}
-                    className="bg-(--brand-primary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-sm"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </FullScreenSection>
-        </BackgroundWrapper>
-      )}
 
       {/* Author Bio */}
       {post.author?.bio && (
