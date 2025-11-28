@@ -43,6 +43,12 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'heroBackground',
+      title: 'Hero Background Image',
+      type: 'image',
+      options: { hotspot: true },
+    },
+    {
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
@@ -100,6 +106,12 @@ export default defineType({
       of: [{ type: 'string' }],
     },
     {
+      name: 'tagsBackground',
+      title: 'Tags Section Background Image',
+      type: 'image',
+      options: { hotspot: true },
+    },
+    {
       name: 'relatedPosts',
       title: 'Related Posts',
       type: 'array',
@@ -110,6 +122,12 @@ export default defineType({
         },
       ],
       validation: (Rule) => Rule.max(3),
+    },
+    {
+      name: 'relatedPostsBackground',
+      title: 'Related Posts Background Image',
+      type: 'image',
+      options: { hotspot: true },
     },
     {
       name: 'seo',

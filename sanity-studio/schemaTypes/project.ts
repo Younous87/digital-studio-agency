@@ -36,6 +36,12 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'heroBackground',
+      title: 'Hero Background Image',
+      type: 'image',
+      options: { hotspot: true },
+    },
+    {
       name: 'gallery',
       title: 'Image Gallery',
       type: 'array',
@@ -52,6 +58,12 @@ export default defineType({
           ],
         },
       ],
+    },
+    {
+      name: 'galleryBackground',
+      title: 'Gallery Background Image',
+      type: 'image',
+      options: { hotspot: true },
     },
     {
       name: 'categories',
@@ -107,6 +119,12 @@ export default defineType({
       ],
     },
     {
+      name: 'caseStudyBackground',
+      title: 'Case Study Background Image',
+      type: 'image',
+      options: { hotspot: true },
+    },
+    {
       name: 'services',
       title: 'Services Used',
       type: 'array',
@@ -116,6 +134,12 @@ export default defineType({
           to: [{ type: 'service' }],
         },
       ],
+    },
+    {
+      name: 'servicesBackground',
+      title: 'Services Used Background Image',
+      type: 'image',
+      options: { hotspot: true },
     },
     {
       name: 'results',
@@ -146,15 +170,33 @@ export default defineType({
       ],
     },
     {
+      name: 'resultsBackground',
+      title: 'Results Background Image',
+      type: 'image',
+      options: { hotspot: true },
+    },
+    {
       name: 'testimonial',
       title: 'Testimonial',
       type: 'reference',
       to: [{ type: 'testimonial' }],
     },
     {
+      name: 'testimonialBackground',
+      title: 'Testimonial Background Image',
+      type: 'image',
+      options: { hotspot: true },
+    },
+    {
       name: 'projectUrl',
       title: 'Project URL',
       type: 'url',
+    },
+    {
+      name: 'ctaBackground',
+      title: 'CTA Background Image',
+      type: 'image',
+      options: { hotspot: true },
     },
     {
       name: 'featured',

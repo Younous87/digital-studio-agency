@@ -23,7 +23,8 @@ export const homepageQuery = `*[_type == "homepage"][0]{
       cta,
       secondaryCta,
       backgroundImage,
-      backgroundVideo
+      backgroundVideo,
+      sectionBackgroundImage
     },
     _type == "servicesOverview" => {
       title,
@@ -132,7 +133,15 @@ export const servicesPageQuery = `*[_type == "servicesPage"][0]{
   pageBuilder[]{
     _type,
     _type == "pageHero" => {
-      title, subtitle, cta, background
+      title, subtitle, cta, background {
+        ...,
+        video {
+          asset->{
+            url,
+            mimeType
+          }
+        }
+      }
     },
     _type == "servicesOverview" => {
       title, description, layout, "services": services[]->{ _id, title, slug, shortDescription, icon }, backgroundImage
@@ -159,13 +168,21 @@ export const projectsPageQuery = `*[_type == "projectsPage"][0]{
   pageBuilder[]{
     _type,
     _type == "pageHero" => {
-      title, subtitle, cta, background
+      title, subtitle, cta, background {
+        ...,
+        video {
+          asset->{
+            url,
+            mimeType
+          }
+        }
+      }
     },
     _type == "featuredProjects" => {
       title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories }), backgroundImage
     },
     _type == "hero" => {
-      headline, subheadline, cta, secondaryCta, backgroundImage, backgroundVideo
+      headline, subheadline, cta, secondaryCta, backgroundImage, backgroundVideo, sectionBackgroundImage
     },
     _type == "aboutSection" => {
       title, content, image, imagePosition, cta, backgroundImage
@@ -188,6 +205,7 @@ export const serviceBySlugQuery = `*[_type == "service" && slug.current == $slug
   slug,
   icon,
   shortDescription,
+  heroBackground,
   fullDescription,
   features,
   processSteps,
@@ -259,18 +277,23 @@ export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug
   slug,
   clientName,
   featuredImage,
+  heroBackground,
   gallery,
+  galleryBackground,
   categories,
   year,
   date,
   shortDescription,
   caseStudy,
+  caseStudyBackground,
   "services": services[]->{ 
     _id,
     title, 
     slug 
   },
+  servicesBackground,
   results,
+  resultsBackground,
   "testimonial": testimonial->{ 
     clientName,
     company,
@@ -279,7 +302,9 @@ export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug
     photo,
     rating
   },
+  testimonialBackground,
   projectUrl,
+  ctaBackground,
   seo
 }`
 
@@ -305,6 +330,7 @@ export const postBySlugQuery = `*[_type == "post" && slug.current == $slug][0]{
   slug,
   excerpt,
   featuredImage,
+  heroBackground,
   content,
   publishedAt,
   "author": author->{ 
@@ -316,6 +342,7 @@ export const postBySlugQuery = `*[_type == "post" && slug.current == $slug][0]{
   },
   categories,
   tags,
+  tagsBackground,
   "relatedPosts": relatedPosts[]->{ 
     _id,
     title, 
@@ -324,6 +351,7 @@ export const postBySlugQuery = `*[_type == "post" && slug.current == $slug][0]{
     featuredImage,
     publishedAt
   },
+  relatedPostsBackground,
   seo
 }`
 
@@ -360,10 +388,18 @@ export const aboutQuery = `*[_type == "about"][0]{
   pageBuilder[]{
     _type,
     _type == "hero" => {
-      headline, subheadline, cta, secondaryCta, backgroundImage, backgroundVideo
+      headline, subheadline, cta, secondaryCta, backgroundImage, backgroundVideo, sectionBackgroundImage
     },
     _type == "pageHero" => {
-      title, subtitle, cta, background
+      title, subtitle, cta, background {
+        ...,
+        video {
+          asset->{
+            url,
+            mimeType
+          }
+        }
+      }
     },
     _type == "ourStory" => {
       title, content, backgroundColor, backgroundImage
@@ -400,7 +436,15 @@ export const contactPageQuery = `*[_type == "contactPage"][0]{
   pageBuilder[]{
     _type,
     _type == "pageHero" => {
-      title, subtitle, cta, background
+      title, subtitle, cta, background {
+        ...,
+        video {
+          asset->{
+            url,
+            mimeType
+          }
+        }
+      }
     },
     _type == "contactForm" => {
       title,
@@ -421,7 +465,15 @@ export const blogPageQuery = `*[_type == "blogPage"][0]{
   pageBuilder[]{
     _type,
     _type == "pageHero" => {
-      title, subtitle, cta, background
+      title, subtitle, cta, background {
+        ...,
+        video {
+          asset->{
+            url,
+            mimeType
+          }
+        }
+      }
     },
     _type == "blogPosts" => {
       title,
