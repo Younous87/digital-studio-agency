@@ -35,7 +35,8 @@ export const homepageQuery = `*[_type == "homepage"][0]{
         slug, 
         shortDescription, 
         icon 
-      }
+      },
+      backgroundImage
     },
     _type == "featuredProjects" => {
       title,
@@ -61,7 +62,8 @@ export const homepageQuery = `*[_type == "homepage"][0]{
           featuredImage,
           categories
         }
-      )
+      ),
+      backgroundImage
     },
     _type == "testimonials" => {
       title,
@@ -87,14 +89,16 @@ export const homepageQuery = `*[_type == "homepage"][0]{
           photo,
           rating
         }
-      )
+      ),
+      backgroundImage
     },
     _type == "aboutSection" => {
       title,
       content,
       image,
       imagePosition,
-      cta
+      cta,
+      backgroundImage
     },
     _type == "ctaSection" => {
       title,
@@ -109,12 +113,14 @@ export const homepageQuery = `*[_type == "homepage"][0]{
       content,
       image,
       imagePosition,
-      cta
+      cta,
+      backgroundImage
     },
     _type == "statsSection" => {
       title,
       stats,
-      backgroundColor
+      backgroundColor,
+      backgroundImage
     }
   },
   seo
@@ -129,20 +135,20 @@ export const servicesPageQuery = `*[_type == "servicesPage"][0]{
       title, subtitle, cta, background
     },
     _type == "servicesOverview" => {
-      title, description, layout, "services": services[]->{ _id, title, slug, shortDescription, icon }
+      title, description, layout, "services": services[]->{ _id, title, slug, shortDescription, icon }, backgroundImage
     },
     _type == "serviceList" => {
-      title, description, layout, showAll, "services": select(showAll == true => *[_type == "service"]{ _id, title, slug, shortDescription, icon }, services[]->{ _id, title, slug, shortDescription, icon }), backgroundColor
+      title, description, layout, showAll, "services": select(showAll == true => *[_type == "service"]{ _id, title, slug, shortDescription, icon }, services[]->{ _id, title, slug, shortDescription, icon }), backgroundColor, backgroundImage
     },
     _type == "featuredProjects" => {
-      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories })
+      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories }), backgroundImage
     },
     _type == "testimonials" => {
-      title, description, layout, showFeatured, "testimonials": select(showFeatured == true => *[_type == "testimonial" && featured == true]{ _id, clientName, company, role, quote, photo, rating }, testimonials[]->{ _id, clientName, company, role, quote, photo, rating })
+      title, description, layout, showFeatured, "testimonials": select(showFeatured == true => *[_type == "testimonial" && featured == true]{ _id, clientName, company, role, quote, photo, rating }, testimonials[]->{ _id, clientName, company, role, quote, photo, rating }), backgroundImage
     },
     _type == "ctaSection" => { title, description, primaryCta, secondaryCta, backgroundImage, backgroundColor },
-    _type == "textImageBlock" => { title, content, image, imagePosition, cta },
-    _type == "statsSection" => { title, stats, backgroundColor }
+    _type == "textImageBlock" => { title, content, image, imagePosition, cta, backgroundImage },
+    _type == "statsSection" => { title, stats, backgroundColor, backgroundImage }
   },
   seo
 }`
@@ -156,23 +162,23 @@ export const projectsPageQuery = `*[_type == "projectsPage"][0]{
       title, subtitle, cta, background
     },
     _type == "featuredProjects" => {
-      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories })
+      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories }), backgroundImage
     },
     _type == "hero" => {
       headline, subheadline, cta, secondaryCta, backgroundImage, backgroundVideo
     },
     _type == "aboutSection" => {
-      title, content, image, imagePosition, cta
+      title, content, image, imagePosition, cta, backgroundImage
     },
     _type == "servicesOverview" => {
-      title, description, layout, "services": services[]->{ _id, title, slug, shortDescription, icon }
+      title, description, layout, "services": services[]->{ _id, title, slug, shortDescription, icon }, backgroundImage
     },
     _type == "testimonials" => {
-      title, description, layout, showFeatured, "testimonials": select(showFeatured == true => *[_type == "testimonial" && featured == true]{ _id, clientName, company, role, quote, photo, rating }, testimonials[]->{ _id, clientName, company, role, quote, photo, rating })
+      title, description, layout, showFeatured, "testimonials": select(showFeatured == true => *[_type == "testimonial" && featured == true]{ _id, clientName, company, role, quote, photo, rating }, testimonials[]->{ _id, clientName, company, role, quote, photo, rating }), backgroundImage
     },
     _type == "ctaSection" => { title, description, primaryCta, secondaryCta, backgroundImage, backgroundColor },
-    _type == "textImageBlock" => { title, content, image, imagePosition, cta },
-    _type == "statsSection" => { title, stats, backgroundColor }
+    _type == "textImageBlock" => { title, content, image, imagePosition, cta, backgroundImage },
+    _type == "statsSection" => { title, stats, backgroundColor, backgroundImage }
   },
   seo
 }`
@@ -360,29 +366,29 @@ export const aboutQuery = `*[_type == "about"][0]{
       title, subtitle, cta, background
     },
     _type == "ourStory" => {
-      title, content, backgroundColor
+      title, content, backgroundColor, backgroundImage
     },
     _type == "ourValues" => {
-      title, values[]{ _key, title, description, icon }, backgroundColor
+      title, values[]{ _key, title, description, icon }, backgroundColor, backgroundImage
     },
     _type == "meetOurTeam" => {
-      title, showTeam, "teamMembers": teamMembers[]->{ _id, name, slug, role, bio, photo, socialLinks }, backgroundColor
+      title, showTeam, "teamMembers": teamMembers[]->{ _id, name, slug, role, bio, photo, socialLinks }, backgroundColor, backgroundImage
     },
     _type == "aboutSection" => {
-      title, content, image, imagePosition, cta
+      title, content, image, imagePosition, cta, backgroundImage
     },
     _type == "servicesOverview" => {
-      title, description, layout, "services": services[]->{ _id, title, slug, shortDescription, icon }
+      title, description, layout, "services": services[]->{ _id, title, slug, shortDescription, icon }, backgroundImage
     },
     _type == "featuredProjects" => {
-      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories })
+      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories }), backgroundImage
     },
     _type == "testimonials" => {
-      title, description, layout, showFeatured, "testimonials": select(showFeatured == true => *[_type == "testimonial" && featured == true]{ _id, clientName, company, role, quote, photo, rating }, testimonials[]->{ _id, clientName, company, role, quote, photo, rating })
+      title, description, layout, showFeatured, "testimonials": select(showFeatured == true => *[_type == "testimonial" && featured == true]{ _id, clientName, company, role, quote, photo, rating }, testimonials[]->{ _id, clientName, company, role, quote, photo, rating }), backgroundImage
     },
     _type == "ctaSection" => { title, description, primaryCta, secondaryCta, backgroundImage, backgroundColor },
-    _type == "textImageBlock" => { title, content, image, imagePosition, cta },
-    _type == "statsSection" => { title, stats, backgroundColor }
+    _type == "textImageBlock" => { title, content, image, imagePosition, cta, backgroundImage },
+    _type == "statsSection" => { title, stats, backgroundColor, backgroundImage }
   },
   seo
 }`
@@ -402,7 +408,8 @@ export const contactPageQuery = `*[_type == "contactPage"][0]{
       contactInfo,
       formTitle,
       formDescription,
-      submitButtonText
+      submitButtonText,
+      backgroundImage
     }
   },
   seo
@@ -452,11 +459,12 @@ export const blogPageQuery = `*[_type == "blogPage"][0]{
           categories,
           tags
         }
-      )
+      ),
+      backgroundImage
     },
     _type == "ctaSection" => { title, description, primaryCta, secondaryCta, backgroundImage, backgroundColor },
-    _type == "textImageBlock" => { title, content, image, imagePosition, cta },
-    _type == "statsSection" => { title, stats, backgroundColor }
+    _type == "textImageBlock" => { title, content, image, imagePosition, cta, backgroundImage },
+    _type == "statsSection" => { title, stats, backgroundColor, backgroundImage }
   },
   seo
 }`
