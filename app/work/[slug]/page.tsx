@@ -9,7 +9,7 @@ import { Button } from '@/components/retroui/Button'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
 import { urlFor } from '@/lib/sanity/image'
 
-export const revalidate = 60
+export const revalidate = 0
 
 async function getProject(slug: string) {
   try {
