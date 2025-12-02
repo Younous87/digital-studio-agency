@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Section from '@/components/ui/Section'
 import BackgroundWrapper from './BackgroundWrapper'
-import { Card } from '@/components/retroui/Card'
+import { Card } from '@/components/ui/card'
 import { urlFor } from '@/lib/sanity/image'
 
 interface BlogPost {
@@ -50,12 +50,12 @@ export default function BlogPostsBlock({
           {(title || description) && (
             <div className="text-center mb-16">
               {title && (
-                <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 retro-text-shadow">
+                <h2 className="text-4xl md:text-6xl font-black text-foreground mb-6">
                   {title}
                 </h2>
               )}
               {description && (
-                <p className="text-xl text-gray-700 max-w-3xl mx-auto font-bold">
+                <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-bold">
                   {description}
                 </p>
               )}
@@ -65,8 +65,8 @@ export default function BlogPostsBlock({
           <div className={`gap-8 ${layout === 'grid' ? 'grid md:grid-cols-2 lg:grid-cols-3' : 'space-y-8'}`}>
             {posts.map((post) => (
               <Link key={post._id} href={`/blog/${post.slug.current}`}>
-                <Card variant="retro" className="h-full group transition-all duration-300 overflow-hidden hover:-translate-y-1">
-                  <div className={`relative overflow-hidden ${layout === 'list' ? 'h-64 md:h-80' : 'h-64'} border-b-4 border-black`}>
+                <Card className="h-full group transition-all duration-300 overflow-hidden hover:-translate-y-1 border border-border shadow-sm">
+                  <div className={`relative overflow-hidden ${layout === 'list' ? 'h-64 md:h-80' : 'h-64'} border-b border-border`}>
                     <Image
                       src={urlFor(post.featuredImage).width(600).height(400).url()}
                       alt={post.title}
@@ -75,14 +75,14 @@ export default function BlogPostsBlock({
                     />
                     {post.categories && post.categories.length > 0 && (
                       <div className="absolute top-4 left-4">
-                        <span className="bg-(--brand-secondary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-sm">
+                        <span className="bg-secondary border border-border px-4 py-2 text-sm font-black text-secondary-foreground shadow-sm rounded-md">
                           {post.categories[0]}
                         </span>
                       </div>
                     )}
                   </div>
-                  <div className="p-6 bg-white">
-                    <div className="flex items-center text-sm font-bold text-gray-600 mb-3">
+                  <div className="p-6 bg-card">
+                    <div className="flex items-center text-sm font-bold text-muted-foreground mb-3">
                       {post.author && (
                         <span className="mr-4">{post.author.name}</span>
                       )}
@@ -94,10 +94,10 @@ export default function BlogPostsBlock({
                         })}
                       </span>
                     </div>
-                    <h3 className="text-2xl font-black text-gray-900 mb-3 group-hover:text-(--brand-primary) transition-colors">
+                    <h3 className="text-2xl font-black text-foreground mb-3 group-hover:text-primary transition-colors">
                       {post.title}
                     </h3>
-                    <p className="text-gray-700 line-clamp-3 font-medium">{post.excerpt}</p>
+                    <p className="text-muted-foreground line-clamp-3 font-medium">{post.excerpt}</p>
                   </div>
                 </Card>
               </Link>

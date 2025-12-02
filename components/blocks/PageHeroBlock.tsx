@@ -1,6 +1,6 @@
 import React from 'react'
 import { urlFor } from '@/lib/sanity/image'
-import { Button } from '@/components/retroui/Button'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import FullScreenSection from '../ui/FullScreenSection'
 
@@ -70,12 +70,12 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
       )}
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white border-2 border-black shadow-lg p-8 md:p-12 inline-block ">
-          <h1 className="text-5xl md:text-7xl font-black text-gray-900 mb-6 retro-text-shadow">
+        <div className="bg-card border border-border shadow-lg p-8 md:p-12 inline-block ">
+          <h1 className="text-5xl md:text-7xl font-black text-foreground mb-6">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-2xl mx-auto font-bold">
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto font-bold">
               {subtitle}
             </p>
           )}

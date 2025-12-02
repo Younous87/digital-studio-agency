@@ -27,7 +27,7 @@ export default function GlitchText({
 
             {/* Glitch Layer 1 */}
             <motion.span
-                className="absolute top-0 left-0 -z-10 text-brand-accent opacity-70"
+                className="absolute top-0 left-0 -z-10 text-accent-foreground opacity-70"
                 animate={isHovered ? {
                     x: [-2, 2, -1, 0],
                     y: [1, -1, 0],
@@ -48,7 +48,7 @@ export default function GlitchText({
 
             {/* Glitch Layer 2 */}
             <motion.span
-                className="absolute top-0 left-0 -z-10 text-brand-tertiary opacity-70"
+                className="absolute top-0 left-0 -z-10 text-muted-foreground opacity-70"
                 animate={isHovered ? {
                     x: [2, -2, 1, 0],
                     y: [-1, 1, 0],

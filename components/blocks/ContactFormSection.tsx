@@ -1,13 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@/components/retroui/Button'
-import { Input } from '@/components/retroui/Input'
-import { Textarea } from '@/components/retroui/Textarea'
-import { Select } from '@/components/retroui/Select'
-import { Label } from '@/components/retroui/Label'
-import { Alert } from '@/components/retroui/Alert'
-import { Card } from '@/components/retroui/Card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '@/components/ui/select'
+import { Label } from '@/components/ui/label'
+import { Alert, AlertTitle } from '@/components/ui/alert'
+import { Card } from '@/components/ui/card'
 import { Facebook, Twitter, Dribbble, Github, Linkedin, Rocket } from 'lucide-react'
 import BackgroundWrapper from './BackgroundWrapper'
 
@@ -108,7 +108,7 @@ export default function ContactFormSection({ block }: Readonly<ContactFormSectio
               </div>
             </div>
             <div>
-              <Card variant="retro" className="p-6 md:p-8 w-full">
+              <Card className="p-6 md:p-8 w-full border-2 border-black shadow-md">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-2 gap-6">
                     <div className="flex flex-col space-y-2">
@@ -137,33 +137,33 @@ export default function ContactFormSection({ block }: Readonly<ContactFormSectio
                   <div className="flex flex-col space-y-2">
                     <Label>Project Type</Label>
                     <Select value={formData.projectType} onValueChange={(value) => setFormData({ ...formData, projectType: value })}>
-                      <Select.Trigger className="w-full">
-                        <Select.Value placeholder="Project type" />
-                      </Select.Trigger>
-                      <Select.Content>
-                        <Select.Group>
-                          <Select.Item value="web-design">Web Design</Select.Item>
-                          <Select.Item value="mobile-app">Mobile App</Select.Item>
-                          <Select.Item value="branding">Branding</Select.Item>
-                          <Select.Item value="consulting">Consulting</Select.Item>
-                        </Select.Group>
-                      </Select.Content>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Project type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="web-design">Web Design</SelectItem>
+                          <SelectItem value="mobile-app">Mobile App</SelectItem>
+                          <SelectItem value="branding">Branding</SelectItem>
+                          <SelectItem value="consulting">Consulting</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
                     </Select>
                   </div>
                   <div className="flex flex-col space-y-2">
                     <Label>Budget</Label>
                     <Select value={formData.budget} onValueChange={(value) => setFormData({ ...formData, budget: value })}>
-                      <Select.Trigger className="w-full">
-                        <Select.Value placeholder="$5k-$10K" />
-                      </Select.Trigger>
-                      <Select.Content>
-                        <Select.Group>
-                          <Select.Item value="5k-10k">$5k - $10k</Select.Item>
-                          <Select.Item value="10k-25k">$10k - $25k</Select.Item>
-                          <Select.Item value="25k-50k">$25k - $50k</Select.Item>
-                          <Select.Item value="50k+">$50k+</Select.Item>
-                        </Select.Group>
-                      </Select.Content>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="$5k-$10K" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="5k-10k">$5k - $10k</SelectItem>
+                          <SelectItem value="10k-25k">$10k - $25k</SelectItem>
+                          <SelectItem value="25k-50k">$25k - $50k</SelectItem>
+                          <SelectItem value="50k+">$50k+</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
                     </Select>
                   </div>
                   <div className="flex flex-col space-y-2">
@@ -185,7 +185,7 @@ export default function ContactFormSection({ block }: Readonly<ContactFormSectio
               </Card>
               {status === 'success' && (
                 <Alert className="bg-white border-2 border-black shadow-md mt-6">
-                  <Alert.Title className="font-black text-black">✓ Thank you! We'll get back to you soon.</Alert.Title>
+                  <AlertTitle className="font-black text-black">✓ Thank you! We'll get back to you soon.</AlertTitle>
                 </Alert>
               )}
             </div>

@@ -3,10 +3,10 @@
 import Image from 'next/image'
 import FullScreenSection from '../ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
-import { Card } from '../retroui/Card'
-import { Avatar } from '../retroui/Avatar'
+import { Card, CardHeader, CardContent, CardDescription } from '@/components/ui/card'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel'
-import { Badge } from '../retroui/Badge'
+import { Badge } from '@/components/ui/badge'
 import { urlFor } from '@/lib/sanity/image'
 import { Quote, Star } from 'lucide-react'
 
@@ -42,13 +42,13 @@ export default function TestimonialCarousel({
           {(title || description) && (
             <div className="text-center mb-12">
               {title && (
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-2">
-                  <Quote className="w-8 h-8 text-brand-accent" />
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 flex items-center justify-center gap-2">
+                  <Quote className="w-8 h-8 text-primary" />
                   {title}
                 </h2>
               )}
               {description && (
-                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
                   {description}
                 </p>
               )}
@@ -57,50 +57,50 @@ export default function TestimonialCarousel({
 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((testimonial) => (
-              <Card key={testimonial._id} variant="default" className="bg-linear-to-br from-white to-gray-50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <Card.Header>
+              <Card key={testimonial._id} className="bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <CardHeader>
                   <div className="flex items-start justify-between mb-4">
-                    <Quote className="w-10 h-10 text-brand-secondary/20" />
+                    <Quote className="w-10 h-10 text-muted-foreground/20" />
                     {testimonial.rating && (
                       <div className="flex gap-1">
                         {Array.from({ length: 5 }, (_, i) => (
                           <Star
                             key={`star-${testimonial._id}-${i}`}
                             className={`w-4 h-4 ${
-                              i < testimonial.rating! ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+                              i < testimonial.rating! ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground/30'
                             }`}
                           />
                         ))}
                       </div>
                     )}
                   </div>
-                </Card.Header>
-                <Card.Content>
-                  <p className="text-gray-700 mb-6 text-base leading-relaxed">
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-6 text-base leading-relaxed">
                     &ldquo;{testimonial.quote}&rdquo;
                   </p>
-                  <div className="flex items-center gap-4 pt-4 border-t">
-                    <Avatar className="h-12 w-12 ring-1 ring-brand-primary/20">
+                  <div className="flex items-center gap-4 pt-4 border-t border-border">
+                    <Avatar className="h-12 w-12">
                       {testimonial.photo ? (
-                        <Avatar.Image
+                        <AvatarImage
                           src={urlFor(testimonial.photo).width(80).height(80).url()}
                           alt={testimonial.clientName}
                         />
                       ) : null}
-                      <Avatar.Fallback className="bg-linear-to-br from-brand-primary/20 to-brand-secondary/20 text-brand-primary font-semibold">
+                      <AvatarFallback className="bg-primary/10 text-primary font-semibold">
                         {testimonial.clientName.split(' ').map(n => n[0]).join('').toUpperCase()}
-                      </Avatar.Fallback>
+                      </AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
-                      <p className="font-semibold text-gray-900">{testimonial.clientName}</p>
+                      <p className="font-semibold text-foreground">{testimonial.clientName}</p>
                       {testimonial.role && testimonial.company && (
-                        <Card.Description className="text-sm">
+                        <CardDescription className="text-sm">
                           {testimonial.role} • {testimonial.company}
-                        </Card.Description>
+                        </CardDescription>
                       )}
                     </div>
                   </div>
-                </Card.Content>
+                </CardContent>
               </Card>
             ))}
           </div>
@@ -116,13 +116,13 @@ export default function TestimonialCarousel({
         {(title || description) && (
           <div className="text-center mb-12">
             {title && (
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-2">
-                <Quote className="w-8 h-8 text-brand-accent" />
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 flex items-center justify-center gap-2">
+                <Quote className="w-8 h-8 text-primary" />
                 {title}
               </h2>
             )}
             {description && (
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
                 {description}
               </p>
             )}
@@ -140,50 +140,50 @@ export default function TestimonialCarousel({
             <CarouselContent>
               {testimonials.map((testimonial) => (
                 <CarouselItem key={testimonial._id} className="md:basis-1/2 lg:basis-1/2">
-                  <Card variant="default" className="h-full bg-linear-to-br from-white via-white to-brand-primary/5 transition-all duration-300">
-                    <Card.Header>
+                  <Card className="h-full bg-card transition-all duration-300">
+                    <CardHeader>
                       <div className="flex items-start justify-between mb-4">
-                        <Quote className="w-12 h-12 text-brand-secondary/20" />
+                        <Quote className="w-12 h-12 text-muted-foreground/20" />
                         {testimonial.rating && (
-                          <Badge variant="default" className="flex items-center gap-1">
+                          <Badge variant="secondary" className="flex items-center gap-1">
                             <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                             {testimonial.rating}/5
                           </Badge>
                         )}
                       </div>
-                    </Card.Header>
-                    <Card.Content>
-                      <p className="text-gray-700 mb-8 text-lg leading-relaxed italic">
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground mb-8 text-lg leading-relaxed italic">
                         &ldquo;{testimonial.quote}&rdquo;
                       </p>
-                      <div className="flex items-center gap-4 pt-6 border-t">
-                        <Avatar className="h-14 w-14 ring-brand-primary/20">
+                      <div className="flex items-center gap-4 pt-6 border-t border-border">
+                        <Avatar className="h-14 w-14">
                           {testimonial.photo ? (
-                            <Avatar.Image
+                            <AvatarImage
                               src={urlFor(testimonial.photo).width(100).height(100).url()}
                               alt={testimonial.clientName}
                             />
                           ) : null}
-                          <Avatar.Fallback className="bg-linear-to-br from-brand-primary to-brand-secondary text-white font-semibold text-lg">
+                          <AvatarFallback className="bg-primary text-primary-foreground font-semibold text-lg">
                             {testimonial.clientName.split(' ').map(n => n[0]).join('').toUpperCase()}
-                          </Avatar.Fallback>
+                          </AvatarFallback>
                         </Avatar>
                         <div className="flex-1">
-                          <p className="font-bold text-gray-900 text-lg">{testimonial.clientName}</p>
+                          <p className="font-bold text-foreground text-lg">{testimonial.clientName}</p>
                           {testimonial.role && testimonial.company && (
-                            <Card.Description className="text-sm font-medium">
+                            <CardDescription className="text-sm font-medium">
                               {testimonial.role} • {testimonial.company}
-                            </Card.Description>
+                            </CardDescription>
                           )}
                         </div>
                       </div>
-                    </Card.Content>
+                    </CardContent>
                   </Card>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="shadow" />
-            <CarouselNext className="shadow" />
+            <CarouselPrevious />
+            <CarouselNext />
           </Carousel>
         </div>
       </FullScreenSection>

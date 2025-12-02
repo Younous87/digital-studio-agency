@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Button } from '@/components/retroui/Button'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { urlFor } from '@/lib/sanity/image'
 import { ArrowRight } from 'lucide-react'
@@ -41,19 +41,11 @@ export default function HeroBlock({
 
   return (
     <BackgroundWrapper backgroundImage={sectionBackgroundImage}>
-      <section className={`relative min-h-screen flex items-center justify-center overflow-hidden border-b-3 border-black ${sectionBackgroundImage ? 'bg-transparent' : 'bg-background'}`}>
-        {/* Retro Pattern Background - only if no section background image */}
-        {!sectionBackgroundImage && <div className="absolute inset-0 pattern-dots opacity-10" />}
-
-        {/* Decorative shapes - Neo-brutalist style */}
-        <div className="absolute top-10 right-10 w-32 h-32 bg-brand-secondary border-2 border-black rounded-full shadow-lg animate-bounce-in hidden md:block" />
-        <div className="absolute bottom-20 left-10 w-40 h-40 bg-brand-accent border-2 border-black rotate-12 shadow-xl animate-slide-in-left hidden md:block" />
-        <div className="absolute top-40 left-1/4 w-24 h-24 bg-brand-tertiary border-2 border-black -rotate-12 shadow-md hidden md:block" />
-
-        {/* Optional Background Image/Video with brutalist frame */}
+      <section className={`relative min-h-screen flex items-center justify-center overflow-hidden border-b border-border ${sectionBackgroundImage ? 'bg-transparent' : 'bg-background'}`}>
+        {/* Optional Background Image/Video */}
         {(backgroundVideo || backgroundImage) && (
           <div className="absolute inset-0 flex items-center justify-center p-8">
-            <div className="relative w-full max-w-4xl h-96 border-3 border-black rounded-2xl overflow-hidden shadow-xl">
+            <div className="relative w-full max-w-4xl h-96 rounded-lg overflow-hidden">
               {backgroundVideo && (
                 <video
                   autoPlay
@@ -74,49 +66,30 @@ export default function HeroBlock({
                   priority
                 />
               )}
-              <div className="absolute inset-0 bg-gradient-retro-multi opacity-30" />
             </div>
           </div>
         )}
 
         {/* Content */}
-        <div className={`relative z-10 text-center px-4 max-w-6xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}>
-
-          {/* Main Headline - Retro typography */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-none tracking-tight">
-            <span className="inline-block animate-slide-in-bottom">
-              {headline.split(' ').map((word, i) => {
-                const colors = ['text-foreground', 'text-brand-primary', 'text-brand-secondary', 'text-brand-accent']
-                return (
-                  <span
-                    key={`${word}-${i}`}
-                    className={`${colors[i % colors.length]} inline-block mr-3 md:mr-4`}
-                    style={{
-                      animationDelay: `${i * 0.1}s`,
-                      textShadow: '4px 4px 0px rgba(0,0,0,0.1)'
-                    }}
-                  >
-                    {word}
-                  </span>
-                )
-              })}
-            </span>
+        <div className={`relative z-10 text-center px-4 max-w-6xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          {/* Main Headline */}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-none tracking-tight text-foreground">
+            {headline}
           </h1>
 
           {subheadline && (
-            <p className="text-xl md:text-3xl mb-12 text-foreground max-w-4xl mx-auto leading-relaxed font-bold animate-fade-in border-2 border-black bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+            <p className="text-xl md:text-3xl mb-12 text-muted-foreground max-w-4xl mx-auto leading-relaxed font-medium">
               {subheadline}
             </p>
           )}
 
-          {/* CTA Buttons - Neo-brutalist style */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 animate-slide-in-bottom">
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 animate-fade-in">
             {cta && (
               <Button variant="default" size="lg" className="group" asChild>
                 <Link href={cta.link}>
                   {cta.text}
-                  <ArrowRight className="ml-3 w-6 h-6 inline group-hover:translate-x-2 transition-transform" strokeWidth={3} />
+                  <ArrowRight className="ml-3 w-6 h-6 inline group-hover:translate-x-2 transition-transform" />
                 </Link>
               </Button>
             )}
@@ -128,9 +101,6 @@ export default function HeroBlock({
               </Button>
             )}
           </div>
-
-
-
         </div>
       </section>
     </BackgroundWrapper>

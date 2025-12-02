@@ -157,7 +157,7 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
                   </div>
                 )}
                 <div className={textOrder}>
-                  {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">{block.title}</h2>}
+                  {block.title && <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6">{block.title}</h2>}
                   {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
                 </div>
                 {hasImage && block.imagePosition === 'right' && (
@@ -185,7 +185,7 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
         <BackgroundWrapper key={block._key || block._id || `${block._type}-${index}`} backgroundImage={block.backgroundImage}>
           <FullScreenSection background={block.backgroundImage ? 'transparent' : 'white'}>
             <div className="max-w-4xl mx-auto">
-              {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 text-center retro-text-shadow">{block.title}</h2>}
+              {block.title && <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6 text-center">{block.title}</h2>}
               {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
             </div>
           </FullScreenSection>

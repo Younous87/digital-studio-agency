@@ -1,17 +1,13 @@
 import * as React from "react"
-import { Card as RetroCard } from "@/components/retroui/Card"
+
 import { cn } from "@/lib/utils"
 
-interface CardProps extends React.ComponentProps<typeof RetroCard> {
-  hover?: boolean
-}
-
-function Card({ className, hover = false, ...props }: Readonly<CardProps>) {
+function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <RetroCard
+    <div
+      data-slot="card"
       className={cn(
-        "flex flex-col gap-6 py-6",
-        hover ? "transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg" : "",
+        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
         className
       )}
       {...props}
@@ -36,7 +32,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-title"
-      className={cn("leading-none font-black text-xl", className)}
+      className={cn("leading-none font-semibold", className)}
       {...props}
     />
   )
@@ -46,7 +42,7 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-description"
-      className={cn("text-muted-foreground text-sm font-medium", className)}
+      className={cn("text-muted-foreground text-sm", className)}
       {...props}
     />
   )
@@ -94,7 +90,3 @@ export {
   CardDescription,
   CardContent,
 }
-
-// Backwards compatible aliasing and default export
-export const CardBody = CardContent
-export default Card

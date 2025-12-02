@@ -18,7 +18,7 @@ export default function AboutStoryBlock({ title, content, backgroundColor, backg
   const bgColor = backgroundColor?.hex || '#FFD23F'
   const isDark = backgroundColor ? (backgroundColor.hsl.l < 0.5) : false
   // If background image is present, we use default text color because of the overlay
-  const textColor = backgroundImage ? 'text-gray-900' : (isDark ? 'text-white' : 'text-gray-900')
+  const textColor = backgroundImage ? 'text-foreground' : (isDark ? 'text-primary-foreground' : 'text-foreground')
 
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
@@ -40,13 +40,13 @@ export default function AboutStoryBlock({ title, content, backgroundColor, backg
           <div className="relative mb-12">
             <h2 className={`text-4xl md:text-6xl font-black text-center ${textColor} relative inline-block w-full`}>
               <span className="relative z-10">{title}</span>
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-3 bg-(--brand-primary) -rotate-1" />
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-3 bg-primary -rotate-1" />
             </h2>
           </div>
         )}
         {content ? (
           <div className="max-w-4xl mx-auto relative">
-            <div className="bg-white border-2 border-black shadow-lg p-8 md:p-12 relative">
+            <div className="bg-card border border-border shadow-lg p-8 md:p-12 relative rounded-md">
               <RichTextRenderer content={content} />
             </div>
           </div>

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/image'
-import { Card } from '@/components/retroui/Card'
-import { Button } from '@/components/retroui/Button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import BackgroundWrapper from './BackgroundWrapper'
@@ -39,12 +39,12 @@ export default function ServiceListBlock({
   const bgColor = backgroundColor?.hex || '#ffffff'
   const isDark = backgroundColor ? (backgroundColor.hsl.l < 0.5) : false
   
-  let textColor = isDark ? 'text-white' : 'text-gray-900'
-  let subtitleColor = isDark ? 'text-gray-300' : 'text-gray-600'
+  let textColor = isDark ? 'text-primary-foreground' : 'text-foreground'
+  let subtitleColor = isDark ? 'text-primary-foreground/70' : 'text-muted-foreground'
 
   if (backgroundImage) {
-    textColor = 'text-gray-900'
-    subtitleColor = 'text-gray-600'
+    textColor = 'text-foreground'
+    subtitleColor = 'text-muted-foreground'
   }
 
   if (layout === 'list') {
@@ -63,7 +63,7 @@ export default function ServiceListBlock({
           <Container className="relative">
             {title && (
               <div className="text-center mb-16 relative">
-                <h2 className={`text-4xl md:text-6xl font-black mb-4 ${textColor} retro-text-shadow`}>
+                <h2 className={`text-4xl md:text-6xl font-black mb-4 ${textColor}`}>
                   {title}
                 </h2>
                 {description && (
@@ -78,13 +78,12 @@ export default function ServiceListBlock({
               {services.map((service, idx) => (
               <Card
                 key={service._id}
-                variant="retro"
-                className="group"
+                className="group border border-border shadow-sm"
               >
                 <div className="flex flex-col md:flex-row items-center gap-8 p-8">
                   {service.icon ? (
                     <div className="shrink-0">
-                      <div className="border-2 border-black p-6" style={{ transform: `rotate(${(idx % 2 === 0 ? -3 : 3)}deg)` }}>
+                      <div className="border border-border p-6">
                         <Image
                           src={urlFor(service.icon as any).width(80).height(80).url()}
                           alt={service.title}
@@ -95,10 +94,10 @@ export default function ServiceListBlock({
                     </div>
                   ) : null}
                   <div className="flex-1 text-center md:text-left">
-                    <h3 className="text-3xl font-black mb-3 text-gray-900">
+                    <h3 className="text-3xl font-black mb-3 text-foreground">
                       {service.title}
                     </h3>
-                    <p className="text-lg mb-6 leading-relaxed text-gray-700 font-medium">
+                    <p className="text-lg mb-6 leading-relaxed text-muted-foreground font-medium">
                       {service.shortDescription}
                     </p>
                     <Button asChild variant="default">
@@ -134,7 +133,7 @@ export default function ServiceListBlock({
         <Container className="relative">
           {title && (
             <div className="text-center mb-16 relative">
-              <h2 className={`text-4xl md:text-6xl font-black mb-4 ${textColor} retro-text-shadow`}>
+              <h2 className={`text-4xl md:text-6xl font-black mb-4 ${textColor}`}>
                 {title}
               </h2>
               {description && (
@@ -149,8 +148,7 @@ export default function ServiceListBlock({
             {services.map((service) => (
               <Card
                 key={service._id}
-                variant="retro"
-                className="group h-full w-full p-8 text-center"
+                className="group h-full w-full p-8 text-center border border-border shadow-sm"
               >
                   {service.icon ? (
                     <div className="mb-6">
@@ -166,10 +164,10 @@ export default function ServiceListBlock({
                       </div>
                     </div>
                   ) : null}
-                  <h3 className="text-2xl font-black mb-4 text-gray-900">
+                  <h3 className="text-2xl font-black mb-4 text-foreground">
                     {service.title}
                   </h3>
-                  <p className="text-lg mb-8 leading-relaxed text-gray-700 font-medium">
+                  <p className="text-lg mb-8 leading-relaxed text-muted-foreground font-medium">
                     {service.shortDescription}
                   </p>
                   <Button asChild variant="default">

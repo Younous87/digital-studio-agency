@@ -64,23 +64,16 @@ export default function Footer({
   }
 
   return (
-    <footer className="relative bg-background border-t-4 border-black">
-      {/* Retro pattern background */}
-      <div className="absolute inset-0 pattern-dots opacity-5 pointer-events-none" />
-      
-      {/* Decorative shapes */}
-      <div className="absolute top-10 right-10 w-20 h-20 bg-brand-tertiary border-3 border-black rounded-full opacity-20" />
-      <div className="absolute bottom-10 left-10 w-16 h-16 bg-brand-accent border-3 border-black rotate-45 opacity-20" />
-      
+    <footer className="relative bg-background border-t border-border">
       <Container className="relative z-10">
         <div className="py-16 grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Company Info */}
           <div>
-            <h3 className="text-foreground text-3xl font-black mb-4 flex items-center gap-2">
+            <h3 className="text-foreground text-3xl font-bold mb-4 flex items-center gap-2">
               {displayCompanyName}
             </h3>
             {displayFooterText && (
-              <p className="text-base font-medium text-muted-foreground bg-muted border-2 border-black rounded-lg p-4 shadow-sm">
+              <p className="text-base text-muted-foreground">
                 {displayFooterText}
               </p>
             )}
@@ -88,7 +81,7 @@ export default function Footer({
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-foreground font-black text-xl mb-6 pb-2 border-b-3 border-brand-secondary">
+            <h4 className="text-foreground font-semibold text-xl mb-6 pb-2 border-b border-border">
               Quick Links
             </h4>
             <ul className="space-y-3">
@@ -96,9 +89,8 @@ export default function Footer({
                 <li key={link.url}>
                   <Link 
                     href={link.url} 
-                    className="text-base font-bold text-foreground hover:text-brand-primary transition-colors inline-flex items-center gap-2 group"
+                    className="text-base text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-2 group"
                   >
-                    <span className="w-2 h-2 bg-brand-primary rounded-full group-hover:scale-150 transition-transform" />
                     {link.label}
                   </Link>
                 </li>
@@ -108,7 +100,7 @@ export default function Footer({
 
           {/* Social Media */}
           <div>
-            <h4 className="text-foreground font-black text-xl mb-6 pb-2 border-b-3 border-brand-accent">
+            <h4 className="text-foreground font-semibold text-xl mb-6 pb-2 border-b border-border">
               Follow Us
             </h4>
             <div className="flex flex-wrap gap-4">
@@ -118,7 +110,7 @@ export default function Footer({
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 bg-background border-3 border-black rounded-lg flex items-center justify-center hover:bg-brand-primary hover:text-white transition-all shadow-sm hover-lift group"
+                  className="w-12 h-12 bg-muted border border-border rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all group"
                   aria-label={social.platform}
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -130,8 +122,8 @@ export default function Footer({
           </div>
         </div>
 
-        <div className="border-t-2 border-black py-8 text-center">
-          <p className="text-lg font-black text-foreground bg-brand-secondary border-2 border-black rounded-full py-3 px-8 inline-block">
+        <div className="border-t border-border py-8 text-center">
+          <p className="text-muted-foreground">
             {copyright || `© ${currentYear} ${displayCompanyName}. All rights reserved.`}
           </p>
         </div>

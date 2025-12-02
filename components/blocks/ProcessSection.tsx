@@ -33,15 +33,15 @@ export default function ProcessSection({ title, steps = [], backgroundImage }: R
           {steps.map((step, index) => (
             <div key={`${step.title}-${index}`} className="flex gap-6">
               <div className="shrink-0">
-                <div className="w-12 h-12 bg-(--brand-primary) border-3 border-black text-black rounded-none flex items-center justify-center text-xl font-black shadow-sm">
+                <div className="w-12 h-12 bg-primary border border-border text-primary-foreground rounded-md flex items-center justify-center text-xl font-black shadow-sm">
                   {step.step}
                 </div>
               </div>
               <div>
-                <h3 className="text-2xl font-black text-black mb-2">
+                <h3 className="text-2xl font-black text-foreground mb-2">
                   {step.title}
                 </h3>
-                <p className="text-black font-medium">{step.description}</p>
+                <p className="text-muted-foreground font-medium">{step.description}</p>
               </div>
             </div>
           ))}

@@ -25,7 +25,7 @@ interface AboutValuesBlockProps {
 export default function AboutValuesBlock({ title, values, backgroundColor, backgroundImage }: Readonly<AboutValuesBlockProps>) {
   const bgColor = backgroundColor?.hex || '#ffffff'
   const isDark = backgroundColor ? (backgroundColor.hsl.l < 0.5) : false
-  const textColor = backgroundImage ? 'text-gray-900' : (isDark ? 'text-white' : 'text-gray-900')
+  const textColor = backgroundImage ? 'text-foreground' : (isDark ? 'text-primary-foreground' : 'text-foreground')
 
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
@@ -57,9 +57,9 @@ export default function AboutValuesBlock({ title, values, backgroundColor, backg
           {values?.map((value, index) => (
             <div
               key={value._key || index}
-              className="bg-white border-2 border-black shadow-md p-8 hover:translate-x-1 hover:-translate-y-1 hover:shadow-lg transition-all duration-200 group"
+              className="bg-card border border-border shadow-sm p-8 hover:translate-x-1 hover:-translate-y-1 hover:shadow-md transition-all duration-200 group rounded-md"
             >
-              <div className="w-16 h-16 bg-(--brand-primary) border-2 border-black flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
+              <div className="w-16 h-16 bg-primary border border-border rounded-md flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
                 {value.icon ? (
                   <Image
                     src={urlFor(value.icon).url()}
@@ -72,8 +72,8 @@ export default function AboutValuesBlock({ title, values, backgroundColor, backg
                   <div className="w-8 h-8 bg-black rounded-full" />
                 )}
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-900">{value.title}</h3>
-              <p className="text-gray-700 leading-relaxed">{value.description}</p>
+              <h3 className="text-2xl font-bold mb-4 text-foreground">{value.title}</h3>
+              <p className="text-muted-foreground leading-relaxed">{value.description}</p>
             </div>
           ))}
         </div>

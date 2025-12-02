@@ -51,14 +51,14 @@ export default async function ServicePage({ params }: Readonly<{ params: Promise
                 alt={service.title}
                 width={120}
                 height={120}
-                className="border-4 border-black shadow-sm rounded-none"
+                className="border border-border shadow-sm rounded-md"
               />
             </div>
           )}
-          <h1 className="text-4xl md:text-6xl font-black text-black mb-6 retro-text-shadow">
+          <h1 className="text-4xl md:text-6xl font-black text-foreground mb-6">
             {service.title}
           </h1>
-          <p className="text-xl text-black font-bold">
+          <p className="text-xl text-muted-foreground font-bold">
             {service.shortDescription}
           </p>
         </div>
