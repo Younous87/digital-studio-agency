@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import FullScreenSection from '../ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
 
 interface PackageFeature {
   _key?: string
@@ -70,10 +71,14 @@ export default function PackagesBlock({
       >
         {/* Section Title */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-black text-foreground">
-            {title}{' '}
-            <span className="text-primary">{highlightedText}</span>
-          </h2>
+          <AnimatedTitle
+            text={`${title} ${highlightedText}`}
+            as="h2"
+            className="text-4xl md:text-6xl font-black text-foreground"
+            wordsPerGroup={1}
+            gradientStartGroup={1}
+            gradientInterval={2}
+          />
         </div>
 
         {/* Features Card */}

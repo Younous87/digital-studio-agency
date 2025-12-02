@@ -8,6 +8,8 @@ import { urlFor } from '@/lib/sanity/image'
 import { ArrowRight } from 'lucide-react'
 import BackgroundWrapper from './BackgroundWrapper'
 import LiquidEther from '@/components/LiquidEther'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 
 interface HeroBlockProps {
   headline: string
@@ -102,14 +104,24 @@ export default function HeroBlock({
         {/* Content */}
         <div className={`relative z-10 text-center px-4 max-w-6xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {/* Main Headline */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-none tracking-tight text-foreground">
-            {headline}
-          </h1>
+          <AnimatedTitle
+            text={headline}
+            as="h1"
+            className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-none tracking-tight text-foreground"
+            wordsPerGroup={2}
+            gradientStartGroup={1}
+            gradientInterval={2}
+          />
 
           {subheadline && (
-            <p className="text-xl md:text-3xl mb-12 text-muted-foreground max-w-4xl mx-auto leading-relaxed font-medium">
-              {subheadline}
-            </p>
+            <AnimatedSubtitle
+              text={subheadline}
+              as="p"
+              className="text-xl md:text-3xl mb-12 text-muted-foreground max-w-4xl mx-auto leading-relaxed font-medium"
+              wordsPerGroup={3}
+              gradientStartGroup={1}
+              gradientInterval={2}
+            />
           )}
 
           {/* CTA Buttons */}

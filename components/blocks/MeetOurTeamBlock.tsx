@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/image'
 import FullScreenSection from '../ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
 
 interface TeamMember {
   _key: string
@@ -41,9 +42,14 @@ export default function MeetOurTeamBlock({ title, showTeam = true, members = [],
         {/* Decorative elements removed for clean ShadcnUI styling */}
 
         {title && (
-          <h2 className={`text-4xl md:text-6xl font-black mb-16 text-center ${textColor}`}>
-            {title}
-          </h2>
+          <AnimatedTitle
+            text={title}
+            as="h2"
+            className={`text-4xl md:text-6xl font-black mb-16 text-center ${textColor}`}
+            wordsPerGroup={2}
+            gradientStartGroup={0}
+            gradientInterval={2}
+          />
         )}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
           {members.map((member, index) => (

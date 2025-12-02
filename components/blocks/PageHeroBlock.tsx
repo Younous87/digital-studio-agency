@@ -3,6 +3,8 @@ import { urlFor } from '@/lib/sanity/image'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import FullScreenSection from '../ui/FullScreenSection'
+import AnimatedTitle from '../ui/AnimatedTitle'
+import AnimatedSubtitle from '../ui/AnimatedSubtitle'
 
 interface PageHeroBlockProps {
   readonly title: string
@@ -71,13 +73,23 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-card border border-border shadow-lg p-8 md:p-12 inline-block ">
-          <h1 className="text-5xl md:text-7xl font-black text-foreground mb-6">
-            {title}
-          </h1>
+          <AnimatedTitle
+            text={title}
+            as="h1"
+            className="text-5xl md:text-7xl font-black text-foreground mb-6"
+            wordsPerGroup={2}
+            gradientStartGroup={1}
+            gradientInterval={2}
+          />
           {subtitle && (
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto font-bold">
-              {subtitle}
-            </p>
+            <AnimatedSubtitle
+              text={subtitle}
+              as="p"
+              className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto font-bold"
+              wordsPerGroup={3}
+              gradientStartGroup={1}
+              gradientInterval={2}
+            />
           )}
           {cta?.text && cta?.link && (
             <Button variant="default" size="lg" asChild>

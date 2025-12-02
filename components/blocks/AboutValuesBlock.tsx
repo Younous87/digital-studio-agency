@@ -2,6 +2,7 @@ import FullScreenSection from '../ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/image'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
 
 interface ValueItem {
   _key: string
@@ -46,9 +47,14 @@ export default function AboutValuesBlock({ title, values, backgroundColor, backg
 
         {title && (
           <div className="text-center mb-16 relative">
-            <h2 className={`text-4xl md:text-5xl font-black ${textColor} inline-block relative z-10`}>
-              {title}
-            </h2>
+            <AnimatedTitle
+              text={title}
+              as="h2"
+              className={`text-4xl md:text-5xl font-black ${textColor} inline-block relative z-10`}
+              wordsPerGroup={2}
+              gradientStartGroup={0}
+              gradientInterval={2}
+            />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xs h-12 -rotate-2 opacity-50 blur-xl" />
           </div>
         )}

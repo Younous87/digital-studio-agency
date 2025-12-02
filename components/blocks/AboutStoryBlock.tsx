@@ -1,6 +1,7 @@
 import RichTextRenderer from './RichTextRenderer'
 import FullScreenSection from '../ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
 
 interface AboutStoryBlockProps {
   title?: string
@@ -38,10 +39,17 @@ export default function AboutStoryBlock({ title, content, backgroundColor, backg
 
         {title && (
           <div className="relative mb-12">
-            <h2 className={`text-4xl md:text-6xl font-black text-center ${textColor} relative inline-block w-full`}>
-              <span className="relative z-10">{title}</span>
+            <div className={`text-4xl md:text-6xl font-black text-center ${textColor} relative inline-block w-full`}>
+              <AnimatedTitle
+                text={title}
+                as="h2"
+                className="relative z-10"
+                wordsPerGroup={2}
+                gradientStartGroup={0}
+                gradientInterval={2}
+              />
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-3 bg-primary -rotate-1" />
-            </h2>
+            </div>
           </div>
         )}
         {content ? (

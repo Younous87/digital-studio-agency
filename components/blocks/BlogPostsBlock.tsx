@@ -5,6 +5,8 @@ import Section from '@/components/ui/Section'
 import BackgroundWrapper from './BackgroundWrapper'
 import { Card } from '@/components/ui/card'
 import { urlFor } from '@/lib/sanity/image'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 
 interface BlogPost {
   _id: string
@@ -50,14 +52,24 @@ export default function BlogPostsBlock({
           {(title || description) && (
             <div className="text-center mb-16">
               {title && (
-                <h2 className="text-4xl md:text-6xl font-black text-foreground mb-6">
-                  {title}
-                </h2>
+                <AnimatedTitle
+                  text={title}
+                  as="h2"
+                  className="text-4xl md:text-6xl font-black text-foreground mb-6"
+                  wordsPerGroup={2}
+                  gradientStartGroup={0}
+                  gradientInterval={2}
+                />
               )}
               {description && (
-                <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-bold">
-                  {description}
-                </p>
+                <AnimatedSubtitle
+                  text={description}
+                  as="p"
+                  className="text-xl text-muted-foreground max-w-3xl mx-auto font-bold"
+                  wordsPerGroup={3}
+                  gradientStartGroup={1}
+                  gradientInterval={2}
+                />
               )}
             </div>
           )}

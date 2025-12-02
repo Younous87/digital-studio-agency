@@ -4,6 +4,7 @@ import FullScreenSection from '@/components/ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/image'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
 
 interface Feature {
   title: string
@@ -28,9 +29,14 @@ export default function FeaturesSection({ title, features = [], backgroundImage 
         className="py-20"
       >
         {title && (
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
-            {title}
-          </h2>
+          <AnimatedTitle
+            text={title}
+            as="h2"
+            className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center"
+            wordsPerGroup={2}
+            gradientStartGroup={1}
+            gradientInterval={2}
+          />
         )}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
           {features.map((feature, index) => (

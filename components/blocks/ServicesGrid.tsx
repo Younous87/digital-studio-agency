@@ -9,6 +9,8 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { urlFor } from '@/lib/sanity/image'
 import { ArrowRight } from 'lucide-react'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 
 interface Service {
   _id: string
@@ -44,14 +46,24 @@ export default function ServicesGrid({
         {(title || description) && (
           <div className="text-center mb-16 animate-fade-in">
             {title && (
-              <h2 className="text-4xl md:text-6xl font-black text-foreground mb-6 flex items-center justify-center gap-3">
-                {title}
-              </h2>
+              <AnimatedTitle
+                text={title}
+                as="h2"
+                className="text-4xl md:text-6xl font-black text-foreground mb-6"
+                wordsPerGroup={2}
+                gradientStartGroup={1}
+                gradientInterval={2}
+              />
             )}
             {description && (
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-medium">
-                {description}
-              </p>
+              <AnimatedSubtitle
+                text={description}
+                as="p"
+                className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-medium"
+                wordsPerGroup={3}
+                gradientStartGroup={1}
+                gradientInterval={2}
+              />
             )}
           </div>
         )}

@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import BackgroundWrapper from './BackgroundWrapper'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 
 interface Service {
   _id: string
@@ -63,13 +65,23 @@ export default function ServiceListBlock({
           <Container className="relative">
             {title && (
               <div className="text-center mb-16 relative">
-                <h2 className={`text-4xl md:text-6xl font-black mb-4 ${textColor}`}>
-                  {title}
-                </h2>
+                <AnimatedTitle
+                  text={title}
+                  as="h2"
+                  className={`text-4xl md:text-6xl font-black mb-4 ${textColor}`}
+                  wordsPerGroup={2}
+                  gradientStartGroup={0}
+                  gradientInterval={2}
+                />
                 {description && (
-                  <p className={`text-xl max-w-3xl mx-auto font-bold ${subtitleColor}`}>
-                    {description}
-                  </p>
+                  <AnimatedSubtitle
+                    text={description}
+                    as="p"
+                    className={`text-xl max-w-3xl mx-auto font-bold ${subtitleColor}`}
+                    wordsPerGroup={3}
+                    gradientStartGroup={1}
+                    gradientInterval={2}
+                  />
                 )}
               </div>
             )}
@@ -133,13 +145,23 @@ export default function ServiceListBlock({
         <Container className="relative">
           {title && (
             <div className="text-center mb-16 relative">
-              <h2 className={`text-4xl md:text-6xl font-black mb-4 ${textColor}`}>
-                {title}
-              </h2>
+              <AnimatedTitle
+                text={title}
+                as="h2"
+                className={`text-4xl md:text-6xl font-black mb-4 ${textColor}`}
+                wordsPerGroup={2}
+                gradientStartGroup={0}
+                gradientInterval={2}
+              />
               {description && (
-                <p className={`text-xl max-w-3xl mx-auto font-bold ${subtitleColor}`}>
-                  {description}
-                </p>
+                <AnimatedSubtitle
+                  text={description}
+                  as="p"
+                  className={`text-xl max-w-3xl mx-auto font-bold ${subtitleColor}`}
+                  wordsPerGroup={3}
+                  gradientStartGroup={1}
+                  gradientInterval={2}
+                />
               )}
             </div>
           )}

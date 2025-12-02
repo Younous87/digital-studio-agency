@@ -4,6 +4,8 @@ import FullScreenSection from '../ui/FullScreenSection'
 import { ArrowRight } from 'lucide-react'
 import ConfettiButton from '../ui/ConfettiButton'
 import BackgroundWrapper from './BackgroundWrapper'
+import AnimatedTitle from '../ui/AnimatedTitle'
+import AnimatedSubtitle from '../ui/AnimatedSubtitle'
 
 interface CTASectionProps {
   title: string
@@ -33,14 +35,24 @@ export default function CTASection({
       <FullScreenSection background="transparent" className="relative overflow-hidden">
         {/* Content */}
         <div className="relative z-10 text-center max-w-5xl mx-auto">
-          <h2 className="text-5xl md:text-7xl font-black mb-8 text-foreground leading-none">
-            {title}
-          </h2>
+          <AnimatedTitle
+            text={title}
+            as="h2"
+            className="text-5xl md:text-7xl font-black mb-8 text-foreground leading-none"
+            wordsPerGroup={2}
+            gradientStartGroup={1}
+            gradientInterval={2}
+          />
 
           {description && (
-            <p className="text-xl md:text-2xl mb-12 text-muted-foreground font-medium max-w-3xl mx-auto">
-              {description}
-            </p>
+            <AnimatedSubtitle
+              text={description}
+              as="p"
+              className="text-xl md:text-2xl mb-12 text-muted-foreground font-medium max-w-3xl mx-auto"
+              wordsPerGroup={3}
+              gradientStartGroup={1}
+              gradientInterval={2}
+            />
           )}
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">

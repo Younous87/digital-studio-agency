@@ -9,6 +9,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Badge } from '@/components/ui/badge'
 import { urlFor } from '@/lib/sanity/image'
 import { Quote, Star } from 'lucide-react'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 
 interface Testimonial {
   _id: string
@@ -42,15 +44,27 @@ export default function TestimonialCarousel({
           {(title || description) && (
             <div className="text-center mb-12">
               {title && (
-                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 flex items-center justify-center gap-2">
+                <div className="flex items-center justify-center gap-2 mb-4">
                   <Quote className="w-8 h-8 text-primary" />
-                  {title}
-                </h2>
+                  <AnimatedTitle
+                    text={title}
+                    as="h2"
+                    className="text-3xl md:text-4xl font-bold text-foreground"
+                    wordsPerGroup={2}
+                    gradientStartGroup={1}
+                    gradientInterval={2}
+                  />
+                </div>
               )}
               {description && (
-                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                  {description}
-                </p>
+                <AnimatedSubtitle
+                  text={description}
+                  as="p"
+                  className="text-lg text-muted-foreground max-w-3xl mx-auto"
+                  wordsPerGroup={3}
+                  gradientStartGroup={1}
+                  gradientInterval={2}
+                />
               )}
             </div>
           )}
@@ -116,15 +130,27 @@ export default function TestimonialCarousel({
         {(title || description) && (
           <div className="text-center mb-12">
             {title && (
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 flex items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-2 mb-4">
                 <Quote className="w-8 h-8 text-primary" />
-                {title}
-              </h2>
+                <AnimatedTitle
+                  text={title}
+                  as="h2"
+                  className="text-3xl md:text-4xl font-bold text-foreground"
+                  wordsPerGroup={2}
+                  gradientStartGroup={1}
+                  gradientInterval={2}
+                />
+              </div>
             )}
             {description && (
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                {description}
-              </p>
+              <AnimatedSubtitle
+                text={description}
+                as="p"
+                className="text-lg text-muted-foreground max-w-3xl mx-auto"
+                wordsPerGroup={3}
+                gradientStartGroup={1}
+                gradientInterval={2}
+              />
             )}
           </div>
         )}

@@ -1,6 +1,7 @@
 import React from 'react'
 import FullScreenSection from '@/components/ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
 
 interface Step {
   step: string
@@ -25,9 +26,14 @@ export default function ProcessSection({ title, steps = [], backgroundImage }: R
         className="py-20"
       >
         {title && (
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-            {title}
-          </h2>
+          <AnimatedTitle
+            text={title}
+            as="h2"
+            className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-center"
+            wordsPerGroup={2}
+            gradientStartGroup={1}
+            gradientInterval={2}
+          />
         )}
         <div className="space-y-8 max-w-4xl w-full">
           {steps.map((step, index) => (
