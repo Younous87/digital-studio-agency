@@ -1,10 +1,10 @@
 'use client';
 
-import { Button, IButtonProps } from '@/components/retroui/Button';
+import { Button } from '@/components/ui/button';
 import confetti from 'canvas-confetti';
-import { useRef } from 'react';
+import { useRef, ComponentProps } from 'react';
 
-interface ConfettiButtonProps extends IButtonProps {
+interface ConfettiButtonProps extends ComponentProps<typeof Button> {
     particleCount?: number;
     spread?: number;
 }

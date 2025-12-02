@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/image'
 import FullScreenSection from '../ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
 
 interface TeamMember {
   _key: string
@@ -27,7 +28,7 @@ interface MeetOurTeamBlockProps {
 export default function MeetOurTeamBlock({ title, showTeam = true, members = [], backgroundColor, backgroundImage }: Readonly<MeetOurTeamBlockProps>) {
   const bgColor = backgroundColor?.hex || '#FF6B35'
   const isDark = backgroundColor ? (backgroundColor.hsl.l < 0.5) : false
-  const textColor = backgroundImage ? 'text-gray-900' : (isDark ? 'text-white' : 'text-gray-900')
+  const textColor = backgroundImage ? 'text-foreground' : (isDark ? 'text-primary-foreground' : 'text-foreground')
 
   if (!showTeam) return null
 
@@ -37,45 +38,42 @@ export default function MeetOurTeamBlock({ title, showTeam = true, members = [],
         background="transparent"
         className="relative overflow-hidden"
         style={{ backgroundColor: backgroundImage ? 'transparent' : bgColor }}
+        containerSize="2xl"
       >
-        {/* Decorative elements - only if no background image */}
-        {!backgroundImage && (
-          <>
-            <div className="absolute top-10 left-10 w-32 h-32 border-2 border-black opacity-20 rotate-12 pointer-events-none" />
-            <div className="absolute bottom-10 right-10 w-40 h-40 border-2 border-black opacity-20 -rotate-12 pointer-events-none" />
-          </>
-        )}
+        {/* Decorative elements removed for clean ShadcnUI styling */}
 
         {title && (
-          <h2 className={`text-4xl md:text-6xl font-black mb-16 text-center ${textColor} retro-text-shadow`}>
-            {title}
-          </h2>
+          <AnimatedTitle
+            text={title}
+            as="h2"
+            className={`text-5xl md:text-6xl lg:text-8xl font-black mb-16 lg:mb-24 text-center ${textColor}`}
+          />
         )}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {members.map((member, index) => (
             <div key={member._key || (member as any)._id || index} className="group">
-              <div className="bg-white border-2 border-black shadow-md hover:shadow-lg transition-all duration-300 p-8 text-center hover:-translate-y-2">
+              <div className="bg-card border border-border shadow-sm hover:shadow-xl transition-all duration-300 p-8 lg:p-10 text-center hover:-translate-y-3 rounded-lg">
                 {member.image && (
-                  <div className="relative w-48 h-48 mx-auto mb-6 border-2 border-black overflow-hidden -rotate-3 group-hover:rotate-3 transition-transform duration-300">
+                  <div className="relative w-56 h-56 lg:w-64 lg:h-64 mx-auto mb-8 border border-border overflow-hidden rounded-xl group-hover:scale-105 transition-transform duration-300">
                     <Image
-                      src={urlFor(member.image).width(300).height(300).url()}
+                      src={urlFor(member.image).width(400).height(400).url()}
                       alt={member.name}
                       fill
                       className="object-cover"
                     />
                   </div>
                 )}
-                <h3 className="text-2xl font-black mb-2 text-gray-900">{member.name}</h3>
-                <p className="text-lg font-bold text-(--brand-primary) mb-4">{member.role}</p>
+                <h3 className="text-2xl lg:text-3xl font-black mb-3 text-foreground">{member.name}</h3>
+                <p className="text-lg lg:text-xl font-bold text-primary mb-6">{member.role}</p>
                 {member.socialLinks && member.socialLinks.length > 0 && (
-                  <div className="flex justify-center gap-3">
+                  <div className="flex justify-center gap-4">
                     {member.socialLinks.map((social, idx) => (
                       <a
                         key={social.platform || social.url || idx}
                         href={social.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-black text-white px-4 py-2 font-bold text-sm hover:bg-(--brand-primary) hover:text-black transition-colors border-2 border-black"
+                        className="bg-primary text-primary-foreground px-5 py-2.5 font-bold text-base hover:bg-primary/80 transition-colors border border-border rounded-lg"
                       >
                         {social.platform}
                       </a>

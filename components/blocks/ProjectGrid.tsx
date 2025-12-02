@@ -1,16 +1,16 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import FullScreenSection from '../ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
-import { Card } from '../retroui/Card'
-import { Badge } from '../retroui/Badge'
-import { Dialog } from '../retroui/Dialog'
-import { Button } from '../retroui/Button'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { urlFor } from '@/lib/sanity/image'
-import { Eye, ExternalLink, Calendar } from 'lucide-react'
+import { ExternalLink, Calendar } from 'lucide-react'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 
 interface Project {
   _id: string
@@ -38,28 +38,112 @@ export default function ProjectGrid({
   layout = 'grid',
   backgroundImage
 }: Readonly<ProjectGridProps>) {
+  const [isPaused, setIsPaused] = useState(false)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const pauseRef = useRef<boolean>(false)
+
+  // Duplicate projects for seamless infinite scroll
+  const duplicatedProjects = [...projects, ...projects, ...projects]
+
+  useEffect(() => {
+     const scrollContainer = scrollRef.current
+     if (!scrollContainer) return
+ 
+     let rafId: number | null = null
+     let lastTime = performance.now()
+ 
+     // Speed in pixels per second - adjust as needed for desired speed
+     const speed = 240
+     let scrollPosition = 0
+ 
+     const update = (time: number) => {
+       if (!scrollContainer) return
+       const dt = Math.min(0.05, (time - lastTime) / 1000) // limit dt to avoid big jumps
+       lastTime = time
+      if (!pauseRef.current) {
+         scrollPosition += speed * dt
+         const singleSetWidth = scrollContainer.scrollWidth / 3
+         if (singleSetWidth > 0 && scrollPosition >= singleSetWidth * 2) {
+           scrollPosition = singleSetWidth
+         }
+         scrollContainer.scrollLeft = scrollPosition
+       }
+       rafId = requestAnimationFrame(update)
+     }
+ 
+     // Defer initialization a frame so DOM measurements are correct
+     const init = () => {
+       const singleSetWidth = scrollContainer.scrollWidth / 3
+       if (singleSetWidth > 0) {
+         scrollPosition = singleSetWidth
+         scrollContainer.scrollLeft = scrollPosition
+       }
+       lastTime = performance.now()
+       rafId = requestAnimationFrame(update)
+     }
+ 
+     // Small timeout to allow layout to settle (images may affect scrollWidth)
+     const timeoutId = window.setTimeout(() => requestAnimationFrame(init), 50)
+ 
+     const onResize = () => {
+       // Recompute positions on resize
+       const singleSetWidth = scrollContainer.scrollWidth / 3
+       if (singleSetWidth > 0) {
+         scrollPosition = singleSetWidth
+         scrollContainer.scrollLeft = scrollPosition
+       }
+     }
+     window.addEventListener('resize', onResize)
+ 
+     return () => {
+       if (rafId) cancelAnimationFrame(rafId)
+       window.clearTimeout(timeoutId)
+       window.removeEventListener('resize', onResize)
+     }
+  }, [projects.length])
+
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
-      <FullScreenSection background={backgroundImage ? 'transparent' : 'white'}>
+      <FullScreenSection background={backgroundImage ? 'transparent' : 'white'} containerSize="full" className="relative overflow-hidden" containerClassName="mx-0 !px-0">
         {(title || description) && (
           <div className="text-center mb-16 relative">
             {title && (
-              <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 retro-text-shadow">
-                {title}
-              </h2>
+              <AnimatedTitle
+                text={title}
+                as="h2"
+                className="text-4xl md:text-6xl font-black text-foreground mb-6"
+              />
             )}
             {description && (
-              <p className="text-xl text-black max-w-3xl mx-auto font-bold">
-                {description}
-              </p>
+              <AnimatedSubtitle
+                text={description}
+                as="p"
+                className="text-xl text-muted-foreground max-w-3xl mx-auto font-medium"
+              />
             )}
           </div>
         )}
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
-            <ProjectCard key={project._id} project={project} />
-          ))}
+        {/* Auto-scrolling carousel container */}
+        <div className="relative w-full overflow-hidden">
+          
+                <div
+                  ref={scrollRef}
+                  className="flex gap-6 overflow-x-auto scrollbar-hide touch-pan-x"
+                  onMouseEnter={() => { pauseRef.current = true; setIsPaused(true) }}
+                  onMouseLeave={() => { pauseRef.current = false; setIsPaused(false) }}
+                  onPointerDown={() => { pauseRef.current = true; setIsPaused(true) }}
+                  onPointerUp={() => { pauseRef.current = false; setIsPaused(false) }}
+                  onTouchStart={() => { pauseRef.current = true; setIsPaused(true) }}
+                  onTouchEnd={() => { pauseRef.current = false; setIsPaused(false) }}
+                >
+            {duplicatedProjects.map((project, index) => (
+              <ProjectCard 
+                key={`${project._id}-${index}`} 
+                project={project} 
+              />
+            ))}
+          </div>
         </div>
       </FullScreenSection>
     </BackgroundWrapper>
@@ -68,135 +152,112 @@ export default function ProjectGrid({
 
 function ProjectCard({ project }: Readonly<{ project: Project }>) {
   const [imageLoaded, setImageLoaded] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <Dialog>
-      <Card variant="retro" className="h-full group transition-all duration-300 overflow-hidden hover:-translate-y-1">
-        {/* Image area with quick view trigger */}
-        <Dialog.Trigger asChild>
-          <div className="cursor-pointer relative">
-            {project.featuredImage && (
-              <div className="relative h-64 overflow-hidden bg-(--brand-secondary)">
-                <Image
-                  src={urlFor(project.featuredImage).width(600).height(400).url()}
-                  alt={project.title}
-                  fill
-                  className={`object-cover transition-all duration-500 group-hover:scale-110 ${
-                    imageLoaded ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  onLoad={() => setImageLoaded(true)}
-                />
-                {!imageLoaded && (
-                  <div className="absolute inset-0 animate-pulse bg-(--brand-accent)" />
-                )}
-
-                {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-(--brand-primary)/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />                {/* Categories badges */}
-                {project.categories && project.categories.length > 0 && (
-                  <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
-                    {project.categories.slice(0, 3).map((category) => (
-                      <Badge key={category} variant="solid" size="lg">
-                        {category}
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-
-                {/* Quick view overlay */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-                  <div className="bg-white border-2 border-black shadow-md px-6 py-4 font-black text-black flex items-center gap-2 hover:bg-(--brand-primary) hover:text-white transition-colors">
-                    <Eye className="w-5 h-5" strokeWidth={3} />
-                    QUICK VIEW
-                  </div>
-                </div>
-              </div>
+    <Link href={`/work/${project.slug.current}`}>
+      <div
+              className="flex-shrink-0 min-w-[90vw] md:min-w-[70vw] lg:min-w-[60vw] xl:min-w-[50vw] h-[600px] relative rounded-xl overflow-hidden cursor-pointer group snap-start"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {/* Background Image */}
+        {project.featuredImage && (
+          <div className="absolute inset-0">
+            <Image
+              src={urlFor(project.featuredImage).width(1800).height(1200).url()}
+              alt={project.title}
+              fill
+              className={`object-cover transition-all duration-500 ${
+                imageLoaded ? 'opacity-100' : 'opacity-0'
+              } ${isHovered ? 'blur-sm scale-105' : 'blur-0 scale-100'}`}
+              onLoad={() => setImageLoaded(true)}
+            />
+            {!imageLoaded && (
+              <div className="absolute inset-0 animate-pulse bg-muted" />
             )}
           </div>
-        </Dialog.Trigger>
+        )}
 
-        {/* Card content with link to full project */}
-        <Link href={`/work/${project.slug.current}`}>
-          <Card.Header className="p-6">
-              <Card.Title className="text-2xl font-black group-hover:text-(--brand-primary) transition-colors mb-2">
-              {project.title}
-            </Card.Title>
-            {project.clientName && (
-              <Card.Description className="flex items-center gap-2 text-black font-bold">
-                <span className="text-(--brand-primary)">CLIENT:</span> {project.clientName}
-              </Card.Description>
-            )}
-          </Card.Header>
+        {/* Dark overlay that intensifies on hover */}
+        <div 
+          className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-500 ${
+            isHovered ? 'from-black/90 via-black/60 to-black/30' : ''
+          }`}
+        />
 
-          <Card.Content className="px-6 pb-4">
-            <p className="text-black line-clamp-2 font-medium">
-              {project.shortDescription}
-            </p>
-          </Card.Content>
-
-          <div className="flex justify-between items-center px-6 pb-6">
-            {project.completionDate && (
-              <div className="flex items-center gap-2 text-sm font-bold text-black">
-                <Calendar className="w-4 h-4" strokeWidth={3} />
-                {new Date(project.completionDate).getFullYear()}
-              </div>
-            )}
-            <Button asChild variant="default" size="sm" className="shadow-sm">
-              <span>VIEW PROJECT <ExternalLink className="w-4 h-4" strokeWidth={3} /></span>
-            </Button>
-          </div>
-        </Link>
-      </Card>
-
-      {/* Quick view dialog */}
-      <Dialog.Content>
-        <Card variant="retro" className="max-w-4xl">
-          <Card.Header className="pb-6 items-start">
-            <div className="flex flex-col gap-1">
-              <h2 className="text-3xl font-black text-gray-900">{project.title}</h2>
-              <Card.Description className="text-lg font-bold text-black">
-                {project.clientName && `CLIENT: ${project.clientName}`}
-              </Card.Description>
-            </div>
-          </Card.Header>
-
-          {project.featuredImage && (
-            <div className="relative h-96 overflow-hidden my-6">
-              <Image
-                src={urlFor(project.featuredImage).width(1200).height(800).url()}
-                alt={project.title}
-                fill
-                className="object-cover"
-              />
+        {/* Content overlay - fades in on hover */}
+        <div 
+          className={`absolute inset-0 flex flex-col justify-end p-6 transition-all duration-500 ${
+            isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
+          {/* Categories */}
+          {project.categories && project.categories.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-4">
+              {project.categories.slice(0, 3).map((category) => (
+                <Badge 
+                  key={category} 
+                  variant="secondary" 
+                  className="text-xs px-3 py-1 bg-white/20 backdrop-blur-sm text-white border-white/30"
+                >
+                  {category}
+                </Badge>
+              ))}
             </div>
           )}
 
+          {/* Title */}
+          <h3 className="text-2xl md:text-3xl font-black text-white mb-2">
+            {project.title}
+          </h3>
 
-          <Card.Content className="space-y-6">
-            {project.categories && project.categories.length > 0 && (
-              <div className="flex flex-wrap gap-3">
-                {project.categories.map((category) => (
-                  <Badge key={category} variant="solid" size="lg">
-                    {category}
-                  </Badge>
-                ))}
+          {/* Client */}
+          {project.clientName && (
+            <p className="text-white/80 font-medium mb-3">
+              {project.clientName}
+            </p>
+          )}
+
+          {/* Description */}
+          <p className="text-white/70 text-sm line-clamp-2 mb-4">
+            {project.shortDescription}
+          </p>
+
+          {/* Footer with date and button */}
+          <div className="flex items-center justify-between">
+            {project.completionDate && (
+              <div className="flex items-center gap-2 text-sm text-white/60">
+                <Calendar className="w-4 h-4" />
+                {new Date(project.completionDate).getFullYear()}
               </div>
             )}
-
-            <p className="text-black text-lg font-medium leading-relaxed">{project.shortDescription}</p>
-
-            <Button
-              asChild
-              variant="default"
-              size="lg"
-              className="inline-flex gap-2"
+            <Button 
+              variant="secondary" 
+              size="sm"
+              className="bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white hover:text-black"
             >
-              <Link href={`/work/${project.slug.current}`}>
-                VIEW FULL PROJECT <ExternalLink className="w-5 h-5" strokeWidth={3} />
-              </Link>
+              View Project <ExternalLink className="w-4 h-4 ml-2" />
             </Button>
-          </Card.Content>
-        </Card>
-      </Dialog.Content>
-    </Dialog>
+          </div>
+        </div>
+
+        {/* Title always visible at bottom when not hovered */}
+        <div 
+          className={`absolute bottom-0 left-0 right-0 p-6 transition-all duration-500 ${
+            isHovered ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
+          }`}
+        >
+          <h3 className="text-xl md:text-2xl font-black text-white">
+            {project.title}
+          </h3>
+          {project.clientName && (
+            <p className="text-white/70 font-medium text-sm mt-1">
+              {project.clientName}
+            </p>
+          )}
+        </div>
+      </div>
+    </Link>
   )
 }

@@ -1,23 +1,30 @@
+'use client'
+
+import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/image'
-import { Card } from '@/components/retroui/Card'
-import { Button } from '@/components/retroui/Button'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import Container from '@/components/ui/Container'
+import FullScreenSection from '@/components/ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
+import GlareHover from '@/components/ui/GlareHover'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
+import { ArrowRight } from 'lucide-react'
 
 interface Service {
   _id: string
   title: string
   slug: { current: string }
   shortDescription: string
-  icon?: unknown
+  icon?: any
 }
 
 interface ServiceListBlockProps {
   readonly title?: string
   readonly description?: string
-  readonly layout?: 'grid' | 'list'
+  readonly layout?: 'grid' | 'list' | 'carousel'
   readonly services?: Service[]
   readonly backgroundColor?: {
     readonly hex: string
@@ -31,96 +38,171 @@ interface ServiceListBlockProps {
 export default function ServiceListBlock({
   title = 'Our Services',
   description,
-  layout = 'grid',
+  layout = 'carousel',
   services = [],
   backgroundColor,
   backgroundImage
 }: ServiceListBlockProps) {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const pauseRef = useRef<boolean>(false)
+
   const bgColor = backgroundColor?.hex || '#ffffff'
   const isDark = backgroundColor ? (backgroundColor.hsl.l < 0.5) : false
   
-  let textColor = isDark ? 'text-white' : 'text-gray-900'
-  let subtitleColor = isDark ? 'text-gray-300' : 'text-gray-600'
+  let textColor = isDark ? 'text-primary-foreground' : 'text-foreground'
+  let subtitleColor = isDark ? 'text-primary-foreground/70' : 'text-muted-foreground'
 
   if (backgroundImage) {
-    textColor = 'text-gray-900'
-    subtitleColor = 'text-gray-600'
+    textColor = 'text-foreground'
+    subtitleColor = 'text-muted-foreground'
   }
 
-  if (layout === 'list') {
+  // Duplicate services for seamless infinite scroll
+  const duplicatedServices = [...services, ...services, ...services]
+  
+  // Determine effective layout (default to carousel if undefined)
+  const effectiveLayout = layout || 'carousel'
+  const isCarouselLayout = effectiveLayout === 'carousel' || effectiveLayout === 'list'
+
+  // Auto-scroll effect - exactly matching ProjectGrid implementation
+  useEffect(() => {
+    if (!isCarouselLayout) return
+    
+    const scrollContainer = scrollRef.current
+    if (!scrollContainer) return
+
+    let rafId: number | null = null
+    let lastTime = performance.now()
+
+    // Speed in pixels per second - adjust as needed for desired speed
+    const speed = -240
+    let scrollPosition = 0
+
+    const update = (time: number) => {
+      if (!scrollContainer) return
+      const dt = Math.min(0.05, (time - lastTime) / 1000) // limit dt to avoid big jumps
+      lastTime = time
+      if (!pauseRef.current) {
+        scrollPosition += speed * dt
+        const singleSetWidth = scrollContainer.scrollWidth / 3
+        if (singleSetWidth > 0) {
+          if (speed > 0) {
+            // Scrolling right
+            if (scrollPosition >= singleSetWidth * 2) {
+              scrollPosition = singleSetWidth
+            }
+          } else {
+            // Scrolling left
+            if (scrollPosition <= 0) {
+              scrollPosition = singleSetWidth * 2
+            }
+          }
+        }
+        scrollContainer.scrollLeft = scrollPosition
+      }
+      rafId = requestAnimationFrame(update)
+    }
+
+    // Defer initialization a frame so DOM measurements are correct
+    const init = () => {
+      const singleSetWidth = scrollContainer.scrollWidth / 3
+      if (singleSetWidth > 0) {
+        scrollPosition = singleSetWidth
+        scrollContainer.scrollLeft = scrollPosition
+      }
+      lastTime = performance.now()
+      rafId = requestAnimationFrame(update)
+    }
+
+    // Small timeout to allow layout to settle (images may affect scrollWidth)
+    const timeoutId = window.setTimeout(() => requestAnimationFrame(init), 50)
+
+    const onResize = () => {
+      // Recompute positions on resize
+      const singleSetWidth = scrollContainer.scrollWidth / 3
+      if (singleSetWidth > 0) {
+        scrollPosition = singleSetWidth
+        scrollContainer.scrollLeft = scrollPosition
+      }
+    }
+    window.addEventListener('resize', onResize)
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId)
+      window.clearTimeout(timeoutId)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [services.length, isCarouselLayout])
+
+  // Early return if no services - AFTER all hooks
+  if (!services || services.length === 0) {
+    return null
+  }
+
+  // Carousel layout (default) - also fallback for 'list' since it looks similar
+  if (isCarouselLayout) {
     return (
       <BackgroundWrapper backgroundImage={backgroundImage}>
-        <section className="py-20 relative" style={{ backgroundColor: backgroundImage ? 'transparent' : bgColor }}>
-          {/* Pattern background - only if no background image */}
-          {!backgroundImage && (
-            <div className="absolute inset-0 opacity-10 pointer-events-none">
-              <div className="absolute inset-0" style={{
-                backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(0,0,0,0.1) 30px, rgba(0,0,0,0.1) 31px)',
-              }} />
+        <FullScreenSection 
+          background={backgroundImage ? 'transparent' : 'white'} 
+          containerSize="full" 
+          className="relative overflow-hidden" 
+          containerClassName="mx-0 !px-0"
+          style={{ backgroundColor: backgroundImage ? 'transparent' : bgColor }}
+        >
+          {(title || description) && (
+            <div className="text-center mb-16 relative px-4 lg:px-12">
+              {title && (
+                <AnimatedTitle
+                  text={title}
+                  as="h2"
+                  className={`text-4xl md:text-6xl font-black mb-6 ${textColor}`}
+                />
+              )}
+              {description && (
+                <AnimatedSubtitle
+                  text={description}
+                  as="p"
+                  className={`text-xl max-w-3xl mx-auto font-medium ${subtitleColor}`}
+                />
+              )}
             </div>
           )}
 
-          <Container className="relative">
-            {title && (
-              <div className="text-center mb-16 relative">
-                <h2 className={`text-4xl md:text-6xl font-black mb-4 ${textColor} retro-text-shadow`}>
-                  {title}
-                </h2>
-                {description && (
-                  <p className={`text-xl max-w-3xl mx-auto font-bold ${subtitleColor}`}>
-                    {description}
-                  </p>
-                )}
-              </div>
-            )}
-
-            <div className="space-y-6">
-              {services.map((service, idx) => (
-              <Card
-                key={service._id}
-                variant="retro"
-                className="group"
-              >
-                <div className="flex flex-col md:flex-row items-center gap-8 p-8">
-                  {service.icon ? (
-                    <div className="shrink-0">
-                      <div className="border-2 border-black p-6" style={{ transform: `rotate(${(idx % 2 === 0 ? -3 : 3)}deg)` }}>
-                        <Image
-                          src={urlFor(service.icon as any).width(80).height(80).url()}
-                          alt={service.title}
-                          width={80}
-                          height={80}
-                        />
-                      </div>
-                    </div>
-                  ) : null}
-                  <div className="flex-1 text-center md:text-left">
-                    <h3 className="text-3xl font-black mb-3 text-gray-900">
-                      {service.title}
-                    </h3>
-                    <p className="text-lg mb-6 leading-relaxed text-gray-700 font-medium">
-                      {service.shortDescription}
-                    </p>
-                    <Button asChild variant="default">
-                      <Link href={`/services/${service.slug.current}`}>
-                        LEARN MORE →
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              </Card>
+          {/* Auto-scrolling carousel container */}
+          <div className="relative w-full overflow-hidden">
+            <div
+              ref={scrollRef}
+              className="flex gap-6 overflow-x-auto scrollbar-hide touch-pan-x"
+              onMouseEnter={() => { pauseRef.current = true }}
+              onMouseLeave={() => { pauseRef.current = false }}
+              onPointerDown={() => { pauseRef.current = true }}
+              onPointerUp={() => { pauseRef.current = false }}
+              onTouchStart={() => { pauseRef.current = true }}
+              onTouchEnd={() => { pauseRef.current = false }}
+            >
+              {duplicatedServices.map((service, index) => (
+                <ServiceCard 
+                  key={`${service._id}-${index}`} 
+                  service={service} 
+                />
               ))}
             </div>
-          </Container>
-        </section>
+          </div>
+        </FullScreenSection>
       </BackgroundWrapper>
     )
   }
 
-  // Grid layout (default)
+  // Grid layout
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
-      <section className="py-20 relative" style={{ backgroundColor: backgroundImage ? 'transparent' : bgColor }}>
+      <FullScreenSection 
+        background={backgroundImage ? 'transparent' : 'white'} 
+        containerSize="2xl"
+        className="relative"
+        style={{ backgroundColor: backgroundImage ? 'transparent' : bgColor }}
+      >
         {/* Grid pattern - only if no background image */}
         {!backgroundImage && (
           <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -131,57 +213,152 @@ export default function ServiceListBlock({
           </div>
         )}
 
-        <Container className="relative">
-          {title && (
-            <div className="text-center mb-16 relative">
-              <h2 className={`text-4xl md:text-6xl font-black mb-4 ${textColor} retro-text-shadow`}>
-                {title}
-              </h2>
-              {description && (
-                <p className={`text-xl max-w-3xl mx-auto font-bold ${subtitleColor}`}>
-                  {description}
-                </p>
-              )}
+        {(title || description) && (
+          <div className="text-center mb-16 lg:mb-20 relative">
+            {title && (
+              <AnimatedTitle
+                text={title}
+                as="h2"
+                className={`text-5xl md:text-6xl lg:text-8xl font-black mb-6 lg:mb-8 ${textColor}`}
+              />
+            )}
+            {description && (
+              <AnimatedSubtitle
+                text={description}
+                as="p"
+                className={`text-xl lg:text-2xl max-w-4xl mx-auto font-bold ${subtitleColor}`}
+              />
+            )}
+          </div>
+        )}
+
+        <div className="grid md:grid-cols-2 gap-6 lg:gap-10 relative">
+          {services.map((service) => (
+            <GridServiceCard key={service._id} service={service} />
+          ))}
+        </div>
+      </FullScreenSection>
+    </BackgroundWrapper>
+  )
+}
+
+function ServiceCard({ service }: Readonly<{ service: Service }>) {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <Link href={`/services/${service.slug.current}`}>
+      <GlareHover
+        width="100%"
+        height="600px"
+        background="transparent"
+        borderRadius="12px"
+        borderColor="transparent"
+        glareColor="#ffffff"
+        glareOpacity={0.3}
+        glareAngle={-30}
+        glareSize={300}
+        transitionDuration={800}
+        playOnce={false}
+        className="shrink-0 min-w-[90vw] md:min-w-[70vw] lg:min-w-[60vw] xl:min-w-[50vw] h-[600px] relative rounded-xl overflow-hidden cursor-pointer group snap-start"
+        style={{ background: 'transparent' }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+          {/* Background gradient */}
+          <div className={`absolute inset-0 bg-linear-to-br from-primary/90 via-primary/70 to-primary/50 transition-all duration-500 ${
+            isHovered ? 'from-primary via-primary/80 to-primary/60' : ''
+          }`} />
+
+          {/* Pattern overlay */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)',
+              backgroundSize: '24px 24px',
+            }} />
+          </div>
+
+          {/* Icon */}
+          {service.icon && (
+            <div className={`absolute top-8 lg:top-10 right-8 lg:right-10 transition-all duration-500 ${
+              isHovered ? 'scale-110 rotate-6' : ''
+            }`}>
+              <div className="bg-white/20 backdrop-blur-sm border border-white/30 p-5 lg:p-6 rounded-xl">
+                <Image
+                  src={urlFor(service.icon).width(80).height(80).url()}
+                  alt={service.title}
+                  width={64}
+                  height={64}
+                  className="w-12 h-12 lg:w-16 lg:h-16"
+                />
+              </div>
             </div>
           )}
 
-          <div className="grid md:grid-cols-2 xl:grid-cols-2 gap-8">
-            {services.map((service) => (
-              <Card
-                key={service._id}
-                variant="retro"
-                className="group h-full w-full p-8 text-center"
+          {/* Content */}
+          <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-10">
+            <h3 className={`text-3xl lg:text-4xl font-black text-white mb-4 transition-transform duration-500 ${
+              isHovered ? 'translate-x-2' : ''
+            }`}>
+              {service.title}
+            </h3>
+            
+            <p className={`text-white/80 text-lg lg:text-xl font-medium leading-relaxed mb-6 line-clamp-3 transition-all duration-500 ${
+              isHovered ? 'opacity-100 translate-y-0' : 'opacity-70'
+            }`}>
+              {service.shortDescription}
+            </p>
+
+            <div className={`transition-all duration-500 ${
+              isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}>
+              <Button 
+                variant="secondary" 
+                size="lg"
+                className="bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white hover:text-primary text-lg px-8 py-6"
               >
-                  {service.icon ? (
-                    <div className="mb-6">
-                      <div className="relative inline-block">
-                        <div className=" p-6 group-hover:rotate-6 transition-transform duration-300">
-                          <Image
-                            src={urlFor(service.icon as any).width(100).height(100).url()}
-                            alt={service.title}
-                            width={100}
-                            height={100}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                  <h3 className="text-2xl font-black mb-4 text-gray-900">
-                    {service.title}
-                  </h3>
-                  <p className="text-lg mb-8 leading-relaxed text-gray-700 font-medium">
-                    {service.shortDescription}
-                  </p>
-                  <Button asChild variant="default">
-                    <Link href={`/services/${service.slug.current}`}>
-                      LEARN MORE →
-                    </Link>
-                  </Button>
-              </Card>
-            ))}
+                Learn More <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </div>
           </div>
-        </Container>
-      </section>
-    </BackgroundWrapper>
+
+          {/* Decorative corner accent */}
+          <div className={`absolute top-0 left-0 w-24 h-24 transition-all duration-500 ${
+            isHovered ? 'scale-110' : ''
+          }`}>
+            <div className="absolute top-4 left-4 w-12 h-12 border-t-4 border-l-4 border-white/30 rounded-tl-xl" />
+          </div>
+        </GlareHover>
+    </Link>
+  )
+}function GridServiceCard({ service }: Readonly<{ service: Service }>) {
+  return (
+    <Link href={`/services/${service.slug.current}`} className="group block">
+      <Card className="h-full w-full p-8 lg:p-12 text-center border border-border shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+        {service.icon ? (
+          <div className="mb-8">
+            <div className="relative inline-block">
+              <div className="p-6 lg:p-8 group-hover:rotate-6 transition-transform duration-300">
+                <Image
+                  src={urlFor(service.icon).width(120).height(120).url()}
+                  alt={service.title}
+                  width={100}
+                  height={100}
+                  className="w-20 h-20 lg:w-24 lg:h-24"
+                />
+              </div>
+            </div>
+          </div>
+        ) : null}
+        <h3 className="text-2xl lg:text-3xl font-black mb-5 text-foreground group-hover:text-primary transition-colors">
+          {service.title}
+        </h3>
+        <p className="text-lg lg:text-xl mb-10 leading-relaxed text-muted-foreground font-medium">
+          {service.shortDescription}
+        </p>
+        <Button variant="default" size="lg" className="text-lg px-8 py-6">
+          LEARN MORE <ArrowRight className="w-5 h-5 ml-2" />
+        </Button>
+      </Card>
+    </Link>
   )
 }

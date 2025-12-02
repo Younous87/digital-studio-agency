@@ -2,13 +2,15 @@ import { client } from '@/lib/sanity/client'
 import { homepageQuery } from '@/lib/sanity/queries'
 import HeroBlock from '@/components/blocks/HeroBlock'
 import ServicesGrid from '@/components/blocks/ServicesGrid'
+import ServiceListBlock from '@/components/blocks/ServiceListBlock'
 import ProjectGrid from '@/components/blocks/ProjectGrid'
 import TestimonialCarousel from '@/components/blocks/TestimonialCarousel'
 import CTASection from '@/components/blocks/CTASection'
 import AnimatedStats from '@/components/blocks/AnimatedStats'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
+import PackagesBlock from '@/components/blocks/PackagesBlock'
 import Image from 'next/image'
-import { Button } from '@/components/retroui/Button'
+import { Button } from '@/components/ui/button'
 import FullScreenSection from '@/components/ui/FullScreenSection'
 import { urlFor } from '@/lib/sanity/image'
 import ScrollReveal from '@/components/ui/ScrollReveal'
@@ -35,16 +37,16 @@ export default async function HomePage() {
   if (!homepage?.pageBuilder) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center bg-white border-4 border-black shadow-lg p-12">
-          <h1 className="text-5xl font-black text-black mb-6 retro-text-shadow">
+        <div className="text-center bg-card border border-border shadow-lg p-12 rounded-lg">
+          <h1 className="text-5xl font-bold text-foreground mb-6">
             Welcome to Digital Studio
           </h1>
-          <p className="text-xl text-black mb-10 font-bold">
+          <p className="text-xl text-muted-foreground mb-10">
             Configure your homepage in Sanity Studio
           </p>
           <Button asChild>
             <Link href="/studio">
-              GO TO STUDIO
+              Go to Studio
             </Link>
           </Button>
         </div>
@@ -71,11 +73,6 @@ export default async function HomePage() {
                     sectionBackgroundImage={block.sectionBackgroundImage}
                   />
                 </ScrollReveal>
-                <RetroMarquee
-                  items={["Digital Experiences", "Creative Strategy", "Brand Identity", "Web Development", "Motion Design"]}
-                  speed={25}
-                  className=" scale-105 z-20"
-                />
               </React.Fragment>
             )
 
@@ -88,6 +85,21 @@ export default async function HomePage() {
                   description={block.description}
                   services={block.services || []}
                   layout={block.layout}
+                  backgroundImage={block.backgroundImage}
+                />
+              </ScrollReveal>
+            )
+
+          case 'serviceList':
+            return (
+              <ScrollReveal key={block._key || block._id || `${block._type}-${index}`} delay={0.2}>
+                <ServiceListBlock
+                  key={block._key || block._id || index}
+                  title={block.title}
+                  description={block.description}
+                  services={block.services || []}
+                  layout={block.layout}
+                  backgroundColor={block.backgroundColor}
                   backgroundImage={block.backgroundImage}
                 />
               </ScrollReveal>
@@ -126,11 +138,10 @@ export default async function HomePage() {
               <ScrollReveal key={block._key || block._id || `${block._type}-${index}`}>
                 <BackgroundWrapper backgroundImage={block.backgroundImage}>
                   <FullScreenSection key={block._key || block._id || index} background={block.backgroundImage ? 'transparent' : 'white'}>
-                    <div className={`grid md:grid-cols-2 gap-12 items-center ${block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''
-                      }`}>
+                    <div className={`grid md:grid-cols-2 gap-12 items-center ${block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''}`}>
                       <div className={block.imagePosition === 'left' ? 'md:order-2' : ''}>
                         {block.title && (
-                          <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">
+                          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
                             {block.title}
                           </h2>
                         )}
@@ -146,8 +157,7 @@ export default async function HomePage() {
                         )}
                       </div>
                       {block.image && (
-                        <div className={`relative h-96 rounded-lg overflow-hidden ${block.imagePosition === 'left' ? 'md:order-1' : ''
-                          }`}>
+                        <div className={`relative h-96 rounded-lg overflow-hidden ${block.imagePosition === 'left' ? 'md:order-1' : ''}`}>
                           <Image
                             src={urlFor(block.image).width(800).url()}
                             alt={block.title || 'About'}
@@ -182,11 +192,10 @@ export default async function HomePage() {
               <ScrollReveal key={block._key || block._id || `${block._type}-${index}`}>
                 <BackgroundWrapper backgroundImage={block.backgroundImage}>
                   <FullScreenSection key={block._key || block._id || index} background={block.backgroundImage ? 'transparent' : 'white'}>
-                    <div className={`grid md:grid-cols-2 gap-12 items-center ${block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''
-                      }`}>
+                    <div className={`grid md:grid-cols-2 gap-12 items-center ${block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''}`}>
                       <div className={block.imagePosition === 'left' ? 'md:order-2' : ''}>
                         {block.title && (
-                          <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">
+                          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
                             {block.title}
                           </h2>
                         )}
@@ -202,8 +211,7 @@ export default async function HomePage() {
                         )}
                       </div>
                       {block.image && (
-                        <div className={`relative h-96 rounded-lg overflow-hidden ${block.imagePosition === 'left' ? 'md:order-1' : ''
-                          }`}>
+                        <div className={`relative h-96 rounded-lg overflow-hidden ${block.imagePosition === 'left' ? 'md:order-1' : ''}`}>
                           <Image
                             src={urlFor(block.image).width(800).url()}
                             alt={block.title || 'Image'}
@@ -230,6 +238,21 @@ export default async function HomePage() {
               </ScrollReveal>
             )
 
+          case 'packagesBlock':
+            return (
+              <ScrollReveal key={block._key || block._id || `${block._type}-${index}`} delay={0.2}>
+                <PackagesBlock
+                  key={block._key || block._id || index}
+                  title={block.title}
+                  highlightedText={block.highlightedText}
+                  features={block.packageFeatures}
+                  ctaText={block.ctaText}
+                  ctaLink={block.ctaLink}
+                  backgroundImage={block.backgroundImage}
+                  backgroundColor={block.backgroundColor}
+                />
+              </ScrollReveal>
+            )
 
           default:
             return null
@@ -238,4 +261,3 @@ export default async function HomePage() {
     </>
   )
 }
-

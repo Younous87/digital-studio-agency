@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import FullScreenSection from '../ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
-import { Card } from '../retroui/Card'
+import { Card, CardContent } from '@/components/ui/card'
 import { TrendingUp, Users, Award, Briefcase } from 'lucide-react'
 
 interface Stat {
@@ -109,7 +109,7 @@ export default function AnimatedStats({ title, stats, backgroundImage }: Readonl
           )}
 
           {title && (
-            <h2 className="text-3xl md:text-5xl font-black text-center mb-16 text-white retro-text-shadow relative">
+            <h2 className="text-3xl md:text-5xl font-bold text-center mb-16 text-primary-foreground relative">
               {title}
             </h2>
           )}
@@ -120,33 +120,32 @@ export default function AnimatedStats({ title, stats, backgroundImage }: Readonl
               return (
                 <Card 
                   key={`stat-${stat.label}-${index}`}
-                  variant="retro"
-                  className="text-center"
+                  className="text-center border border-border shadow-sm"
                 >
-                  <Card.Content className="p-6">
+                  <CardContent className="p-6">
                     {Icon && (
                       <div className="flex justify-center mb-4">
-                        <div className="p-3 bg-(--brand-accent) border-2 border-black -rotate-6">
-                          <Icon className="w-8 h-8 text-black" strokeWidth={2} />
+                        <div className="p-3 bg-accent border border-border rounded-lg">
+                          <Icon className="w-8 h-8 text-accent-foreground" />
                         </div>
                       </div>
                     )}
                     {!isVisible ? (
-                      <div className="h-12 w-24 mx-auto mb-2 bg-gray-200 animate-pulse rounded" />
+                      <div className="h-12 w-24 mx-auto mb-2 bg-muted animate-pulse rounded" />
                     ) : (
-                      <div className="text-5xl md:text-6xl font-black mb-2 text-black">
+                      <div className="text-5xl md:text-6xl font-bold mb-2 text-foreground">
                         {animatedValues[index] || stat.value}
                       </div>
                     )}
-                    <div className="text-lg md:text-xl font-bold mb-2 text-gray-900">
+                    <div className="text-lg md:text-xl font-semibold mb-2 text-foreground">
                       {stat.label}
                     </div>
                     {stat.description && (
-                      <p className="text-sm text-gray-700">
+                      <p className="text-sm text-muted-foreground">
                         {stat.description}
                       </p>
                     )}
-                  </Card.Content>
+                  </CardContent>
                 </Card>
               )
             })}

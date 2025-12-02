@@ -3,8 +3,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Section from '@/components/ui/Section'
 import BackgroundWrapper from './BackgroundWrapper'
-import { Card } from '@/components/retroui/Card'
+import { Card } from '@/components/ui/card'
 import { urlFor } from '@/lib/sanity/image'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 
 interface BlogPost {
   _id: string
@@ -45,44 +47,48 @@ export default function BlogPostsBlock({
 
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
-      <Section background={backgroundImage ? 'transparent' : 'white'}>
-        <div className="max-w-7xl mx-auto">
+      <Section background={backgroundImage ? 'transparent' : 'white'} containerSize="2xl" padding="xl">
+        <div className="w-full">
           {(title || description) && (
-            <div className="text-center mb-16">
+            <div className="text-center mb-16 lg:mb-24">
               {title && (
-                <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 retro-text-shadow">
-                  {title}
-                </h2>
+                <AnimatedTitle
+                  text={title}
+                  as="h2"
+                  className="text-5xl md:text-6xl lg:text-8xl font-black text-foreground mb-8"
+                />
               )}
               {description && (
-                <p className="text-xl text-gray-700 max-w-3xl mx-auto font-bold">
-                  {description}
-                </p>
+                <AnimatedSubtitle
+                  text={description}
+                  as="p"
+                  className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto font-bold"
+                />
               )}
             </div>
           )}
 
-          <div className={`gap-8 ${layout === 'grid' ? 'grid md:grid-cols-2 lg:grid-cols-3' : 'space-y-8'}`}>
+          <div className={`gap-6 lg:gap-10 ${layout === 'grid' ? 'grid md:grid-cols-2 lg:grid-cols-3' : 'space-y-10'}`}>
             {posts.map((post) => (
               <Link key={post._id} href={`/blog/${post.slug.current}`}>
-                <Card variant="retro" className="h-full group transition-all duration-300 overflow-hidden hover:-translate-y-1">
-                  <div className={`relative overflow-hidden ${layout === 'list' ? 'h-64 md:h-80' : 'h-64'} border-b-4 border-black`}>
+                <Card className="h-full group transition-all duration-300 overflow-hidden hover:-translate-y-2 hover:shadow-xl border border-border">
+                  <div className={`relative overflow-hidden ${layout === 'list' ? 'h-72 md:h-96' : 'h-72 lg:h-80'} border-b border-border`}>
                     <Image
-                      src={urlFor(post.featuredImage).width(600).height(400).url()}
+                      src={urlFor(post.featuredImage).width(800).height(600).url()}
                       alt={post.title}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-110"
                     />
                     {post.categories && post.categories.length > 0 && (
-                      <div className="absolute top-4 left-4">
-                        <span className="bg-(--brand-secondary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-sm">
+                      <div className="absolute top-5 left-5">
+                        <span className="bg-secondary border border-border px-5 py-2.5 text-base font-black text-secondary-foreground shadow-sm rounded-lg">
                           {post.categories[0]}
                         </span>
                       </div>
                     )}
                   </div>
-                  <div className="p-6 bg-white">
-                    <div className="flex items-center text-sm font-bold text-gray-600 mb-3">
+                  <div className="p-6 lg:p-8 bg-card">
+                    <div className="flex items-center text-base font-bold text-muted-foreground mb-4">
                       {post.author && (
                         <span className="mr-4">{post.author.name}</span>
                       )}
@@ -94,10 +100,10 @@ export default function BlogPostsBlock({
                         })}
                       </span>
                     </div>
-                    <h3 className="text-2xl font-black text-gray-900 mb-3 group-hover:text-(--brand-primary) transition-colors">
+                    <h3 className="text-2xl lg:text-3xl font-black text-foreground mb-4 group-hover:text-primary transition-colors">
                       {post.title}
                     </h3>
-                    <p className="text-gray-700 line-clamp-3 font-medium">{post.excerpt}</p>
+                    <p className="text-muted-foreground line-clamp-3 font-medium text-lg">{post.excerpt}</p>
                   </div>
                 </Card>
               </Link>

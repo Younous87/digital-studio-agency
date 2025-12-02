@@ -19,12 +19,14 @@ export default defineType({
       of: [
         { type: 'hero' },
         { type: 'servicesOverview' },
+        { type: 'serviceList' },
         { type: 'featuredProjects' },
         { type: 'testimonials' },
         { type: 'aboutSection' },
         { type: 'ctaSection' },
         { type: 'textImageBlock' },
         { type: 'statsSection' },
+        { type: 'packagesBlock' },
       ],
     },
     {

@@ -4,7 +4,7 @@ import Container from './Container'
 interface SectionProps {
   children: ReactNode
   className?: string
-  containerSize?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
+  containerSize?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'
   background?: 'white' | 'gray' | 'dark' | 'transparent'
   padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
 }

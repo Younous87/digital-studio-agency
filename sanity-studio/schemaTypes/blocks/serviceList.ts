@@ -23,11 +23,12 @@ export default defineType({
       type: 'string',
       options: {
         list: [
+          { title: 'Carousel (Auto-scrolling)', value: 'carousel' },
           { title: 'Grid', value: 'grid' },
           { title: 'List', value: 'list' }
         ]
       },
-      initialValue: 'grid'
+      initialValue: 'carousel'
     }),
     defineField({
       name: 'showAll',

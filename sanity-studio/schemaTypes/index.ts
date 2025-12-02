@@ -31,6 +31,7 @@ import featuresSection from './blocks/featuresSection'
 import processSection from './blocks/processSection'
 import fullDescriptionSection from './blocks/fullDescriptionSection'
 import serviceCtaSection from './blocks/serviceCtaSection'
+import packagesBlock from './packagesBlock'
 
 export const schemaTypes = [
   // Documents
@@ -67,4 +68,5 @@ export const schemaTypes = [
   processSection,
   fullDescriptionSection,
   serviceCtaSection,
+  packagesBlock,
 ]

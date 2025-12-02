@@ -10,6 +10,7 @@ import FeaturedProjects from '@/components/blocks/ProjectGrid'
 import Testimonials from '@/components/blocks/TestimonialCarousel'
 import CTASection from '@/components/blocks/CTASection'
 import StatsSection from '@/components/blocks/AnimatedStats'
+import PackagesBlock from '@/components/blocks/PackagesBlock'
 
 type PageBlock = {
   _type: string
@@ -47,6 +48,10 @@ type PageBlock = {
   }
   image?: Record<string, unknown>
   imagePosition?: string
+  highlightedText?: string
+  packageFeatures?: Array<{ _key?: string; feature: string }>
+  ctaText?: string
+  ctaLink?: string
 }
 
 export const revalidate = 60
@@ -97,7 +102,7 @@ export default async function ServicesPage() {
                   key={block._key || block._id || `${block._type}-${index}`}
                   title={block.title}
                   description={block.description}
-                  layout={block.layout as 'grid' | 'list' | undefined}
+                  layout={block.layout as 'grid' | 'list' | 'carousel' | undefined}
                   services={block.services as any}
                   backgroundColor={block.backgroundColor}
                 />
@@ -159,7 +164,7 @@ export default async function ServicesPage() {
                         </div>
                       )}
                       <div className={textOrder}>
-                        {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">{block.title}</h2>}
+                        {block.title && <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6">{block.title}</h2>}
                         {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
                       </div>
                       {block.image && block.imagePosition === 'right' && (
@@ -180,6 +185,19 @@ export default async function ServicesPage() {
                   stats={block.stats as any}
                 />
               )
+            case 'packagesBlock':
+              return (
+                <PackagesBlock
+                  key={block._key || block._id || `${block._type}-${index}`}
+                  title={block.title}
+                  highlightedText={block.highlightedText}
+                  features={block.packageFeatures}
+                  ctaText={block.ctaText}
+                  ctaLink={block.ctaLink}
+                  backgroundImage={block.backgroundImage}
+                  backgroundColor={block.backgroundColor}
+                />
+              )
             default:
               return null
           }
@@ -189,11 +207,11 @@ export default async function ServicesPage() {
         <>
           {/* Hero Section */}
           <FullScreenSection background="gray">
-            <div className="text-center max-w-3xl mx-auto bg-white border-3 border-black shadow-lg p-12">
-              <h1 className="text-5xl md:text-7xl font-black text-black mb-6 retro-text-shadow">
+            <div className="text-center max-w-3xl mx-auto bg-card border border-border shadow-lg p-12 rounded-md">
+              <h1 className="text-5xl md:text-7xl font-black text-foreground mb-6">
                 Our Services
               </h1>
-              <p className="text-xl text-black font-bold">
+              <p className="text-xl text-muted-foreground font-bold">
                 We offer a comprehensive range of digital services to help your business thrive in the modern world.
               </p>
             </div>
@@ -202,14 +220,14 @@ export default async function ServicesPage() {
           {/* Services Grid - fallback */}
           <FullScreenSection>
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-6xl font-black text-black mb-6 retro-text-shadow">What We Offer</h2>
-              <p className="text-xl text-black max-w-2xl mx-auto font-bold">
+              <h2 className="text-4xl md:text-6xl font-black text-foreground mb-6">What We Offer</h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-bold">
                 Comprehensive digital solutions tailored to your business needs
               </p>
             </div>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              <div className="text-center p-8 bg-white border-4 border-black shadow-md">
-                <p className="text-black font-bold">No services configured yet. Please set up your services page in Sanity Studio.</p>
+              <div className="text-center p-8 bg-card border border-border shadow-sm rounded-md">
+                <p className="text-muted-foreground font-bold">No services configured yet. Please set up your services page in Sanity Studio.</p>
               </div>
             </div>
           </FullScreenSection>

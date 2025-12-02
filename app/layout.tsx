@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/global/Header";
 import Footer from "@/components/global/Footer";
+import SplashCursor from "@/components/SplashCursor";
 import { client } from "@/lib/sanity/client";
 import { siteSettingsQuery } from "@/lib/sanity/queries";
 
@@ -44,29 +45,10 @@ export default async function RootLayout({
 }>) {
   const settings = await getSiteSettings();
 
-  // Extract brand colors from Sanity settings
-  const brandColors = {
-    primary: settings?.brandColors?.primary?.hex || '#3b82f6',
-    secondary: settings?.brandColors?.secondary?.hex || '#8b5cf6',
-    accent: settings?.brandColors?.accent?.hex || '#06b6d4',
-  };
-
   return (
     <html lang="en">
-      <head>
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-              :root {
-                --brand-primary: ${brandColors.primary};
-                --brand-secondary: ${brandColors.secondary};
-                --brand-accent: ${brandColors.accent};
-              }
-            `,
-          }}
-        />
-      </head>
-      <body className={`${inter.variable} font-sans antialiased`} suppressHydrationWarning={true}>
+      <body className={`${inter.variable} font-sans antialiased bg-background text-foreground`} suppressHydrationWarning={true}>
+        <SplashCursor />
         <Header
           logo={settings?.logo}
           navigation={settings?.navigation || []}

@@ -93,11 +93,11 @@ export default async function BlogPage() {
         // Fallback if no pageBuilder
         <>
           <FullScreenSection background="gray">
-            <div className="text-center max-w-3xl mx-auto bg-white border-4 border-black shadow-lg p-12">
-              <h1 className="text-5xl md:text-7xl font-black text-black mb-6 retro-text-shadow">
+            <div className="text-center max-w-3xl mx-auto bg-card border border-border shadow-lg p-12 rounded-md">
+              <h1 className="text-5xl md:text-7xl font-black text-foreground mb-6">
                 Blog & Insights
               </h1>
-              <p className="text-xl text-black font-bold">
+              <p className="text-xl text-muted-foreground font-bold">
                 Discover the latest trends, tips, and insights from our team of experts.
               </p>
             </div>
@@ -107,8 +107,8 @@ export default async function BlogPage() {
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {posts.map((post: any) => (
                 <a key={post._id} href={`/blog/${post.slug.current}`} className="group">
-                  <div className="bg-white border-4 border-black shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
-                    <div className="relative h-64 overflow-hidden border-b-4 border-black">
+                  <div className="bg-card border border-border shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden rounded-md">
+                    <div className="relative h-64 overflow-hidden border-b border-border">
                       <img
                         src={post.featuredImage ? client.getUrl(post.featuredImage) : '/placeholder-blog.jpg'}
                         alt={post.title}
@@ -116,14 +116,14 @@ export default async function BlogPage() {
                       />
                       {post.categories && post.categories.length > 0 && (
                         <div className="absolute top-4 left-4">
-                          <span className="bg-(--brand-secondary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-sm">
+                          <span className="bg-secondary border border-border px-4 py-2 text-sm font-black text-secondary-foreground shadow-sm rounded-md">
                             {post.categories[0]}
                           </span>
                         </div>
                       )}
                     </div>
                     <div className="p-6">
-                      <div className="flex items-center text-sm font-bold text-black mb-3">
+                      <div className="flex items-center text-sm font-bold text-muted-foreground mb-3">
                         {post.author && (
                           <span className="mr-4">{post.author.name}</span>
                         )}
@@ -135,10 +135,10 @@ export default async function BlogPage() {
                           })}
                         </span>
                       </div>
-                      <h2 className="text-xl font-black text-black mb-3 group-hover:text-(--brand-primary) transition-colors">
+                      <h2 className="text-xl font-black text-foreground mb-3 group-hover:text-primary transition-colors">
                         {post.title}
                       </h2>
-                      <p className="text-black line-clamp-3 font-medium">{post.excerpt}</p>
+                      <p className="text-muted-foreground line-clamp-3 font-medium">{post.excerpt}</p>
                     </div>
                   </div>
                 </a>

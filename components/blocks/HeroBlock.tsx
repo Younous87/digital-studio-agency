@@ -2,11 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Button } from '@/components/retroui/Button'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { urlFor } from '@/lib/sanity/image'
 import { ArrowRight } from 'lucide-react'
 import BackgroundWrapper from './BackgroundWrapper'
+import LiquidEther from '@/components/LiquidEther'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 
 interface HeroBlockProps {
   headline: string
@@ -22,6 +25,8 @@ interface HeroBlockProps {
   backgroundImage?: any
   backgroundVideo?: string
   sectionBackgroundImage?: any
+  useLiquidEther?: boolean
+  liquidEtherColors?: string[]
 }
 
 export default function HeroBlock({
@@ -31,7 +36,9 @@ export default function HeroBlock({
   secondaryCta,
   backgroundImage,
   backgroundVideo,
-  sectionBackgroundImage
+  sectionBackgroundImage,
+  useLiquidEther = true,
+  liquidEtherColors = ['#5227FF', '#FF9FFC', '#B19EEF']
 }: Readonly<HeroBlockProps>) {
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -41,19 +48,35 @@ export default function HeroBlock({
 
   return (
     <BackgroundWrapper backgroundImage={sectionBackgroundImage}>
-      <section className={`relative min-h-screen flex items-center justify-center overflow-hidden border-b-3 border-black ${sectionBackgroundImage ? 'bg-transparent' : 'bg-background'}`}>
-        {/* Retro Pattern Background - only if no section background image */}
-        {!sectionBackgroundImage && <div className="absolute inset-0 pattern-dots opacity-10" />}
+      <section className={`relative min-h-screen flex items-center justify-center overflow-hidden ${sectionBackgroundImage ? 'bg-transparent' : 'bg-background'}`}>
+        {/* LiquidEther Background */}
+        {useLiquidEther && (
+          <div className="absolute inset-0 w-full h-full">
+            <LiquidEther
+              colors={liquidEtherColors}
+              mouseForce={20}
+              cursorSize={100}
+              isViscous={false}
+              viscous={30}
+              iterationsViscous={32}
+              iterationsPoisson={32}
+              resolution={0.5}
+              isBounce={false}
+              autoDemo={true}
+              autoSpeed={0.5}
+              autoIntensity={2.2}
+              takeoverDuration={0.25}
+              autoResumeDelay={3000}
+              autoRampDuration={0.6}
+              className="pointer-events-auto"
+            />
+          </div>
+        )}
 
-        {/* Decorative shapes - Neo-brutalist style */}
-        <div className="absolute top-10 right-10 w-32 h-32 bg-brand-secondary border-2 border-black rounded-full shadow-lg animate-bounce-in hidden md:block" />
-        <div className="absolute bottom-20 left-10 w-40 h-40 bg-brand-accent border-2 border-black rotate-12 shadow-xl animate-slide-in-left hidden md:block" />
-        <div className="absolute top-40 left-1/4 w-24 h-24 bg-brand-tertiary border-2 border-black -rotate-12 shadow-md hidden md:block" />
-
-        {/* Optional Background Image/Video with brutalist frame */}
-        {(backgroundVideo || backgroundImage) && (
+        {/* Optional Background Image/Video (fallback when LiquidEther is disabled) */}
+        {!useLiquidEther && (backgroundVideo || backgroundImage) && (
           <div className="absolute inset-0 flex items-center justify-center p-8">
-            <div className="relative w-full max-w-4xl h-96 border-3 border-black rounded-2xl overflow-hidden shadow-xl">
+            <div className="relative w-full max-w-4xl h-96 rounded-lg overflow-hidden">
               {backgroundVideo && (
                 <video
                   autoPlay
@@ -74,63 +97,45 @@ export default function HeroBlock({
                   priority
                 />
               )}
-              <div className="absolute inset-0 bg-gradient-retro-multi opacity-30" />
             </div>
           </div>
         )}
 
         {/* Content */}
-        <div className={`relative z-10 text-center px-4 max-w-6xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}>
-
-          {/* Main Headline - Retro typography */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-none tracking-tight">
-            <span className="inline-block animate-slide-in-bottom">
-              {headline.split(' ').map((word, i) => {
-                const colors = ['text-foreground', 'text-brand-primary', 'text-brand-secondary', 'text-brand-accent']
-                return (
-                  <span
-                    key={`${word}-${i}`}
-                    className={`${colors[i % colors.length]} inline-block mr-3 md:mr-4`}
-                    style={{
-                      animationDelay: `${i * 0.1}s`,
-                      textShadow: '4px 4px 0px rgba(0,0,0,0.1)'
-                    }}
-                  >
-                    {word}
-                  </span>
-                )
-              })}
-            </span>
-          </h1>
+        <div className={`relative z-10 text-center px-4 lg:px-8 max-w-7xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          {/* Main Headline */}
+          <AnimatedTitle
+            text={headline}
+            as="h1"
+            className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black mb-10 lg:mb-12 leading-none tracking-tight text-foreground"
+          />
 
           {subheadline && (
-            <p className="text-xl md:text-3xl mb-12 text-foreground max-w-4xl mx-auto leading-relaxed font-bold animate-fade-in border-2 border-black bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-              {subheadline}
-            </p>
+            <AnimatedSubtitle
+              text={subheadline}
+              as="p"
+              className="text-xl md:text-3xl lg:text-4xl mb-14 lg:mb-16 text-muted-foreground max-w-5xl mx-auto leading-relaxed font-medium"
+            />
           )}
 
-          {/* CTA Buttons - Neo-brutalist style */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 animate-slide-in-bottom">
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 lg:gap-8 justify-center items-center mb-16 animate-fade-in">
             {cta && (
-              <Button variant="default" size="lg" className="group" asChild>
+              <Button variant="default" size="lg" className="group text-lg lg:text-xl px-10 lg:px-14 py-6 lg:py-8" asChild>
                 <Link href={cta.link}>
                   {cta.text}
-                  <ArrowRight className="ml-3 w-6 h-6 inline group-hover:translate-x-2 transition-transform" strokeWidth={3} />
+                  <ArrowRight className="ml-3 w-6 h-6 lg:w-8 lg:h-8 inline group-hover:translate-x-2 transition-transform" />
                 </Link>
               </Button>
             )}
             {secondaryCta && (
-              <Button variant="outline" size="lg" asChild>
+              <Button variant="outline" size="lg" asChild className="text-lg lg:text-xl px-10 lg:px-14 py-6 lg:py-8">
                 <Link href={secondaryCta.link}>
                   {secondaryCta.text}
                 </Link>
               </Button>
             )}
           </div>
-
-
-
         </div>
       </section>
     </BackgroundWrapper>

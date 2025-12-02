@@ -16,6 +16,7 @@ import ServiceCtaSection from '@/components/blocks/ServiceCtaSection'
 import ServiceListBlock from '@/components/blocks/ServiceListBlock'
 import BlogPostsBlock from '@/components/blocks/BlogPostsBlock'
 import ContactFormSection from '@/components/blocks/ContactFormSection'
+import PackagesBlock from '@/components/blocks/PackagesBlock'
 
 type PageBlock = {
   _type: string
@@ -62,6 +63,10 @@ type PageBlock = {
   submitButtonText?: string
   buttonText?: string
   buttonLink?: string
+  highlightedText?: string
+  ctaText?: string
+  ctaLink?: string
+  packageFeatures?: Array<{ _key?: string; feature: string }>
 }
 
 interface BlockRendererProps {
@@ -157,7 +162,7 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
                   </div>
                 )}
                 <div className={textOrder}>
-                  {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 retro-text-shadow">{block.title}</h2>}
+                  {block.title && <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6">{block.title}</h2>}
                   {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
                 </div>
                 {hasImage && block.imagePosition === 'right' && (
@@ -185,7 +190,7 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
         <BackgroundWrapper key={block._key || block._id || `${block._type}-${index}`} backgroundImage={block.backgroundImage}>
           <FullScreenSection background={block.backgroundImage ? 'transparent' : 'white'}>
             <div className="max-w-4xl mx-auto">
-              {block.title && <h2 className="text-4xl md:text-5xl font-black text-black mb-6 text-center retro-text-shadow">{block.title}</h2>}
+              {block.title && <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6 text-center">{block.title}</h2>}
               {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
             </div>
           </FullScreenSection>
@@ -234,7 +239,7 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
           key={block._key || block._id || `${block._type}-${index}`}
           title={block.title}
           description={block.description}
-          layout={block.layout as 'grid' | 'list' | undefined}
+          layout={block.layout as 'grid' | 'list' | 'carousel' | undefined}
           services={block.services as any}
           backgroundColor={block.backgroundColor}
           backgroundImage={block.backgroundImage}
@@ -256,6 +261,19 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
         <ContactFormSection
           key={block._key || block._id || `${block._type}-${index}`}
           block={block as any}
+        />
+      )
+    case 'packagesBlock':
+      return (
+        <PackagesBlock
+          key={block._key || block._id || `${block._type}-${index}`}
+          title={block.title}
+          highlightedText={block.highlightedText}
+          features={block.packageFeatures}
+          ctaText={block.ctaText}
+          ctaLink={block.ctaLink}
+          backgroundImage={block.backgroundImage}
+          backgroundColor={block.backgroundColor}
         />
       )
     default:

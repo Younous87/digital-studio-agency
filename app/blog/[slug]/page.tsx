@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import FullScreenSection from '@/components/ui/FullScreenSection'
 import BackgroundWrapper from '@/components/blocks/BackgroundWrapper'
-import { Card } from '@/components/retroui/Card'
+import { Card } from '@/components/ui/card'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
 import { urlFor } from '@/lib/sanity/image'
 
@@ -40,29 +40,29 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 {post.categories.map((category: string, index: number) => (
                   <span
                     key={index}
-                    className="bg-(--brand-secondary) border-3 border-black px-4 py-2 text-sm font-black text-black shadow-sm"
+                    className="bg-secondary border border-border px-4 py-2 text-sm font-black text-secondary-foreground shadow-sm rounded-md"
                   >
                     {category}
                   </span>
                 ))}
               </div>
             )}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-black mb-6 retro-text-shadow">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-6">
               {post.title}
             </h1>
-            <div className="flex items-center text-black mb-8 font-bold">
+            <div className="flex items-center text-foreground mb-8 font-bold">
               {post.author?.photo && (
                 <Image
                   src={urlFor(post.author.photo).width(60).height(60).url()}
                   alt={post.author.name}
                   width={60}
                   height={60}
-                  className="rounded-none mr-4 border-4 border-black shadow-sm"
+                  className="rounded-md mr-4 border border-border shadow-sm"
                 />
               )}
               <div>
                 {post.author && (
-                  <p className="font-black text-black">{post.author.name}</p>
+                  <p className="font-black text-foreground">{post.author.name}</p>
                 )}
                 <p className="text-sm font-bold">
                   {new Date(post.publishedAt).toLocaleDateString('en-US', {
@@ -74,7 +74,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </div>
             </div>
             {post.excerpt && (
-              <p className="text-xl text-black leading-relaxed font-bold">
+              <p className="text-xl text-muted-foreground leading-relaxed font-bold">
                 {post.excerpt}
               </p>
             )}
@@ -109,7 +109,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       {post.author?.bio && (
         <FullScreenSection>
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white border-4 border-black shadow-brutal-lg p-8">
+            <div className="bg-card border border-border shadow-lg p-8 rounded-md">
               <div className="flex items-start gap-6">
                 {post.author.photo && (
                   <Image
@@ -117,15 +117,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     alt={post.author.name}
                     width={100}
                     height={100}
-                    className="rounded-none border-4 border-black shadow-brutal-sm"
+                    className="rounded-md border border-border shadow-sm"
                   />
                 )}
                 <div className="flex-1">
-                  <h3 className="text-2xl font-black text-black mb-2 retro-text-shadow">
+                  <h3 className="text-2xl font-black text-foreground mb-2">
                     {post.author.name}
                   </h3>
                   {post.author.role && (
-                    <p className="text-black mb-4 font-bold">{post.author.role}</p>
+                    <p className="text-muted-foreground mb-4 font-bold">{post.author.role}</p>
                   )}
                   <RichTextRenderer content={post.author.bio} />
                   {post.author.socialLinks && post.author.socialLinks.length > 0 && (
@@ -136,7 +136,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                           href={social.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-(--brand-primary) hover:text-(--brand-secondary) font-bold transition-colors"
+                          className="text-primary hover:text-primary/80 font-bold transition-colors"
                         >
                           {social.platform}
                         </a>
@@ -155,14 +155,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <BackgroundWrapper backgroundImage={post.relatedPostsBackground}>
           <FullScreenSection background={post.relatedPostsBackground ? 'transparent' : 'gray'}>
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-black text-black mb-8 text-center retro-text-shadow">
+              <h2 className="text-3xl font-black text-foreground mb-8 text-center">
                 Related Posts
               </h2>
               <div className="grid md:grid-cols-3 gap-8">
                 {post.relatedPosts.map((relatedPost: any) => (
                   <Link key={relatedPost._id} href={`/blog/${relatedPost.slug.current}`}>
-                    <Card variant="retro" className="h-full transition-all duration-300 overflow-hidden hover:-translate-y-1">
-                      <div className="relative h-48 border-b-4 border-black">
+                    <Card className="h-full border border-border shadow-sm transition-all duration-300 overflow-hidden hover:-translate-y-1 rounded-md">
+                      <div className="relative h-48 border-b border-border">
                         <Image
                           src={urlFor(relatedPost.featuredImage).width(400).height(300).url()}
                           alt={relatedPost.title}
@@ -170,14 +170,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                           className="object-cover"
                         />
                       </div>
-                      <div className="p-6 bg-white">
-                        <p className="text-sm font-bold text-black mb-2">
+                      <div className="p-6 bg-card">
+                        <p className="text-sm font-bold text-muted-foreground mb-2">
                           {new Date(relatedPost.publishedAt).toLocaleDateString()}
                         </p>
-                        <h3 className="text-lg font-black text-black mb-2">
+                        <h3 className="text-lg font-black text-foreground mb-2">
                           {relatedPost.title}
                         </h3>
-                        <p className="text-black line-clamp-2 font-medium">
+                        <p className="text-muted-foreground line-clamp-2 font-medium">
                           {relatedPost.excerpt}
                         </p>
                       </div>
