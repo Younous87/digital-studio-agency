@@ -1,16 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import FullScreenSection from '../ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription as DialogDesc } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { urlFor } from '@/lib/sanity/image'
-import { Eye, ExternalLink, Calendar } from 'lucide-react'
+import { ExternalLink, Calendar } from 'lucide-react'
 
 interface Project {
   _id: string
@@ -38,6 +36,43 @@ export default function ProjectGrid({
   layout = 'grid',
   backgroundImage
 }: Readonly<ProjectGridProps>) {
+  const [isPaused, setIsPaused] = useState(false)
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Duplicate projects for seamless infinite scroll
+  const duplicatedProjects = [...projects, ...projects, ...projects]
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current
+    if (!scrollContainer || isPaused) return
+
+    let animationFrameId: number
+    let scrollPosition = scrollContainer.scrollLeft
+
+    const scroll = () => {
+      if (!scrollContainer || isPaused) return
+      
+      scrollPosition += 1 // Adjust speed here (lower = slower)
+      
+      // Reset scroll position when we've scrolled through one set of projects
+      const singleSetWidth = scrollContainer.scrollWidth / 3
+      if (scrollPosition >= singleSetWidth * 2) {
+        scrollPosition = singleSetWidth
+      }
+      
+      scrollContainer.scrollLeft = scrollPosition
+      animationFrameId = requestAnimationFrame(scroll)
+    }
+
+    animationFrameId = requestAnimationFrame(scroll)
+
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId)
+      }
+    }
+  }, [isPaused, projects.length])
+
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
       <FullScreenSection background={backgroundImage ? 'transparent' : 'white'}>
@@ -56,10 +91,25 @@ export default function ProjectGrid({
           </div>
         )}
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
-            <ProjectCard key={project._id} project={project} />
-          ))}
+        {/* Auto-scrolling carousel container */}
+        <div className="relative w-full overflow-hidden">
+          {/* Gradient fade edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+          
+          <div
+            ref={scrollRef}
+            className="flex gap-6 overflow-x-hidden scrollbar-hide"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            {duplicatedProjects.map((project, index) => (
+              <ProjectCard 
+                key={`${project._id}-${index}`} 
+                project={project} 
+              />
+            ))}
+          </div>
         </div>
       </FullScreenSection>
     </BackgroundWrapper>
@@ -68,133 +118,113 @@ export default function ProjectGrid({
 
 function ProjectCard({ project }: Readonly<{ project: Project }>) {
   const [imageLoaded, setImageLoaded] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <Dialog>
-      <Card className="h-full group transition-all duration-300 overflow-hidden hover:-translate-y-1 border border-border shadow-sm hover:shadow-md">
-        {/* Image area with quick view trigger */}
-        <DialogTrigger asChild>
-          <div className="cursor-pointer relative">
-            {project.featuredImage && (
-              <div className="relative h-64 overflow-hidden bg-muted">
-                <Image
-                  src={urlFor(project.featuredImage).width(600).height(400).url()}
-                  alt={project.title}
-                  fill
-                  className={`object-cover transition-all duration-500 group-hover:scale-110 ${
-                    imageLoaded ? 'opacity-100' : 'opacity-0'
-                  }`}
-                  onLoad={() => setImageLoaded(true)}
-                />
-                {!imageLoaded && (
-                  <div className="absolute inset-0 animate-pulse bg-muted" />
-                )}
-
-                {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                {/* Categories badges */}
-                {project.categories && project.categories.length > 0 && (
-                  <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
-                    {project.categories.slice(0, 3).map((category) => (
-                      <Badge key={category} variant="default" className="text-sm px-3 py-1">
-                        {category}
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-
-                {/* Quick view overlay */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-                  <div className="bg-background border border-border shadow-md px-6 py-4 font-semibold text-foreground flex items-center gap-2 rounded-md">
-                    <Eye className="w-5 h-5" />
-                    Quick View
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </DialogTrigger>
-
-        {/* Card content with link to full project */}
-        <Link href={`/work/${project.slug.current}`}>
-          <CardHeader className="p-6">
-            <CardTitle className="text-2xl font-bold group-hover:text-primary transition-colors mb-2">
-              {project.title}
-            </CardTitle>
-            {project.clientName && (
-              <CardDescription className="flex items-center gap-2 text-muted-foreground">
-                <span className="text-primary font-medium">Client:</span> {project.clientName}
-              </CardDescription>
-            )}
-          </CardHeader>
-
-          <CardContent className="px-6 pb-4">
-            <p className="text-muted-foreground line-clamp-2">
-              {project.shortDescription}
-            </p>
-          </CardContent>
-
-          <div className="flex justify-between items-center px-6 pb-6">
-            {project.completionDate && (
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Calendar className="w-4 h-4" />
-                {new Date(project.completionDate).getFullYear()}
-              </div>
-            )}
-            <Button asChild variant="default" size="sm">
-              <span>View Project <ExternalLink className="w-4 h-4 ml-2" /></span>
-            </Button>
-          </div>
-        </Link>
-      </Card>
-
-      {/* Quick view dialog */}
-      <DialogContent className="max-w-4xl">
-        <DialogHeader className="pb-6">
-          <DialogTitle className="text-3xl font-bold text-foreground">{project.title}</DialogTitle>
-          {project.clientName && (
-            <DialogDesc className="text-lg text-muted-foreground">
-              Client: {project.clientName}
-            </DialogDesc>
+    <div
+      className="flex-shrink-0 w-[350px] md:w-[400px] h-[500px] relative rounded-xl overflow-hidden cursor-pointer group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Background Image */}
+      {project.featuredImage && (
+        <div className="absolute inset-0">
+          <Image
+            src={urlFor(project.featuredImage).width(800).height(1000).url()}
+            alt={project.title}
+            fill
+            className={`object-cover transition-all duration-500 ${
+              imageLoaded ? 'opacity-100' : 'opacity-0'
+            } ${isHovered ? 'blur-sm scale-105' : 'blur-0 scale-100'}`}
+            onLoad={() => setImageLoaded(true)}
+          />
+          {!imageLoaded && (
+            <div className="absolute inset-0 animate-pulse bg-muted" />
           )}
-        </DialogHeader>
+        </div>
+      )}
 
-        {project.featuredImage && (
-          <div className="relative h-96 overflow-hidden my-6 rounded-lg">
-            <Image
-              src={urlFor(project.featuredImage).width(1200).height(800).url()}
-              alt={project.title}
-              fill
-              className="object-cover"
-            />
+      {/* Dark overlay that intensifies on hover */}
+      <div 
+        className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-500 ${
+          isHovered ? 'from-black/90 via-black/60 to-black/30' : ''
+        }`}
+      />
+
+      {/* Content overlay - fades in on hover */}
+      <div 
+        className={`absolute inset-0 flex flex-col justify-end p-6 transition-all duration-500 ${
+          isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}
+      >
+        {/* Categories */}
+        {project.categories && project.categories.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {project.categories.slice(0, 3).map((category) => (
+              <Badge 
+                key={category} 
+                variant="secondary" 
+                className="text-xs px-3 py-1 bg-white/20 backdrop-blur-sm text-white border-white/30"
+              >
+                {category}
+              </Badge>
+            ))}
           </div>
         )}
 
-        <div className="space-y-6">
-          {project.categories && project.categories.length > 0 && (
-            <div className="flex flex-wrap gap-3">
-              {project.categories.map((category) => (
-                <Badge key={category} variant="secondary" className="text-sm px-3 py-1">
-                  {category}
-                </Badge>
-              ))}
+        {/* Title */}
+        <h3 className="text-2xl md:text-3xl font-black text-white mb-2">
+          {project.title}
+        </h3>
+
+        {/* Client */}
+        {project.clientName && (
+          <p className="text-white/80 font-medium mb-3">
+            {project.clientName}
+          </p>
+        )}
+
+        {/* Description */}
+        <p className="text-white/70 text-sm line-clamp-2 mb-4">
+          {project.shortDescription}
+        </p>
+
+        {/* Footer with date and button */}
+        <div className="flex items-center justify-between">
+          {project.completionDate && (
+            <div className="flex items-center gap-2 text-sm text-white/60">
+              <Calendar className="w-4 h-4" />
+              {new Date(project.completionDate).getFullYear()}
             </div>
           )}
-
-          <p className="text-muted-foreground text-lg leading-relaxed">{project.shortDescription}</p>
-
-          <Button
-            asChild
-            variant="default"
-            size="lg"
-            className="inline-flex gap-2"
+          <Button 
+            asChild 
+            variant="secondary" 
+            size="sm"
+            className="bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white hover:text-black"
           >
             <Link href={`/work/${project.slug.current}`}>
-              View Full Project <ExternalLink className="w-5 h-5" />
+              View Project <ExternalLink className="w-4 h-4 ml-2" />
             </Link>
           </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+
+      {/* Title always visible at bottom when not hovered */}
+      <div 
+        className={`absolute bottom-0 left-0 right-0 p-6 transition-all duration-500 ${
+          isHovered ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        <h3 className="text-xl md:text-2xl font-black text-white">
+          {project.title}
+        </h3>
+        {project.clientName && (
+          <p className="text-white/70 font-medium text-sm mt-1">
+            {project.clientName}
+          </p>
+        )}
+      </div>
+    </div>
   )
 }
