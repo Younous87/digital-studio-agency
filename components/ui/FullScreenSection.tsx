@@ -5,6 +5,7 @@ interface FullScreenSectionProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode
   className?: string
   containerSize?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
+  containerClassName?: string
   background?: 'white' | 'gray' | 'dark' | 'transparent'
   minHeight?: 'screen' | 'full' | 'auto'
   verticalAlign?: 'start' | 'center' | 'end'
@@ -15,6 +16,7 @@ export default function FullScreenSection({
   children,
   className = '',
   containerSize = 'lg',
+  containerClassName = '',
   background = 'white',
   minHeight = 'screen',
   verticalAlign = 'center',
@@ -51,7 +53,7 @@ export default function FullScreenSection({
       className={`${backgrounds[background]} ${minHeights[minHeight]} flex ${verticalAlignments[verticalAlign]} ${horizontalAlignments[horizontalAlign]} ${className}`}
       {...props}
     >
-      <Container size={containerSize} className="w-full">
+      <Container size={containerSize} className={`w-full ${containerClassName}`}>
         {children}
       </Container>
     </section>

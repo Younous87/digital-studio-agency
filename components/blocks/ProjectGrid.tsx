@@ -40,44 +40,71 @@ export default function ProjectGrid({
 }: Readonly<ProjectGridProps>) {
   const [isPaused, setIsPaused] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const pauseRef = useRef<boolean>(false)
 
   // Duplicate projects for seamless infinite scroll
   const duplicatedProjects = [...projects, ...projects, ...projects]
 
   useEffect(() => {
-    const scrollContainer = scrollRef.current
-    if (!scrollContainer || isPaused) return
-
-    let animationFrameId: number
-    let scrollPosition = scrollContainer.scrollLeft
-
-    const scroll = () => {
-      if (!scrollContainer || isPaused) return
-      
-      scrollPosition += 1 // Adjust speed here (lower = slower)
-      
-      // Reset scroll position when we've scrolled through one set of projects
-      const singleSetWidth = scrollContainer.scrollWidth / 3
-      if (scrollPosition >= singleSetWidth * 2) {
-        scrollPosition = singleSetWidth
-      }
-      
-      scrollContainer.scrollLeft = scrollPosition
-      animationFrameId = requestAnimationFrame(scroll)
-    }
-
-    animationFrameId = requestAnimationFrame(scroll)
-
-    return () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId)
-      }
-    }
-  }, [isPaused, projects.length])
+     const scrollContainer = scrollRef.current
+     if (!scrollContainer) return
+ 
+     let rafId: number | null = null
+     let lastTime = performance.now()
+ 
+     // Speed in pixels per second - adjust as needed for desired speed
+     const speed = 240
+     let scrollPosition = 0
+ 
+     const update = (time: number) => {
+       if (!scrollContainer) return
+       const dt = Math.min(0.05, (time - lastTime) / 1000) // limit dt to avoid big jumps
+       lastTime = time
+      if (!pauseRef.current) {
+         scrollPosition += speed * dt
+         const singleSetWidth = scrollContainer.scrollWidth / 3
+         if (singleSetWidth > 0 && scrollPosition >= singleSetWidth * 2) {
+           scrollPosition = singleSetWidth
+         }
+         scrollContainer.scrollLeft = scrollPosition
+       }
+       rafId = requestAnimationFrame(update)
+     }
+ 
+     // Defer initialization a frame so DOM measurements are correct
+     const init = () => {
+       const singleSetWidth = scrollContainer.scrollWidth / 3
+       if (singleSetWidth > 0) {
+         scrollPosition = singleSetWidth
+         scrollContainer.scrollLeft = scrollPosition
+       }
+       lastTime = performance.now()
+       rafId = requestAnimationFrame(update)
+     }
+ 
+     // Small timeout to allow layout to settle (images may affect scrollWidth)
+     const timeoutId = window.setTimeout(() => requestAnimationFrame(init), 50)
+ 
+     const onResize = () => {
+       // Recompute positions on resize
+       const singleSetWidth = scrollContainer.scrollWidth / 3
+       if (singleSetWidth > 0) {
+         scrollPosition = singleSetWidth
+         scrollContainer.scrollLeft = scrollPosition
+       }
+     }
+     window.addEventListener('resize', onResize)
+ 
+     return () => {
+       if (rafId) cancelAnimationFrame(rafId)
+       window.clearTimeout(timeoutId)
+       window.removeEventListener('resize', onResize)
+     }
+  }, [projects.length])
 
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
-      <FullScreenSection background={backgroundImage ? 'transparent' : 'white'}>
+      <FullScreenSection background={backgroundImage ? 'transparent' : 'white'} containerSize="full" className="relative overflow-hidden" containerClassName="mx-0 !px-0">
         {(title || description) && (
           <div className="text-center mb-16 relative">
             {title && (
@@ -105,16 +132,17 @@ export default function ProjectGrid({
 
         {/* Auto-scrolling carousel container */}
         <div className="relative w-full overflow-hidden">
-          {/* Gradient fade edges */}
-          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
           
-          <div
-            ref={scrollRef}
-            className="flex gap-6 overflow-x-hidden scrollbar-hide"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-          >
+                <div
+                  ref={scrollRef}
+                  className="flex gap-6 overflow-x-auto scrollbar-hide touch-pan-x"
+                  onMouseEnter={() => { pauseRef.current = true; setIsPaused(true) }}
+                  onMouseLeave={() => { pauseRef.current = false; setIsPaused(false) }}
+                  onPointerDown={() => { pauseRef.current = true; setIsPaused(true) }}
+                  onPointerUp={() => { pauseRef.current = false; setIsPaused(false) }}
+                  onTouchStart={() => { pauseRef.current = true; setIsPaused(true) }}
+                  onTouchEnd={() => { pauseRef.current = false; setIsPaused(false) }}
+                >
             {duplicatedProjects.map((project, index) => (
               <ProjectCard 
                 key={`${project._id}-${index}`} 
@@ -135,7 +163,7 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
   return (
     <Link href={`/work/${project.slug.current}`}>
       <div
-        className="flex-shrink-0 w-[350px] md:w-[400px] h-[500px] relative rounded-xl overflow-hidden cursor-pointer group"
+              className="flex-shrink-0 min-w-[90vw] md:min-w-[70vw] lg:min-w-[60vw] xl:min-w-[50vw] h-[600px] relative rounded-xl overflow-hidden cursor-pointer group snap-start"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -143,7 +171,7 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
         {project.featuredImage && (
           <div className="absolute inset-0">
             <Image
-              src={urlFor(project.featuredImage).width(800).height(1000).url()}
+              src={urlFor(project.featuredImage).width(1800).height(1200).url()}
               alt={project.title}
               fill
               className={`object-cover transition-all duration-500 ${
