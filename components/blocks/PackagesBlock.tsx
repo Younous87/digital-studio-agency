@@ -90,7 +90,7 @@ export default function PackagesBlock({
                 }`}
               >
                 <div className="flex-shrink-0 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Check className="w-6 h-6 lg:w-7 lg:h-7 text-primary" />
+                  <Check className="w-6 h-6 lg:w-7 lg:h-7 text-pink-600" />
                 </div>
                 <span className="text-lg lg:text-xl text-foreground font-medium">
                   {item.feature}
