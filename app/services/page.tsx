@@ -10,6 +10,7 @@ import FeaturedProjects from '@/components/blocks/ProjectGrid'
 import Testimonials from '@/components/blocks/TestimonialCarousel'
 import CTASection from '@/components/blocks/CTASection'
 import StatsSection from '@/components/blocks/AnimatedStats'
+import PackagesBlock from '@/components/blocks/PackagesBlock'
 
 type PageBlock = {
   _type: string
@@ -47,6 +48,10 @@ type PageBlock = {
   }
   image?: Record<string, unknown>
   imagePosition?: string
+  highlightedText?: string
+  packageFeatures?: Array<{ _key?: string; feature: string }>
+  ctaText?: string
+  ctaLink?: string
 }
 
 export const revalidate = 60
@@ -178,6 +183,19 @@ export default async function ServicesPage() {
                   key={block._key || block._id || `${block._type}-${index}`}
                   title={block.title}
                   stats={block.stats as any}
+                />
+              )
+            case 'packagesBlock':
+              return (
+                <PackagesBlock
+                  key={block._key || block._id || `${block._type}-${index}`}
+                  title={block.title}
+                  highlightedText={block.highlightedText}
+                  features={block.packageFeatures}
+                  ctaText={block.ctaText}
+                  ctaLink={block.ctaLink}
+                  backgroundImage={block.backgroundImage}
+                  backgroundColor={block.backgroundColor}
                 />
               )
             default:

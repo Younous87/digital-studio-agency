@@ -7,6 +7,7 @@ import TestimonialCarousel from '@/components/blocks/TestimonialCarousel'
 import CTASection from '@/components/blocks/CTASection'
 import AnimatedStats from '@/components/blocks/AnimatedStats'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
+import PackagesBlock from '@/components/blocks/PackagesBlock'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import FullScreenSection from '@/components/ui/FullScreenSection'
@@ -217,6 +218,22 @@ export default async function HomePage() {
                   title={block.title}
                   stats={block.stats || []}
                   backgroundImage={block.backgroundImage}
+                />
+              </ScrollReveal>
+            )
+
+          case 'packagesBlock':
+            return (
+              <ScrollReveal key={block._key || block._id || `${block._type}-${index}`} delay={0.2}>
+                <PackagesBlock
+                  key={block._key || block._id || index}
+                  title={block.title}
+                  highlightedText={block.highlightedText}
+                  features={block.packageFeatures}
+                  ctaText={block.ctaText}
+                  ctaLink={block.ctaLink}
+                  backgroundImage={block.backgroundImage}
+                  backgroundColor={block.backgroundColor}
                 />
               </ScrollReveal>
             )
