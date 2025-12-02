@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { urlFor } from '@/lib/sanity/image'
 import { ArrowRight } from 'lucide-react'
 import BackgroundWrapper from './BackgroundWrapper'
+import LiquidEther from '@/components/LiquidEther'
 
 interface HeroBlockProps {
   headline: string
@@ -22,6 +23,8 @@ interface HeroBlockProps {
   backgroundImage?: any
   backgroundVideo?: string
   sectionBackgroundImage?: any
+  useLiquidEther?: boolean
+  liquidEtherColors?: string[]
 }
 
 export default function HeroBlock({
@@ -31,7 +34,9 @@ export default function HeroBlock({
   secondaryCta,
   backgroundImage,
   backgroundVideo,
-  sectionBackgroundImage
+  sectionBackgroundImage,
+  useLiquidEther = true,
+  liquidEtherColors = ['#5227FF', '#FF9FFC', '#B19EEF']
 }: Readonly<HeroBlockProps>) {
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -42,8 +47,32 @@ export default function HeroBlock({
   return (
     <BackgroundWrapper backgroundImage={sectionBackgroundImage}>
       <section className={`relative min-h-screen flex items-center justify-center overflow-hidden ${sectionBackgroundImage ? 'bg-transparent' : 'bg-background'}`}>
-        {/* Optional Background Image/Video */}
-        {(backgroundVideo || backgroundImage) && (
+        {/* LiquidEther Background */}
+        {useLiquidEther && (
+          <div className="absolute inset-0 w-full h-full">
+            <LiquidEther
+              colors={liquidEtherColors}
+              mouseForce={20}
+              cursorSize={100}
+              isViscous={false}
+              viscous={30}
+              iterationsViscous={32}
+              iterationsPoisson={32}
+              resolution={0.5}
+              isBounce={false}
+              autoDemo={true}
+              autoSpeed={0.5}
+              autoIntensity={2.2}
+              takeoverDuration={0.25}
+              autoResumeDelay={3000}
+              autoRampDuration={0.6}
+              className="pointer-events-auto"
+            />
+          </div>
+        )}
+
+        {/* Optional Background Image/Video (fallback when LiquidEther is disabled) */}
+        {!useLiquidEther && (backgroundVideo || backgroundImage) && (
           <div className="absolute inset-0 flex items-center justify-center p-8">
             <div className="relative w-full max-w-4xl h-96 rounded-lg overflow-hidden">
               {backgroundVideo && (
