@@ -121,110 +121,109 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <div
-      className="flex-shrink-0 w-[350px] md:w-[400px] h-[500px] relative rounded-xl overflow-hidden cursor-pointer group"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Background Image */}
-      {project.featuredImage && (
-        <div className="absolute inset-0">
-          <Image
-            src={urlFor(project.featuredImage).width(800).height(1000).url()}
-            alt={project.title}
-            fill
-            className={`object-cover transition-all duration-500 ${
-              imageLoaded ? 'opacity-100' : 'opacity-0'
-            } ${isHovered ? 'blur-sm scale-105' : 'blur-0 scale-100'}`}
-            onLoad={() => setImageLoaded(true)}
-          />
-          {!imageLoaded && (
-            <div className="absolute inset-0 animate-pulse bg-muted" />
-          )}
-        </div>
-      )}
-
-      {/* Dark overlay that intensifies on hover */}
-      <div 
-        className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-500 ${
-          isHovered ? 'from-black/90 via-black/60 to-black/30' : ''
-        }`}
-      />
-
-      {/* Content overlay - fades in on hover */}
-      <div 
-        className={`absolute inset-0 flex flex-col justify-end p-6 transition-all duration-500 ${
-          isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-        }`}
+    <Link href={`/work/${project.slug.current}`}>
+      <div
+        className="flex-shrink-0 w-[350px] md:w-[400px] h-[500px] relative rounded-xl overflow-hidden cursor-pointer group"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Categories */}
-        {project.categories && project.categories.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.categories.slice(0, 3).map((category) => (
-              <Badge 
-                key={category} 
-                variant="secondary" 
-                className="text-xs px-3 py-1 bg-white/20 backdrop-blur-sm text-white border-white/30"
-              >
-                {category}
-              </Badge>
-            ))}
+        {/* Background Image */}
+        {project.featuredImage && (
+          <div className="absolute inset-0">
+            <Image
+              src={urlFor(project.featuredImage).width(800).height(1000).url()}
+              alt={project.title}
+              fill
+              className={`object-cover transition-all duration-500 ${
+                imageLoaded ? 'opacity-100' : 'opacity-0'
+              } ${isHovered ? 'blur-sm scale-105' : 'blur-0 scale-100'}`}
+              onLoad={() => setImageLoaded(true)}
+            />
+            {!imageLoaded && (
+              <div className="absolute inset-0 animate-pulse bg-muted" />
+            )}
           </div>
         )}
 
-        {/* Title */}
-        <h3 className="text-2xl md:text-3xl font-black text-white mb-2">
-          {project.title}
-        </h3>
+        {/* Dark overlay that intensifies on hover */}
+        <div 
+          className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-500 ${
+            isHovered ? 'from-black/90 via-black/60 to-black/30' : ''
+          }`}
+        />
 
-        {/* Client */}
-        {project.clientName && (
-          <p className="text-white/80 font-medium mb-3">
-            {project.clientName}
-          </p>
-        )}
-
-        {/* Description */}
-        <p className="text-white/70 text-sm line-clamp-2 mb-4">
-          {project.shortDescription}
-        </p>
-
-        {/* Footer with date and button */}
-        <div className="flex items-center justify-between">
-          {project.completionDate && (
-            <div className="flex items-center gap-2 text-sm text-white/60">
-              <Calendar className="w-4 h-4" />
-              {new Date(project.completionDate).getFullYear()}
+        {/* Content overlay - fades in on hover */}
+        <div 
+          className={`absolute inset-0 flex flex-col justify-end p-6 transition-all duration-500 ${
+            isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
+          {/* Categories */}
+          {project.categories && project.categories.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-4">
+              {project.categories.slice(0, 3).map((category) => (
+                <Badge 
+                  key={category} 
+                  variant="secondary" 
+                  className="text-xs px-3 py-1 bg-white/20 backdrop-blur-sm text-white border-white/30"
+                >
+                  {category}
+                </Badge>
+              ))}
             </div>
           )}
-          <Button 
-            asChild 
-            variant="secondary" 
-            size="sm"
-            className="bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white hover:text-black"
-          >
-            <Link href={`/work/${project.slug.current}`}>
+
+          {/* Title */}
+          <h3 className="text-2xl md:text-3xl font-black text-white mb-2">
+            {project.title}
+          </h3>
+
+          {/* Client */}
+          {project.clientName && (
+            <p className="text-white/80 font-medium mb-3">
+              {project.clientName}
+            </p>
+          )}
+
+          {/* Description */}
+          <p className="text-white/70 text-sm line-clamp-2 mb-4">
+            {project.shortDescription}
+          </p>
+
+          {/* Footer with date and button */}
+          <div className="flex items-center justify-between">
+            {project.completionDate && (
+              <div className="flex items-center gap-2 text-sm text-white/60">
+                <Calendar className="w-4 h-4" />
+                {new Date(project.completionDate).getFullYear()}
+              </div>
+            )}
+            <Button 
+              variant="secondary" 
+              size="sm"
+              className="bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white hover:text-black"
+            >
               View Project <ExternalLink className="w-4 h-4 ml-2" />
-            </Link>
-          </Button>
+            </Button>
+          </div>
+        </div>
+
+        {/* Title always visible at bottom when not hovered */}
+        <div 
+          className={`absolute bottom-0 left-0 right-0 p-6 transition-all duration-500 ${
+            isHovered ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
+          }`}
+        >
+          <h3 className="text-xl md:text-2xl font-black text-white">
+            {project.title}
+          </h3>
+          {project.clientName && (
+            <p className="text-white/70 font-medium text-sm mt-1">
+              {project.clientName}
+            </p>
+          )}
         </div>
       </div>
-
-      {/* Title always visible at bottom when not hovered */}
-      <div 
-        className={`absolute bottom-0 left-0 right-0 p-6 transition-all duration-500 ${
-          isHovered ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
-        }`}
-      >
-        <h3 className="text-xl md:text-2xl font-black text-white">
-          {project.title}
-        </h3>
-        {project.clientName && (
-          <p className="text-white/70 font-medium text-sm mt-1">
-            {project.clientName}
-          </p>
-        )}
-      </div>
-    </div>
+    </Link>
   )
 }
