@@ -16,6 +16,7 @@ import ServiceCtaSection from '@/components/blocks/ServiceCtaSection'
 import ServiceListBlock from '@/components/blocks/ServiceListBlock'
 import BlogPostsBlock from '@/components/blocks/BlogPostsBlock'
 import ContactFormSection from '@/components/blocks/ContactFormSection'
+import PackagesBlock from '@/components/blocks/PackagesBlock'
 
 type PageBlock = {
   _type: string
@@ -62,6 +63,10 @@ type PageBlock = {
   submitButtonText?: string
   buttonText?: string
   buttonLink?: string
+  highlightedText?: string
+  ctaText?: string
+  ctaLink?: string
+  packageFeatures?: Array<{ _key?: string; feature: string }>
 }
 
 interface BlockRendererProps {
@@ -256,6 +261,19 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
         <ContactFormSection
           key={block._key || block._id || `${block._type}-${index}`}
           block={block as any}
+        />
+      )
+    case 'packagesBlock':
+      return (
+        <PackagesBlock
+          key={block._key || block._id || `${block._type}-${index}`}
+          title={block.title}
+          highlightedText={block.highlightedText}
+          features={block.packageFeatures}
+          ctaText={block.ctaText}
+          ctaLink={block.ctaLink}
+          backgroundImage={block.backgroundImage}
+          backgroundColor={block.backgroundColor}
         />
       )
     default:

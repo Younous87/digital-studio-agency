@@ -25,6 +25,7 @@ export default defineType({
         { type: 'ctaSection' },
         { type: 'textImageBlock' },
         { type: 'statsSection' },
+        { type: 'packagesBlock' },
       ],
     },
     {
