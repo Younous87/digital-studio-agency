@@ -39,9 +39,6 @@ export default function CTASection({
             text={title}
             as="h2"
             className="text-5xl md:text-7xl lg:text-9xl font-black mb-10 lg:mb-12 text-foreground leading-none"
-            wordsPerGroup={2}
-            gradientStartGroup={1}
-            gradientInterval={2}
           />
 
           {description && (
@@ -49,9 +46,6 @@ export default function CTASection({
               text={description}
               as="p"
               className="text-xl md:text-2xl lg:text-3xl mb-14 lg:mb-16 text-muted-foreground font-medium max-w-4xl mx-auto"
-              wordsPerGroup={3}
-              gradientStartGroup={1}
-              gradientInterval={2}
             />
           )}
 

@@ -50,9 +50,6 @@ export default function TestimonialCarousel({
                     text={title}
                     as="h2"
                     className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground"
-                    wordsPerGroup={2}
-                    gradientStartGroup={1}
-                    gradientInterval={2}
                   />
                 </div>
               )}
@@ -61,9 +58,6 @@ export default function TestimonialCarousel({
                   text={description}
                   as="p"
                   className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto"
-                  wordsPerGroup={3}
-                  gradientStartGroup={1}
-                  gradientInterval={2}
                 />
               )}
             </div>
@@ -136,9 +130,6 @@ export default function TestimonialCarousel({
                   text={title}
                   as="h2"
                   className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground"
-                  wordsPerGroup={2}
-                  gradientStartGroup={1}
-                  gradientInterval={2}
                 />
               </div>
             )}
@@ -147,9 +138,6 @@ export default function TestimonialCarousel({
                 text={description}
                 as="p"
                 className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto"
-                wordsPerGroup={3}
-                gradientStartGroup={1}
-                gradientInterval={2}
               />
             )}
           </div>

@@ -112,9 +112,6 @@ export default function ProjectGrid({
                 text={title}
                 as="h2"
                 className="text-4xl md:text-6xl font-black text-foreground mb-6"
-                wordsPerGroup={2}
-                gradientStartGroup={1}
-                gradientInterval={2}
               />
             )}
             {description && (
@@ -122,9 +119,6 @@ export default function ProjectGrid({
                 text={description}
                 as="p"
                 className="text-xl text-muted-foreground max-w-3xl mx-auto font-medium"
-                wordsPerGroup={3}
-                gradientStartGroup={1}
-                gradientInterval={2}
               />
             )}
           </div>

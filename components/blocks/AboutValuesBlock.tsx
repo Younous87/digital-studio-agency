@@ -52,9 +52,6 @@ export default function AboutValuesBlock({ title, values, backgroundColor, backg
               text={title}
               as="h2"
               className={`text-5xl md:text-6xl lg:text-8xl font-black ${textColor} inline-block relative z-10`}
-              wordsPerGroup={2}
-              gradientStartGroup={0}
-              gradientInterval={2}
             />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xs h-12 -rotate-2 opacity-50 blur-xl" />
           </div>

@@ -31,9 +31,6 @@ export default function ProcessSection({ title, steps = [], backgroundImage }: R
             text={title}
             as="h2"
             className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-16 lg:mb-24 text-center"
-            wordsPerGroup={2}
-            gradientStartGroup={1}
-            gradientInterval={2}
           />
         )}
         <div className="space-y-8 lg:space-y-12 w-full max-w-5xl mx-auto">

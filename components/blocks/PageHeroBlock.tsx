@@ -78,18 +78,12 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
             text={title}
             as="h1"
             className="text-5xl md:text-7xl lg:text-8xl font-black text-foreground mb-8"
-            wordsPerGroup={2}
-            gradientStartGroup={1}
-            gradientInterval={2}
           />
           {subtitle && (
             <AnimatedSubtitle
               text={subtitle}
               as="p"
               className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-10 max-w-3xl mx-auto font-bold"
-              wordsPerGroup={3}
-              gradientStartGroup={1}
-              gradientInterval={2}
             />
           )}
           {cta?.text && cta?.link && (

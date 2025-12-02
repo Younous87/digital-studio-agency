@@ -47,9 +47,6 @@ export default function MeetOurTeamBlock({ title, showTeam = true, members = [],
             text={title}
             as="h2"
             className={`text-5xl md:text-6xl lg:text-8xl font-black mb-16 lg:mb-24 text-center ${textColor}`}
-            wordsPerGroup={2}
-            gradientStartGroup={0}
-            gradientInterval={2}
           />
         )}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">

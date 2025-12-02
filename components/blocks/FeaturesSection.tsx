@@ -34,9 +34,6 @@ export default function FeaturesSection({ title, features = [], backgroundImage 
             text={title}
             as="h2"
             className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-16 lg:mb-20 text-center"
-            wordsPerGroup={2}
-            gradientStartGroup={1}
-            gradientInterval={2}
           />
         )}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 w-full">

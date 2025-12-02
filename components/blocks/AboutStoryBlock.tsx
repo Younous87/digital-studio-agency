@@ -45,9 +45,6 @@ export default function AboutStoryBlock({ title, content, backgroundColor, backg
                 text={title}
                 as="h2"
                 className="relative z-10"
-                wordsPerGroup={2}
-                gradientStartGroup={0}
-                gradientInterval={2}
               />
               <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-40 lg:w-48 h-4 bg-primary -rotate-1" />
             </div>

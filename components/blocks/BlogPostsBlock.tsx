@@ -56,9 +56,6 @@ export default function BlogPostsBlock({
                   text={title}
                   as="h2"
                   className="text-5xl md:text-6xl lg:text-8xl font-black text-foreground mb-8"
-                  wordsPerGroup={2}
-                  gradientStartGroup={0}
-                  gradientInterval={2}
                 />
               )}
               {description && (
@@ -66,9 +63,6 @@ export default function BlogPostsBlock({
                   text={description}
                   as="p"
                   className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto font-bold"
-                  wordsPerGroup={3}
-                  gradientStartGroup={1}
-                  gradientInterval={2}
                 />
               )}
             </div>

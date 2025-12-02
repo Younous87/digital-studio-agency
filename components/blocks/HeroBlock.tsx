@@ -108,9 +108,6 @@ export default function HeroBlock({
             text={headline}
             as="h1"
             className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black mb-10 lg:mb-12 leading-none tracking-tight text-foreground"
-            wordsPerGroup={2}
-            gradientStartGroup={1}
-            gradientInterval={2}
           />
 
           {subheadline && (
@@ -118,9 +115,6 @@ export default function HeroBlock({
               text={subheadline}
               as="p"
               className="text-xl md:text-3xl lg:text-4xl mb-14 lg:mb-16 text-muted-foreground max-w-5xl mx-auto leading-relaxed font-medium"
-              wordsPerGroup={3}
-              gradientStartGroup={1}
-              gradientInterval={2}
             />
           )}
 

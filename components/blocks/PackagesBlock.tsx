@@ -76,9 +76,6 @@ export default function PackagesBlock({
             text={`${title} ${highlightedText}`}
             as="h2"
             className="text-5xl md:text-6xl lg:text-8xl font-black text-foreground"
-            wordsPerGroup={1}
-            gradientStartGroup={1}
-            gradientInterval={2}
           />
         </div>
 

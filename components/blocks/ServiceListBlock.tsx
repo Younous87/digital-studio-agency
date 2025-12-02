@@ -142,9 +142,6 @@ export default function ServiceListBlock({
                   text={title}
                   as="h2"
                   className={`text-5xl md:text-6xl lg:text-8xl font-black mb-6 lg:mb-8 ${textColor}`}
-                  wordsPerGroup={2}
-                  gradientStartGroup={0}
-                  gradientInterval={2}
                 />
               )}
               {description && (
@@ -152,9 +149,6 @@ export default function ServiceListBlock({
                   text={description}
                   as="p"
                   className={`text-xl lg:text-2xl max-w-4xl mx-auto font-bold ${subtitleColor}`}
-                  wordsPerGroup={3}
-                  gradientStartGroup={1}
-                  gradientInterval={2}
                 />
               )}
             </div>
@@ -211,9 +205,6 @@ export default function ServiceListBlock({
                 text={title}
                 as="h2"
                 className={`text-5xl md:text-6xl lg:text-8xl font-black mb-6 lg:mb-8 ${textColor}`}
-                wordsPerGroup={2}
-                gradientStartGroup={0}
-                gradientInterval={2}
               />
             )}
             {description && (
@@ -221,9 +212,6 @@ export default function ServiceListBlock({
                 text={description}
                 as="p"
                 className={`text-xl lg:text-2xl max-w-4xl mx-auto font-bold ${subtitleColor}`}
-                wordsPerGroup={3}
-                gradientStartGroup={1}
-                gradientInterval={2}
               />
             )}
           </div>

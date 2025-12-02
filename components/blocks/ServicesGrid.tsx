@@ -50,9 +50,6 @@ export default function ServicesGrid({
                 text={title}
                 as="h2"
                 className="text-5xl md:text-7xl lg:text-8xl font-black text-foreground mb-8"
-                wordsPerGroup={2}
-                gradientStartGroup={1}
-                gradientInterval={2}
               />
             )}
             {description && (
@@ -60,9 +57,6 @@ export default function ServicesGrid({
                 text={description}
                 as="p"
                 className="text-xl md:text-2xl lg:text-3xl text-muted-foreground max-w-4xl mx-auto font-medium"
-                wordsPerGroup={3}
-                gradientStartGroup={1}
-                gradientInterval={2}
               />
             )}
           </div>
