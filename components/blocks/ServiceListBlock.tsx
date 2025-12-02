@@ -42,6 +42,7 @@ export default function ServiceListBlock({
   backgroundColor,
   backgroundImage
 }: ServiceListBlockProps) {
+  const [isPaused, setIsPaused] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const pauseRef = useRef<boolean>(false)
 
@@ -56,20 +57,16 @@ export default function ServiceListBlock({
     subtitleColor = 'text-muted-foreground'
   }
 
-  // Early return if no services
-  if (!services || services.length === 0) {
-    return null
-  }
-
   // Duplicate services for seamless infinite scroll
   const duplicatedServices = [...services, ...services, ...services]
   
   // Determine effective layout (default to carousel if undefined)
   const effectiveLayout = layout || 'carousel'
+  const isCarouselLayout = effectiveLayout === 'carousel' || effectiveLayout === 'list'
 
+  // Auto-scroll effect - exactly matching ProjectGrid implementation
   useEffect(() => {
-    // Only run auto-scroll for carousel layout
-    if (effectiveLayout !== 'carousel' && effectiveLayout !== 'list') return
+    if (!isCarouselLayout) return
     
     const scrollContainer = scrollRef.current
     if (!scrollContainer) return
@@ -77,25 +74,36 @@ export default function ServiceListBlock({
     let rafId: number | null = null
     let lastTime = performance.now()
 
-    // Speed in pixels per second
-    const speed = 200
+    // Speed in pixels per second - adjust as needed for desired speed
+    const speed = -240
     let scrollPosition = 0
 
     const update = (time: number) => {
       if (!scrollContainer) return
-      const dt = Math.min(0.05, (time - lastTime) / 1000)
+      const dt = Math.min(0.05, (time - lastTime) / 1000) // limit dt to avoid big jumps
       lastTime = time
       if (!pauseRef.current) {
         scrollPosition += speed * dt
         const singleSetWidth = scrollContainer.scrollWidth / 3
-        if (singleSetWidth > 0 && scrollPosition >= singleSetWidth * 2) {
-          scrollPosition = singleSetWidth
+        if (singleSetWidth > 0) {
+          if (speed > 0) {
+            // Scrolling right
+            if (scrollPosition >= singleSetWidth * 2) {
+              scrollPosition = singleSetWidth
+            }
+          } else {
+            // Scrolling left
+            if (scrollPosition <= 0) {
+              scrollPosition = singleSetWidth * 2
+            }
+          }
         }
         scrollContainer.scrollLeft = scrollPosition
       }
       rafId = requestAnimationFrame(update)
     }
 
+    // Defer initialization a frame so DOM measurements are correct
     const init = () => {
       const singleSetWidth = scrollContainer.scrollWidth / 3
       if (singleSetWidth > 0) {
@@ -106,9 +114,11 @@ export default function ServiceListBlock({
       rafId = requestAnimationFrame(update)
     }
 
+    // Small timeout to allow layout to settle (images may affect scrollWidth)
     const timeoutId = window.setTimeout(() => requestAnimationFrame(init), 50)
 
     const onResize = () => {
+      // Recompute positions on resize
       const singleSetWidth = scrollContainer.scrollWidth / 3
       if (singleSetWidth > 0) {
         scrollPosition = singleSetWidth
@@ -122,10 +132,15 @@ export default function ServiceListBlock({
       window.clearTimeout(timeoutId)
       window.removeEventListener('resize', onResize)
     }
-  }, [services.length, effectiveLayout])
+  }, [services.length, isCarouselLayout])
+
+  // Early return if no services - AFTER all hooks
+  if (!services || services.length === 0) {
+    return null
+  }
 
   // Carousel layout (default) - also fallback for 'list' since it looks similar
-  if (effectiveLayout === 'carousel' || effectiveLayout === 'list') {
+  if (isCarouselLayout) {
     return (
       <BackgroundWrapper backgroundImage={backgroundImage}>
         <FullScreenSection 
@@ -136,19 +151,19 @@ export default function ServiceListBlock({
           style={{ backgroundColor: backgroundImage ? 'transparent' : bgColor }}
         >
           {(title || description) && (
-            <div className="text-center mb-16 lg:mb-20 px-4 lg:px-12">
+            <div className="text-center mb-16 relative px-4 lg:px-12">
               {title && (
                 <AnimatedTitle
                   text={title}
                   as="h2"
-                  className={`text-5xl md:text-6xl lg:text-8xl font-black mb-6 lg:mb-8 ${textColor}`}
+                  className={`text-4xl md:text-6xl font-black mb-6 ${textColor}`}
                 />
               )}
               {description && (
                 <AnimatedSubtitle
                   text={description}
                   as="p"
-                  className={`text-xl lg:text-2xl max-w-4xl mx-auto font-bold ${subtitleColor}`}
+                  className={`text-xl max-w-3xl mx-auto font-medium ${subtitleColor}`}
                 />
               )}
             </div>
@@ -158,13 +173,13 @@ export default function ServiceListBlock({
           <div className="relative w-full overflow-hidden">
             <div
               ref={scrollRef}
-              className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-hide touch-pan-x"
-              onMouseEnter={() => { pauseRef.current = true }}
-              onMouseLeave={() => { pauseRef.current = false }}
-              onPointerDown={() => { pauseRef.current = true }}
-              onPointerUp={() => { pauseRef.current = false }}
-              onTouchStart={() => { pauseRef.current = true }}
-              onTouchEnd={() => { pauseRef.current = false }}
+              className="flex gap-6 overflow-x-auto scrollbar-hide touch-pan-x"
+              onMouseEnter={() => { pauseRef.current = true; setIsPaused(true) }}
+              onMouseLeave={() => { pauseRef.current = false; setIsPaused(false) }}
+              onPointerDown={() => { pauseRef.current = true; setIsPaused(true) }}
+              onPointerUp={() => { pauseRef.current = false; setIsPaused(false) }}
+              onTouchStart={() => { pauseRef.current = true; setIsPaused(true) }}
+              onTouchEnd={() => { pauseRef.current = false; setIsPaused(false) }}
             >
               {duplicatedServices.map((service, index) => (
                 <ServiceCard 
@@ -233,7 +248,7 @@ function ServiceCard({ service }: Readonly<{ service: Service }>) {
   return (
     <Link href={`/services/${service.slug.current}`}>
       <div
-        className="flex-shrink-0 min-w-[85vw] md:min-w-[60vw] lg:min-w-[45vw] xl:min-w-[35vw] h-[450px] lg:h-[500px] relative rounded-xl overflow-hidden cursor-pointer group snap-start"
+        className="shrink-0 min-w-[90vw] md:min-w-[70vw] lg:min-w-[60vw] xl:min-w-[50vw] h-[600px] relative rounded-xl overflow-hidden cursor-pointer group snap-start"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

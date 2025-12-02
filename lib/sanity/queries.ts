@@ -131,6 +131,30 @@ export const homepageQuery = `*[_type == "homepage"][0]{
       stats,
       backgroundColor,
       backgroundImage
+    },
+    _type == "serviceList" => {
+      title,
+      description,
+      layout,
+      showAll,
+      "services": select(
+        showAll == true => *[_type == "service"]{
+          _id,
+          title,
+          slug,
+          shortDescription,
+          icon
+        },
+        services[]->{
+          _id,
+          title,
+          slug,
+          shortDescription,
+          icon
+        }
+      ),
+      backgroundColor,
+      backgroundImage
     }
   },
   seo

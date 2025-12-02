@@ -2,6 +2,7 @@ import { client } from '@/lib/sanity/client'
 import { homepageQuery } from '@/lib/sanity/queries'
 import HeroBlock from '@/components/blocks/HeroBlock'
 import ServicesGrid from '@/components/blocks/ServicesGrid'
+import ServiceListBlock from '@/components/blocks/ServiceListBlock'
 import ProjectGrid from '@/components/blocks/ProjectGrid'
 import TestimonialCarousel from '@/components/blocks/TestimonialCarousel'
 import CTASection from '@/components/blocks/CTASection'
@@ -84,6 +85,21 @@ export default async function HomePage() {
                   description={block.description}
                   services={block.services || []}
                   layout={block.layout}
+                  backgroundImage={block.backgroundImage}
+                />
+              </ScrollReveal>
+            )
+
+          case 'serviceList':
+            return (
+              <ScrollReveal key={block._key || block._id || `${block._type}-${index}`} delay={0.2}>
+                <ServiceListBlock
+                  key={block._key || block._id || index}
+                  title={block.title}
+                  description={block.description}
+                  services={block.services || []}
+                  layout={block.layout}
+                  backgroundColor={block.backgroundColor}
                   backgroundImage={block.backgroundImage}
                 />
               </ScrollReveal>
