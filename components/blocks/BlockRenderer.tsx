@@ -239,7 +239,7 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
           key={block._key || block._id || `${block._type}-${index}`}
           title={block.title}
           description={block.description}
-          layout={block.layout as 'grid' | 'list' | undefined}
+          layout={block.layout as 'grid' | 'list' | 'carousel' | undefined}
           services={block.services as any}
           backgroundColor={block.backgroundColor}
           backgroundImage={block.backgroundImage}

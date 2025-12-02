@@ -66,15 +66,16 @@ export default function PackagesBlock({
       <FullScreenSection 
         background={backgroundImage ? 'transparent' : 'white'}
         minHeight="auto"
-        className="py-24"
+        className="py-24 lg:py-32"
         style={bgColor && !backgroundImage ? { backgroundColor: bgColor } : undefined}
+        containerSize="2xl"
       >
         {/* Section Title */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 lg:mb-24">
           <AnimatedTitle
             text={`${title} ${highlightedText}`}
             as="h2"
-            className="text-4xl md:text-6xl font-black text-foreground"
+            className="text-5xl md:text-6xl lg:text-8xl font-black text-foreground"
             wordsPerGroup={1}
             gradientStartGroup={1}
             gradientInterval={2}
@@ -82,19 +83,19 @@ export default function PackagesBlock({
         </div>
 
         {/* Features Card */}
-        <Card className="max-w-4xl mx-auto p-8 md:p-12 border border-border shadow-lg bg-card">
+        <Card className="max-w-5xl mx-auto p-8 md:p-12 lg:p-16 border border-border shadow-xl bg-card">
           <ul className="space-y-0">
             {features.map((item, index) => (
               <li
                 key={item._key || index}
-                className={`flex items-center gap-4 py-4 ${
+                className={`flex items-center gap-5 lg:gap-6 py-5 lg:py-6 ${
                   index !== features.length - 1 ? 'border-b border-border' : ''
                 }`}
               >
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Check className="w-5 h-5 text-primary" />
+                <div className="flex-shrink-0 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Check className="w-6 h-6 lg:w-7 lg:h-7 text-primary" />
                 </div>
-                <span className="text-lg text-foreground font-medium">
+                <span className="text-lg lg:text-xl text-foreground font-medium">
                   {item.feature}
                 </span>
               </li>
@@ -102,8 +103,8 @@ export default function PackagesBlock({
           </ul>
 
           {/* CTA Button */}
-          <div className="text-center mt-10">
-            <Button asChild size="lg" className="px-10">
+          <div className="text-center mt-12 lg:mt-16">
+            <Button asChild size="lg" className="px-12 lg:px-16 py-6 lg:py-8 text-lg lg:text-xl">
               <Link href={ctaLink}>
                 {ctaText}
               </Link>

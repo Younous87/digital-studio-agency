@@ -32,13 +32,13 @@ export default function CTASection({
 }: Readonly<CTASectionProps>) {
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
-      <FullScreenSection background="transparent" className="relative overflow-hidden">
+      <FullScreenSection background="transparent" className="relative overflow-hidden" containerSize="2xl">
         {/* Content */}
-        <div className="relative z-10 text-center max-w-5xl mx-auto">
+        <div className="relative z-10 text-center max-w-6xl mx-auto px-4">
           <AnimatedTitle
             text={title}
             as="h2"
-            className="text-5xl md:text-7xl font-black mb-8 text-foreground leading-none"
+            className="text-5xl md:text-7xl lg:text-9xl font-black mb-10 lg:mb-12 text-foreground leading-none"
             wordsPerGroup={2}
             gradientStartGroup={1}
             gradientInterval={2}
@@ -48,24 +48,24 @@ export default function CTASection({
             <AnimatedSubtitle
               text={description}
               as="p"
-              className="text-xl md:text-2xl mb-12 text-muted-foreground font-medium max-w-3xl mx-auto"
+              className="text-xl md:text-2xl lg:text-3xl mb-14 lg:mb-16 text-muted-foreground font-medium max-w-4xl mx-auto"
               wordsPerGroup={3}
               gradientStartGroup={1}
               gradientInterval={2}
             />
           )}
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-6 lg:gap-8 justify-center items-center">
             {primaryCta && (
               <Link href={primaryCta.link}>
-                <ConfettiButton variant="default" size="lg" className="group">
+                <ConfettiButton variant="default" size="lg" className="group text-lg lg:text-xl px-10 lg:px-14 py-6 lg:py-8">
                   {primaryCta.text}
-                  <ArrowRight className="ml-3 w-6 h-6 inline group-hover:translate-x-2 transition-transform" />
+                  <ArrowRight className="ml-3 w-6 h-6 lg:w-8 lg:h-8 inline group-hover:translate-x-2 transition-transform" />
                 </ConfettiButton>
               </Link>
             )}
             {secondaryCta && (
-              <Button variant="outline" size="lg" asChild>
+              <Button variant="outline" size="lg" asChild className="text-lg lg:text-xl px-10 lg:px-14 py-6 lg:py-8">
                 <Link href={secondaryCta.link}>
                   {secondaryCta.text}
                 </Link>

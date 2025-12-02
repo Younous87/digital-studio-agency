@@ -27,6 +27,7 @@ export default function AboutStoryBlock({ title, content, backgroundColor, backg
         background="transparent"
         className="relative overflow-hidden"
         style={{ backgroundColor: backgroundImage ? 'transparent' : bgColor }}
+        containerSize="2xl"
       >
         {/* Decorative pattern - only if no background image */}
         {!backgroundImage && (
@@ -38,8 +39,8 @@ export default function AboutStoryBlock({ title, content, backgroundColor, backg
         )}
 
         {title && (
-          <div className="relative mb-12">
-            <div className={`text-4xl md:text-6xl font-black text-center ${textColor} relative inline-block w-full`}>
+          <div className="relative mb-16 lg:mb-20">
+            <div className={`text-5xl md:text-6xl lg:text-8xl font-black text-center ${textColor} relative inline-block w-full`}>
               <AnimatedTitle
                 text={title}
                 as="h2"
@@ -48,13 +49,13 @@ export default function AboutStoryBlock({ title, content, backgroundColor, backg
                 gradientStartGroup={0}
                 gradientInterval={2}
               />
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-3 bg-primary -rotate-1" />
+              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-40 lg:w-48 h-4 bg-primary -rotate-1" />
             </div>
           </div>
         )}
         {content ? (
-          <div className="max-w-4xl mx-auto relative">
-            <div className="bg-card border border-border shadow-lg p-8 md:p-12 relative rounded-md">
+          <div className="max-w-5xl mx-auto relative">
+            <div className="bg-card border border-border shadow-xl p-10 md:p-14 lg:p-20 relative rounded-lg">
               <RichTextRenderer content={content} />
             </div>
           </div>

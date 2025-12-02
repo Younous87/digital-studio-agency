@@ -42,14 +42,14 @@ export default function ServicesGrid({
 
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
-      <FullScreenSection background={backgroundImage ? 'transparent' : 'white'}>
+      <FullScreenSection background={backgroundImage ? 'transparent' : 'white'} containerSize="2xl">
         {(title || description) && (
-          <div className="text-center mb-16 animate-fade-in">
+          <div className="text-center mb-20 animate-fade-in">
             {title && (
               <AnimatedTitle
                 text={title}
                 as="h2"
-                className="text-4xl md:text-6xl font-black text-foreground mb-6"
+                className="text-5xl md:text-7xl lg:text-8xl font-black text-foreground mb-8"
                 wordsPerGroup={2}
                 gradientStartGroup={1}
                 gradientInterval={2}
@@ -59,7 +59,7 @@ export default function ServicesGrid({
               <AnimatedSubtitle
                 text={description}
                 as="p"
-                className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-medium"
+                className="text-xl md:text-2xl lg:text-3xl text-muted-foreground max-w-4xl mx-auto font-medium"
                 wordsPerGroup={3}
                 gradientStartGroup={1}
                 gradientInterval={2}
@@ -70,12 +70,12 @@ export default function ServicesGrid({
 
         {hasCategories ? (
           <Tabs defaultValue={categories[0]} className="w-full">
-            <TabsList className="mb-12 flex justify-center flex-wrap h-auto gap-3 bg-transparent">
+            <TabsList className="mb-16 flex justify-center flex-wrap h-auto gap-4 bg-transparent">
               {categories.map((category) => (
                 <TabsTrigger 
                   key={category}
                   value={category}
-                  className="border border-border bg-muted data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-6 py-3 rounded-lg font-semibold text-base"
+                  className="border border-border bg-muted data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg"
                 >
                   {category}
                 </TabsTrigger>
@@ -83,7 +83,7 @@ export default function ServicesGrid({
             </TabsList>
             {categories.map((category) => (
               <TabsContent key={category} value={category}>
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-6 md:gap-8 lg:gap-10 md:grid-cols-2 lg:grid-cols-3">
                   {services
                     .filter(s => (s.category || 'All Services') === category)
                     .map((service) => (
@@ -94,7 +94,7 @@ export default function ServicesGrid({
             ))}
           </Tabs>
         ) : (
-          <div className={`grid gap-8 ${
+          <div className={`grid gap-6 md:gap-8 lg:gap-10 ${
             layout === 'grid' ? 'md:grid-cols-2 lg:grid-cols-3' : 'md:grid-cols-1'
           }`}>
             {services.map((service) => (
@@ -110,36 +110,36 @@ export default function ServicesGrid({
 function ServiceCard({ service }: Readonly<{ service: Service }>) {
   return (
     <Link href={`/services/${service.slug.current}`} className="group block">
-      <Card className="h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-border">
-        <CardHeader>
-          <div className="flex items-start justify-between mb-4">
+      <Card className="h-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border border-border p-2">
+        <CardHeader className="pb-4">
+          <div className="flex items-start justify-between mb-6">
             {service.icon && (
-              <div className="p-4 border border-border rounded-xl group-hover:bg-accent transition-all">
+              <div className="p-5 border border-border rounded-xl group-hover:bg-accent transition-all">
                 <Image
-                  src={urlFor(service.icon).width(80).url()}
+                  src={urlFor(service.icon).width(120).url()}
                   alt={service.title}
-                  width={48}
-                  height={48}
-                  className="w-12 h-12"
+                  width={64}
+                  height={64}
+                  className="w-16 h-16"
                 />
               </div>
             )}
             {service.category && (
-              <Badge variant="secondary" className="ml-auto">
+              <Badge variant="secondary" className="ml-auto text-sm px-4 py-1.5">
                 {service.category}
               </Badge>
             )}
           </div>
-          <CardTitle className="text-2xl mb-3 group-hover:text-primary transition-colors flex items-center gap-2">
+          <CardTitle className="text-2xl md:text-3xl mb-4 group-hover:text-primary transition-colors flex items-center gap-3">
             {service.title}
-            <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-2 transition-all" />
+            <ArrowRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-2 transition-all" />
           </CardTitle>
-          <CardDescription className="text-base">{service.shortDescription}</CardDescription>
+          <CardDescription className="text-base md:text-lg leading-relaxed">{service.shortDescription}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="text-base text-primary font-medium group-hover:underline flex items-center gap-2">
+          <div className="text-lg text-primary font-semibold group-hover:underline flex items-center gap-2">
             Learn more
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-5 h-5" />
           </div>
         </CardContent>
       </Card>

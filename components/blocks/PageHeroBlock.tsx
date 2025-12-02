@@ -45,6 +45,7 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
       className="relative overflow-hidden text-center"
       style={getBackgroundStyle()}
       minHeight="screen" // Set to full screen height for proper hero display
+      containerSize="2xl"
     >
       {/* Video Background */}
       {background.type === 'video' && background.video ? (
@@ -71,12 +72,12 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
         <div className="absolute inset-0 bg-black bg-opacity-60 pointer-events-none"></div>
       )}
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-card border border-border shadow-lg p-8 md:p-12 inline-block ">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-card border border-border shadow-xl p-10 md:p-16 lg:p-20 inline-block rounded-lg">
           <AnimatedTitle
             text={title}
             as="h1"
-            className="text-5xl md:text-7xl font-black text-foreground mb-6"
+            className="text-5xl md:text-7xl lg:text-8xl font-black text-foreground mb-8"
             wordsPerGroup={2}
             gradientStartGroup={1}
             gradientInterval={2}
@@ -85,14 +86,14 @@ export default function PageHeroBlock({ title, subtitle, cta, background }: Page
             <AnimatedSubtitle
               text={subtitle}
               as="p"
-              className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto font-bold"
+              className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-10 max-w-3xl mx-auto font-bold"
               wordsPerGroup={3}
               gradientStartGroup={1}
               gradientInterval={2}
             />
           )}
           {cta?.text && cta?.link && (
-            <Button variant="default" size="lg" asChild>
+            <Button variant="default" size="lg" asChild className="text-lg lg:text-xl px-10 py-6">
               <Link href={cta.link}>
                 {cta.text}
               </Link>

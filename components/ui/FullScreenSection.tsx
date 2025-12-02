@@ -4,7 +4,7 @@ import Container from './Container'
 interface FullScreenSectionProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode
   className?: string
-  containerSize?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
+  containerSize?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'
   containerClassName?: string
   background?: 'white' | 'gray' | 'dark' | 'transparent'
   minHeight?: 'screen' | 'full' | 'auto'

@@ -47,15 +47,15 @@ export default function BlogPostsBlock({
 
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
-      <Section background={backgroundImage ? 'transparent' : 'white'}>
-        <div className="max-w-7xl mx-auto">
+      <Section background={backgroundImage ? 'transparent' : 'white'} containerSize="2xl" padding="xl">
+        <div className="w-full">
           {(title || description) && (
-            <div className="text-center mb-16">
+            <div className="text-center mb-16 lg:mb-24">
               {title && (
                 <AnimatedTitle
                   text={title}
                   as="h2"
-                  className="text-4xl md:text-6xl font-black text-foreground mb-6"
+                  className="text-5xl md:text-6xl lg:text-8xl font-black text-foreground mb-8"
                   wordsPerGroup={2}
                   gradientStartGroup={0}
                   gradientInterval={2}
@@ -65,7 +65,7 @@ export default function BlogPostsBlock({
                 <AnimatedSubtitle
                   text={description}
                   as="p"
-                  className="text-xl text-muted-foreground max-w-3xl mx-auto font-bold"
+                  className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto font-bold"
                   wordsPerGroup={3}
                   gradientStartGroup={1}
                   gradientInterval={2}
@@ -74,27 +74,27 @@ export default function BlogPostsBlock({
             </div>
           )}
 
-          <div className={`gap-8 ${layout === 'grid' ? 'grid md:grid-cols-2 lg:grid-cols-3' : 'space-y-8'}`}>
+          <div className={`gap-6 lg:gap-10 ${layout === 'grid' ? 'grid md:grid-cols-2 lg:grid-cols-3' : 'space-y-10'}`}>
             {posts.map((post) => (
               <Link key={post._id} href={`/blog/${post.slug.current}`}>
-                <Card className="h-full group transition-all duration-300 overflow-hidden hover:-translate-y-1 border border-border shadow-sm">
-                  <div className={`relative overflow-hidden ${layout === 'list' ? 'h-64 md:h-80' : 'h-64'} border-b border-border`}>
+                <Card className="h-full group transition-all duration-300 overflow-hidden hover:-translate-y-2 hover:shadow-xl border border-border">
+                  <div className={`relative overflow-hidden ${layout === 'list' ? 'h-72 md:h-96' : 'h-72 lg:h-80'} border-b border-border`}>
                     <Image
-                      src={urlFor(post.featuredImage).width(600).height(400).url()}
+                      src={urlFor(post.featuredImage).width(800).height(600).url()}
                       alt={post.title}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-110"
                     />
                     {post.categories && post.categories.length > 0 && (
-                      <div className="absolute top-4 left-4">
-                        <span className="bg-secondary border border-border px-4 py-2 text-sm font-black text-secondary-foreground shadow-sm rounded-md">
+                      <div className="absolute top-5 left-5">
+                        <span className="bg-secondary border border-border px-5 py-2.5 text-base font-black text-secondary-foreground shadow-sm rounded-lg">
                           {post.categories[0]}
                         </span>
                       </div>
                     )}
                   </div>
-                  <div className="p-6 bg-card">
-                    <div className="flex items-center text-sm font-bold text-muted-foreground mb-3">
+                  <div className="p-6 lg:p-8 bg-card">
+                    <div className="flex items-center text-base font-bold text-muted-foreground mb-4">
                       {post.author && (
                         <span className="mr-4">{post.author.name}</span>
                       )}
@@ -106,10 +106,10 @@ export default function BlogPostsBlock({
                         })}
                       </span>
                     </div>
-                    <h3 className="text-2xl font-black text-foreground mb-3 group-hover:text-primary transition-colors">
+                    <h3 className="text-2xl lg:text-3xl font-black text-foreground mb-4 group-hover:text-primary transition-colors">
                       {post.title}
                     </h3>
-                    <p className="text-muted-foreground line-clamp-3 font-medium">{post.excerpt}</p>
+                    <p className="text-muted-foreground line-clamp-3 font-medium text-lg">{post.excerpt}</p>
                   </div>
                 </Card>
               </Link>

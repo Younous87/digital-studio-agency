@@ -34,6 +34,7 @@ export default function AboutValuesBlock({ title, values, backgroundColor, backg
         background="transparent"
         className="relative overflow-hidden"
         style={{ backgroundColor: backgroundImage ? 'transparent' : bgColor }}
+        containerSize="2xl"
       >
         {/* Grid pattern background - only if no background image */}
         {!backgroundImage && (
@@ -46,11 +47,11 @@ export default function AboutValuesBlock({ title, values, backgroundColor, backg
         )}
 
         {title && (
-          <div className="text-center mb-16 relative">
+          <div className="text-center mb-16 lg:mb-24 relative">
             <AnimatedTitle
               text={title}
               as="h2"
-              className={`text-4xl md:text-5xl font-black ${textColor} inline-block relative z-10`}
+              className={`text-5xl md:text-6xl lg:text-8xl font-black ${textColor} inline-block relative z-10`}
               wordsPerGroup={2}
               gradientStartGroup={0}
               gradientInterval={2}
@@ -59,27 +60,27 @@ export default function AboutValuesBlock({ title, values, backgroundColor, backg
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
           {values?.map((value, index) => (
             <div
               key={value._key || index}
-              className="bg-card border border-border shadow-sm p-8 hover:translate-x-1 hover:-translate-y-1 hover:shadow-md transition-all duration-200 group rounded-md"
+              className="bg-card border border-border shadow-sm p-8 lg:p-12 hover:translate-x-1 hover:-translate-y-2 hover:shadow-xl transition-all duration-200 group rounded-lg"
             >
-              <div className="w-16 h-16 bg-primary border border-border rounded-md flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
+              <div className="w-20 h-20 lg:w-24 lg:h-24 bg-primary border border-border rounded-xl flex items-center justify-center mb-8 group-hover:rotate-12 transition-transform">
                 {value.icon ? (
                   <Image
                     src={urlFor(value.icon).url()}
                     alt=""
-                    width={32}
-                    height={32}
-                    className="w-8 h-8"
+                    width={48}
+                    height={48}
+                    className="w-10 h-10 lg:w-12 lg:h-12"
                   />
                 ) : (
-                  <div className="w-8 h-8 bg-black rounded-full" />
+                  <div className="w-10 h-10 lg:w-12 lg:h-12 bg-black rounded-full" />
                 )}
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-foreground">{value.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{value.description}</p>
+              <h3 className="text-2xl lg:text-3xl font-bold mb-5 text-foreground">{value.title}</h3>
+              <p className="text-muted-foreground text-lg lg:text-xl leading-relaxed">{value.description}</p>
             </div>
           ))}
         </div>

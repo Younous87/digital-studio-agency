@@ -102,12 +102,12 @@ export default function HeroBlock({
         )}
 
         {/* Content */}
-        <div className={`relative z-10 text-center px-4 max-w-6xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`relative z-10 text-center px-4 lg:px-8 max-w-7xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {/* Main Headline */}
           <AnimatedTitle
             text={headline}
             as="h1"
-            className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-none tracking-tight text-foreground"
+            className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black mb-10 lg:mb-12 leading-none tracking-tight text-foreground"
             wordsPerGroup={2}
             gradientStartGroup={1}
             gradientInterval={2}
@@ -117,7 +117,7 @@ export default function HeroBlock({
             <AnimatedSubtitle
               text={subheadline}
               as="p"
-              className="text-xl md:text-3xl mb-12 text-muted-foreground max-w-4xl mx-auto leading-relaxed font-medium"
+              className="text-xl md:text-3xl lg:text-4xl mb-14 lg:mb-16 text-muted-foreground max-w-5xl mx-auto leading-relaxed font-medium"
               wordsPerGroup={3}
               gradientStartGroup={1}
               gradientInterval={2}
@@ -125,17 +125,17 @@ export default function HeroBlock({
           )}
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 animate-fade-in">
+          <div className="flex flex-col sm:flex-row gap-6 lg:gap-8 justify-center items-center mb-16 animate-fade-in">
             {cta && (
-              <Button variant="default" size="lg" className="group" asChild>
+              <Button variant="default" size="lg" className="group text-lg lg:text-xl px-10 lg:px-14 py-6 lg:py-8" asChild>
                 <Link href={cta.link}>
                   {cta.text}
-                  <ArrowRight className="ml-3 w-6 h-6 inline group-hover:translate-x-2 transition-transform" />
+                  <ArrowRight className="ml-3 w-6 h-6 lg:w-8 lg:h-8 inline group-hover:translate-x-2 transition-transform" />
                 </Link>
               </Button>
             )}
             {secondaryCta && (
-              <Button variant="outline" size="lg" asChild>
+              <Button variant="outline" size="lg" asChild className="text-lg lg:text-xl px-10 lg:px-14 py-6 lg:py-8">
                 <Link href={secondaryCta.link}>
                   {secondaryCta.text}
                 </Link>
