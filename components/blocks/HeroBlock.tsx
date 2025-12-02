@@ -41,7 +41,7 @@ export default function HeroBlock({
 
   return (
     <BackgroundWrapper backgroundImage={sectionBackgroundImage}>
-      <section className={`relative min-h-screen flex items-center justify-center overflow-hidden border-b border-border ${sectionBackgroundImage ? 'bg-transparent' : 'bg-background'}`}>
+      <section className={`relative min-h-screen flex items-center justify-center overflow-hidden ${sectionBackgroundImage ? 'bg-transparent' : 'bg-background'}`}>
         {/* Optional Background Image/Video */}
         {(backgroundVideo || backgroundImage) && (
           <div className="absolute inset-0 flex items-center justify-center p-8">

@@ -30,7 +30,7 @@ export default function CTASection({
 }: Readonly<CTASectionProps>) {
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
-      <FullScreenSection background="transparent" className="relative overflow-hidden border-y border-border">
+      <FullScreenSection background="transparent" className="relative overflow-hidden">
         {/* Content */}
         <div className="relative z-10 text-center max-w-5xl mx-auto">
           <h2 className="text-5xl md:text-7xl font-black mb-8 text-foreground leading-none">

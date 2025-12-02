@@ -21,7 +21,7 @@ export default function RetroMarquee({
     return (
         <div
             className={cn(
-                "relative flex overflow-hidden bg-primary py-4 border-y border-border",
+                "relative flex overflow-hidden bg-primary py-4",
                 className
             )}
         >

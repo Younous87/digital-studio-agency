@@ -71,11 +71,6 @@ export default async function HomePage() {
                     sectionBackgroundImage={block.sectionBackgroundImage}
                   />
                 </ScrollReveal>
-                <RetroMarquee
-                  items={["Digital Experiences", "Creative Strategy", "Brand Identity", "Web Development", "Motion Design"]}
-                  speed={25}
-                  className="scale-105 z-20"
-                />
               </React.Fragment>
             )
 

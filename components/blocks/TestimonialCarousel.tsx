@@ -38,7 +38,7 @@ export default function TestimonialCarousel({
   if (layout === 'grid') {
     return (
       <BackgroundWrapper backgroundImage={backgroundImage}>
-        <FullScreenSection background={backgroundImage ? 'transparent' : 'gray'}>
+        <FullScreenSection background={backgroundImage ? 'transparent' : 'white'}>
           {(title || description) && (
             <div className="text-center mb-12">
               {title && (
@@ -112,7 +112,7 @@ export default function TestimonialCarousel({
   // Enhanced Carousel layout with shadcn carousel
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
-      <FullScreenSection background={backgroundImage ? 'transparent' : 'gray'}>
+      <FullScreenSection background={backgroundImage ? 'transparent' : 'white'}>
         {(title || description) && (
           <div className="text-center mb-12">
             {title && (
