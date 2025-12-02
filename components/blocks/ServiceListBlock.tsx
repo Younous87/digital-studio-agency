@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import FullScreenSection from '@/components/ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
+import GlareHover from '@/components/ui/GlareHover'
 import AnimatedTitle from '@/components/ui/AnimatedTitle'
 import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 import { ArrowRight } from 'lucide-react'
@@ -42,7 +43,6 @@ export default function ServiceListBlock({
   backgroundColor,
   backgroundImage
 }: ServiceListBlockProps) {
-  const [isPaused, setIsPaused] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const pauseRef = useRef<boolean>(false)
 
@@ -174,12 +174,12 @@ export default function ServiceListBlock({
             <div
               ref={scrollRef}
               className="flex gap-6 overflow-x-auto scrollbar-hide touch-pan-x"
-              onMouseEnter={() => { pauseRef.current = true; setIsPaused(true) }}
-              onMouseLeave={() => { pauseRef.current = false; setIsPaused(false) }}
-              onPointerDown={() => { pauseRef.current = true; setIsPaused(true) }}
-              onPointerUp={() => { pauseRef.current = false; setIsPaused(false) }}
-              onTouchStart={() => { pauseRef.current = true; setIsPaused(true) }}
-              onTouchEnd={() => { pauseRef.current = false; setIsPaused(false) }}
+              onMouseEnter={() => { pauseRef.current = true }}
+              onMouseLeave={() => { pauseRef.current = false }}
+              onPointerDown={() => { pauseRef.current = true }}
+              onPointerUp={() => { pauseRef.current = false }}
+              onTouchStart={() => { pauseRef.current = true }}
+              onTouchEnd={() => { pauseRef.current = false }}
             >
               {duplicatedServices.map((service, index) => (
                 <ServiceCard 
@@ -247,80 +247,90 @@ function ServiceCard({ service }: Readonly<{ service: Service }>) {
 
   return (
     <Link href={`/services/${service.slug.current}`}>
-      <div
+      <GlareHover
+        width="100%"
+        height="600px"
+        background="transparent"
+        borderRadius="12px"
+        borderColor="transparent"
+        glareColor="#ffffff"
+        glareOpacity={0.3}
+        glareAngle={-30}
+        glareSize={300}
+        transitionDuration={800}
+        playOnce={false}
         className="shrink-0 min-w-[90vw] md:min-w-[70vw] lg:min-w-[60vw] xl:min-w-[50vw] h-[600px] relative rounded-xl overflow-hidden cursor-pointer group snap-start"
+        style={{ background: 'transparent' }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Background gradient */}
-        <div className={`absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/70 to-primary/50 transition-all duration-500 ${
-          isHovered ? 'from-primary via-primary/80 to-primary/60' : ''
-        }`} />
+          {/* Background gradient */}
+          <div className={`absolute inset-0 bg-linear-to-br from-primary/90 via-primary/70 to-primary/50 transition-all duration-500 ${
+            isHovered ? 'from-primary via-primary/80 to-primary/60' : ''
+          }`} />
 
-        {/* Pattern overlay */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)',
-            backgroundSize: '24px 24px',
-          }} />
-        </div>
+          {/* Pattern overlay */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)',
+              backgroundSize: '24px 24px',
+            }} />
+          </div>
 
-        {/* Icon */}
-        {service.icon && (
-          <div className={`absolute top-8 lg:top-10 right-8 lg:right-10 transition-all duration-500 ${
-            isHovered ? 'scale-110 rotate-6' : ''
-          }`}>
-            <div className="bg-white/20 backdrop-blur-sm border border-white/30 p-5 lg:p-6 rounded-xl">
-              <Image
-                src={urlFor(service.icon as any).width(80).height(80).url()}
-                alt={service.title}
-                width={64}
-                height={64}
-                className="w-12 h-12 lg:w-16 lg:h-16"
-              />
+          {/* Icon */}
+          {service.icon && (
+            <div className={`absolute top-8 lg:top-10 right-8 lg:right-10 transition-all duration-500 ${
+              isHovered ? 'scale-110 rotate-6' : ''
+            }`}>
+              <div className="bg-white/20 backdrop-blur-sm border border-white/30 p-5 lg:p-6 rounded-xl">
+                <Image
+                  src={urlFor(service.icon).width(80).height(80).url()}
+                  alt={service.title}
+                  width={64}
+                  height={64}
+                  className="w-12 h-12 lg:w-16 lg:h-16"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Content */}
+          <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-10">
+            <h3 className={`text-3xl lg:text-4xl font-black text-white mb-4 transition-transform duration-500 ${
+              isHovered ? 'translate-x-2' : ''
+            }`}>
+              {service.title}
+            </h3>
+            
+            <p className={`text-white/80 text-lg lg:text-xl font-medium leading-relaxed mb-6 line-clamp-3 transition-all duration-500 ${
+              isHovered ? 'opacity-100 translate-y-0' : 'opacity-70'
+            }`}>
+              {service.shortDescription}
+            </p>
+
+            <div className={`transition-all duration-500 ${
+              isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}>
+              <Button 
+                variant="secondary" 
+                size="lg"
+                className="bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white hover:text-primary text-lg px-8 py-6"
+              >
+                Learn More <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
             </div>
           </div>
-        )}
 
-        {/* Content */}
-        <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-10">
-          <h3 className={`text-3xl lg:text-4xl font-black text-white mb-4 transition-transform duration-500 ${
-            isHovered ? 'translate-x-2' : ''
+          {/* Decorative corner accent */}
+          <div className={`absolute top-0 left-0 w-24 h-24 transition-all duration-500 ${
+            isHovered ? 'scale-110' : ''
           }`}>
-            {service.title}
-          </h3>
-          
-          <p className={`text-white/80 text-lg lg:text-xl font-medium leading-relaxed mb-6 line-clamp-3 transition-all duration-500 ${
-            isHovered ? 'opacity-100 translate-y-0' : 'opacity-70'
-          }`}>
-            {service.shortDescription}
-          </p>
-
-          <div className={`transition-all duration-500 ${
-            isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}>
-            <Button 
-              variant="secondary" 
-              size="lg"
-              className="bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white hover:text-primary text-lg px-8 py-6"
-            >
-              Learn More <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
+            <div className="absolute top-4 left-4 w-12 h-12 border-t-4 border-l-4 border-white/30 rounded-tl-xl" />
           </div>
-        </div>
-
-        {/* Decorative corner accent */}
-        <div className={`absolute top-0 left-0 w-24 h-24 transition-all duration-500 ${
-          isHovered ? 'scale-110' : ''
-        }`}>
-          <div className="absolute top-4 left-4 w-12 h-12 border-t-4 border-l-4 border-white/30 rounded-tl-xl" />
-        </div>
-      </div>
+        </GlareHover>
     </Link>
   )
-}
-
-function GridServiceCard({ service }: Readonly<{ service: Service }>) {
+}function GridServiceCard({ service }: Readonly<{ service: Service }>) {
   return (
     <Link href={`/services/${service.slug.current}`} className="group block">
       <Card className="h-full w-full p-8 lg:p-12 text-center border border-border shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
@@ -329,7 +339,7 @@ function GridServiceCard({ service }: Readonly<{ service: Service }>) {
             <div className="relative inline-block">
               <div className="p-6 lg:p-8 group-hover:rotate-6 transition-transform duration-300">
                 <Image
-                  src={urlFor(service.icon as any).width(120).height(120).url()}
+                  src={urlFor(service.icon).width(120).height(120).url()}
                   alt={service.title}
                   width={100}
                   height={100}
