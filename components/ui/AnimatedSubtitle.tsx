@@ -10,11 +10,17 @@ interface AnimatedSubtitleProps {
   as?: 'p' | 'span' | 'h3' | 'h4' | 'h5' | 'h6'
   /** Additional CSS classes */
   className?: string
-  /** Number of words to group together for gradient (default: 3 for subtitles) */
+  /** 
+   * Mode for determining gradients:
+   * - 'auto': Uses algorithm based on word groups (default)
+   * - 'manual': Uses **markers** in text to define gradient sections
+   */
+  mode?: 'auto' | 'manual'
+  /** Number of words to group together for gradient (default: 3 for subtitles) - only used in 'auto' mode */
   wordsPerGroup?: number
-  /** Apply gradient starting from which group (0-indexed, default: 1) */
+  /** Apply gradient starting from which group (0-indexed, default: 1) - only used in 'auto' mode */
   gradientStartGroup?: number
-  /** Interval between gradient groups (e.g., 3 means every third group has gradient) */
+  /** Interval between gradient groups - only used in 'auto' mode */
   gradientInterval?: number
   /** Custom gradient colors - softer by default for subtitles */
   colors?: string[]
@@ -27,22 +33,25 @@ interface AnimatedSubtitleProps {
 /**
  * AnimatedSubtitle - Renders subtitle text with animated gradient on selected word groups
  * 
- * Configured with subtler settings compared to AnimatedTitle:
- * - Larger word groups (3 words)
- * - Less frequent gradients (every 3rd group)
- * - Softer, more muted colors
- * - Slower animation
+ * Supports two modes:
  * 
- * Example: "We help brands create meaningful digital experiences that connect with their audience"
- * - Group 0: "We help brands" (no gradient)
- * - Group 1: "create meaningful digital" (gradient)
- * - Group 2: "experiences that connect" (no gradient)
- * - Group 3: "with their audience" (gradient)
+ * 1. AUTO MODE (default): Applies gradient based on word groups
+ *    - Larger word groups (3 words)
+ *    - Less frequent gradients (every 3rd group)
+ *    - Softer, more muted colors
+ *    - Slower animation
+ * 
+ * 2. MANUAL MODE: Use **double asterisks** to mark gradient text in Sanity
+ *    Example: "We help brands create **meaningful digital experiences** that connect"
+ *    - "We help brands create " (no gradient)
+ *    - "meaningful digital experiences" (gradient)
+ *    - " that connect" (no gradient)
  */
 export default function AnimatedSubtitle({
   text,
   as: Tag = 'p',
   className = '',
+  mode = 'manual',
   wordsPerGroup = 2,
   gradientStartGroup = 1,
   gradientInterval = 2,
@@ -51,9 +60,73 @@ export default function AnimatedSubtitle({
   disableGradient = false,
 }: AnimatedSubtitleProps) {
   if (disableGradient || !text) {
-    return <Tag className={className}>{text}</Tag>
+    // Remove markers if present but gradient is disabled
+    const cleanText = text?.replace(/\*\*/g, '') || ''
+    return <Tag className={className}>{cleanText}</Tag>
   }
 
+  // Check if text contains manual markers (**text**)
+  const hasManualMarkers = text.includes('**')
+  const effectiveMode = hasManualMarkers ? 'manual' : mode
+
+  if (effectiveMode === 'manual') {
+    return renderManualMode(text, Tag, className, colors, animationSpeed)
+  }
+
+  return renderAutoMode(text, Tag, className, wordsPerGroup, gradientStartGroup, gradientInterval, colors, animationSpeed)
+}
+
+/**
+ * Renders text with manually marked gradient sections using **markers**
+ */
+function renderManualMode(
+  text: string,
+  Tag: 'p' | 'span' | 'h3' | 'h4' | 'h5' | 'h6',
+  className: string,
+  colors: string[],
+  animationSpeed: number
+) {
+  // Split by ** markers, odd indices are gradient text
+  const parts = text.split(/\*\*/)
+  
+  return (
+    <Tag className={className}>
+      {parts.map((part, index) => {
+        // Odd indices (1, 3, 5...) are between ** markers = gradient
+        const isGradient = index % 2 === 1
+        
+        if (isGradient && part) {
+          return (
+            <GradientText
+              key={index}
+              inline
+              colors={colors}
+              animationSpeed={animationSpeed}
+            >
+              {part}
+            </GradientText>
+          )
+        }
+        
+        return <React.Fragment key={index}>{part}</React.Fragment>
+      })}
+    </Tag>
+  )
+}
+
+/**
+ * Renders text with automatic gradient based on word groups
+ */
+function renderAutoMode(
+  text: string,
+  Tag: 'p' | 'span' | 'h3' | 'h4' | 'h5' | 'h6',
+  className: string,
+  wordsPerGroup: number,
+  gradientStartGroup: number,
+  gradientInterval: number,
+  colors: string[],
+  animationSpeed: number
+) {
   const words = text.split(/\s+/)
   const groups: string[][] = []
   
