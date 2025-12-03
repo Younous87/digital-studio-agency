@@ -8,7 +8,7 @@ import BackgroundWrapper from './BackgroundWrapper'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { urlFor } from '@/lib/sanity/image'
-import { ExternalLink, Calendar } from 'lucide-react'
+import { ExternalLink, Calendar, Play, Pause, Volume2, VolumeX } from 'lucide-react'
 import AnimatedTitle from '@/components/ui/AnimatedTitle'
 import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 
@@ -337,6 +337,10 @@ function MasonryColumnCard({
   defaultSize: 'square' | 'rectangle' 
 }>) {
   const [imageLoaded, setImageLoaded] = useState(false)
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true)
+  const [isVideoMuted, setIsVideoMuted] = useState(true)
+  const [isHovered, setIsHovered] = useState(false)
+  const iframeRef = useRef<HTMLIFrameElement>(null)
   const cardSize = project.cardSize || defaultSize
   const previewType = project.previewType || 'image'
   
@@ -346,34 +350,84 @@ function MasonryColumnCard({
     : 'aspect-square'
 
   // Format Vimeo URL for autoplay, loop, muted
-  const getVideoEmbedUrl = (url: string) => {
+  const getVideoEmbedUrl = (url: string, playing: boolean = true, muted: boolean = true) => {
     if (!url) return ''
+    
+    const autoplay = playing ? '1' : '0'
+    const mute = muted ? '1' : '0'
     
     // Handle Vimeo URLs
     if (url.includes('vimeo.com')) {
-      // Extract video ID from various Vimeo URL formats
-      const vimeoMatch = url.match(/vimeo\.com\/(?:video\/)?(\d+)/)
+      const vimeoMatch = /vimeo\.com\/(?:video\/)?(\d+)/.exec(url)
       if (vimeoMatch) {
-        return `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1&loop=1&muted=1&badge=0&autopause=0&player_id=0&app_id=58479`
+        return `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=${autoplay}&loop=1&muted=${mute}&badge=0&autopause=0&player_id=0&app_id=58479`
       }
-      // If it's already an embed URL, just add params
       if (url.includes('player.vimeo.com')) {
-        const hasParams = url.includes('?')
-        return hasParams 
-          ? url 
-          : `${url}?autoplay=1&loop=1&muted=1&badge=0&autopause=0&player_id=0&app_id=58479`
+        const baseUrl = url.split('?')[0]
+        return `${baseUrl}?autoplay=${autoplay}&loop=1&muted=${mute}&badge=0&autopause=0&player_id=0&app_id=58479`
       }
     }
     
     // Handle YouTube URLs
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      const youtubeMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)
+      const youtubeMatch = /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/.exec(url)
       if (youtubeMatch) {
-        return `https://www.youtube.com/embed/${youtubeMatch[1]}?autoplay=1&loop=1&mute=1&playlist=${youtubeMatch[1]}`
+        return `https://www.youtube.com/embed/${youtubeMatch[1]}?autoplay=${autoplay}&loop=1&mute=${mute}&playlist=${youtubeMatch[1]}`
       }
     }
     
     return url
+  }
+
+  // Control Vimeo player via postMessage
+  const sendVimeoMessage = (method: string, value?: any) => {
+    const data = value === undefined ? { method } : { method, value }
+    iframeRef.current?.contentWindow?.postMessage(JSON.stringify(data), 'https://player.vimeo.com')
+  }
+
+  // Control YouTube player via postMessage
+  const sendYouTubeMessage = (action: string) => {
+    iframeRef.current?.contentWindow?.postMessage(JSON.stringify({ event: 'command', func: action }), 'https://www.youtube.com')
+  }
+
+  const togglePlayPause = () => {
+    if (!project.previewVideo) return
+    
+    if (project.previewVideo.includes('vimeo.com')) {
+      if (isVideoPlaying) {
+        sendVimeoMessage('pause')
+      } else {
+        sendVimeoMessage('play')
+      }
+    } else if (project.previewVideo.includes('youtube.com') || project.previewVideo.includes('youtu.be')) {
+      if (isVideoPlaying) {
+        sendYouTubeMessage('pauseVideo')
+      } else {
+        sendYouTubeMessage('playVideo')
+      }
+    }
+    
+    setIsVideoPlaying(!isVideoPlaying)
+  }
+
+  const toggleMute = () => {
+    if (!project.previewVideo) return
+    
+    if (project.previewVideo.includes('vimeo.com')) {
+      if (isVideoMuted) {
+        sendVimeoMessage('setVolume', 1)
+      } else {
+        sendVimeoMessage('setVolume', 0)
+      }
+    } else if (project.previewVideo.includes('youtube.com') || project.previewVideo.includes('youtu.be')) {
+      if (isVideoMuted) {
+        sendYouTubeMessage('unMute')
+      } else {
+        sendYouTubeMessage('mute')
+      }
+    }
+    
+    setIsVideoMuted(!isVideoMuted)
   }
 
   const primaryCategory = project.categories?.[0]
@@ -382,14 +436,18 @@ function MasonryColumnCard({
     <div className="relative">
       {/* Card Container */}
       <Link href={`/work/${project.slug.current}`}>
-        <div className={`relative ${aspectRatioClass} rounded-xl overflow-hidden group cursor-pointer bg-muted`}>
+        <div 
+          className={`relative ${aspectRatioClass} rounded-xl overflow-hidden group cursor-pointer bg-muted`}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           {/* Video Preview */}
           {previewType === 'video' && project.previewVideo ? (
             <div className="absolute inset-0">
               <iframe
-                src={getVideoEmbedUrl(project.previewVideo)}
-                className="absolute inset-0 w-full h-full object-cover"
-                frameBorder="0"
+                ref={iframeRef}
+                src={getVideoEmbedUrl(project.previewVideo, isVideoPlaying, isVideoMuted)}
+                className="absolute inset-0 w-full h-full object-cover border-0"
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
                 allowFullScreen
                 title={project.title}
@@ -424,6 +482,34 @@ function MasonryColumnCard({
               <div className="bg-black/80 backdrop-blur-sm text-white px-3 py-1 rounded-lg">
                 <span className="text-sm font-semibold">{primaryCategory}</span>
               </div>
+            </div>
+          )}
+
+          {/* Video Controls - only show on hover for video cards */}
+          {previewType === 'video' && project.previewVideo && isHovered && (
+            <div className="absolute top-4 left-4 z-20 flex gap-2">
+              <button
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  togglePlayPause()
+                }}
+                className="bg-black/80 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-black/90 transition-colors"
+                aria-label={isVideoPlaying ? 'Pause video' : 'Play video'}
+              >
+                {isVideoPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  toggleMute()
+                }}
+                className="bg-black/80 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-black/90 transition-colors"
+                aria-label={isVideoMuted ? 'Unmute video' : 'Mute video'}
+              >
+                {isVideoMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              </button>
             </div>
           )}
 
