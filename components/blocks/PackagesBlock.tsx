@@ -80,7 +80,7 @@ export default function PackagesBlock({
         </div>
 
         {/* Features Card */}
-        <Card className="max-w-5xl mx-auto p-8 md:p-12 lg:p-16 border border-border shadow-xl bg-card">
+        <Card className="w-full p-8 md:p-12 lg:p-16 border border-border shadow-xl bg-card">
           <ul className="space-y-0">
             {features.map((item, index) => (
               <li
