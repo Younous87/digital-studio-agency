@@ -5,27 +5,31 @@ import GradientText from '@/components/GradientText'
 
 interface AnimatedSubtitleProps {
   /** The text to render with animated gradient on selected words */
-  text: string
+  readonly text: string
   /** HTML tag to use for the subtitle */
-  as?: 'p' | 'span' | 'h3' | 'h4' | 'h5' | 'h6'
+  readonly as?: 'p' | 'span' | 'h3' | 'h4' | 'h5' | 'h6'
   /** Additional CSS classes */
-  className?: string
+  readonly className?: string
   /** Custom gradient colors - softer by default for subtitles */
-  colors?: string[]
+  readonly colors?: string[]
   /** Animation speed in seconds */
-  animationSpeed?: number
+  readonly animationSpeed?: number
   /** Whether to disable the gradient effect entirely */
-  disableGradient?: boolean
+  readonly disableGradient?: boolean
 }
 
 /**
- * AnimatedSubtitle - Renders subtitle text with animated gradient on marked sections
+ * AnimatedSubtitle - Renders subtitle text with animated gradient on marked sections and italic on other marked sections
  * 
  * Use **double asterisks** to mark gradient text in Sanity:
- * Example: "We help brands create **meaningful digital experiences** that connect"
+ * Use ##double hashes## to mark italic text in Sanity:
+ * Both can be used in the same text.
+ * Example: "We help brands create **meaningful digital experiences** that connect ##with style##"
  * - "We help brands create " → normal text
  * - "meaningful digital experiences" → animated gradient
- * - " that connect" → normal text
+ * - " that connect " → normal text
+ * - "with style" → italic
+ * - "" → normal text
  * 
  * If no markers are present, the entire text renders as normal text.
  */
@@ -43,41 +47,53 @@ export default function AnimatedSubtitle({
 
   // Clean the text of markers if gradient is disabled
   if (disableGradient) {
-    const cleanText = text.replace(/\*\*/g, '')
+    const cleanText = text.replaceAll('**', '').replaceAll('##', '')
     return <Tag className={className}>{cleanText}</Tag>
   }
 
-  // Check if text contains markers (**text**)
-  const hasMarkers = text.includes('**')
+  // Check if text contains markers (**text** or ##text##)
+  const hasMarkers = text.includes('**') || text.includes('##')
 
   // If no markers, render as plain text
   if (!hasMarkers) {
     return <Tag className={className}>{text}</Tag>
   }
 
-  // Split by ** markers, odd indices are gradient text
-  const parts = text.split(/\*\*/)
+  // Parse text for gradient and italic markers
+  const regex = /(?:\*\*([^*]+)\*\*|##([^#]+)##|([^*#]+))/g
+  const parts: Array<{ type: 'gradient' | 'italic' | 'normal'; content: string }> = []
+  let match
+  while ((match = regex.exec(text)) !== null) {
+    if (match[1]) {
+      parts.push({ type: 'gradient', content: match[1] })
+    } else if (match[2]) {
+      parts.push({ type: 'italic', content: match[2] })
+    } else if (match[3]) {
+      parts.push({ type: 'normal', content: match[3] })
+    }
+  }
+  
+  let keyCounter = 0
   
   return (
     <Tag className={className}>
-      {parts.map((part, index) => {
-        // Odd indices (1, 3, 5...) are between ** markers = gradient
-        const isGradient = index % 2 === 1
-        
-        if (isGradient && part) {
+      {parts.map((part) => {
+        if (part.type === 'gradient') {
           return (
             <GradientText
-              key={index}
+              key={`gradient-${keyCounter++}`}
               inline
               colors={colors}
               animationSpeed={animationSpeed}
             >
-              {part}
+              {part.content}
             </GradientText>
           )
+        } else if (part.type === 'italic') {
+          return <em key={`italic-${keyCounter++}`}>{part.content}</em>
+        } else {
+          return <React.Fragment key={`normal-${keyCounter++}`}>{part.content}</React.Fragment>
         }
-        
-        return <React.Fragment key={index}>{part}</React.Fragment>
       })}
     </Tag>
   )

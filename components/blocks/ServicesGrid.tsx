@@ -80,8 +80,8 @@ export default function ServicesGrid({
                 <div className="grid gap-6 md:gap-8 lg:gap-10 md:grid-cols-2 lg:grid-cols-3">
                   {services
                     .filter(s => (s.category || 'All Services') === category)
-                    .map((service) => (
-                      <ServiceCard key={service._id} service={service} />
+                    .map((service, index) => (
+                      <ServiceCard key={`${service._id}-${index}`} service={service} />
                     ))}
                 </div>
               </TabsContent>
@@ -91,8 +91,8 @@ export default function ServicesGrid({
           <div className={`grid gap-6 md:gap-8 lg:gap-10 ${
             layout === 'grid' ? 'md:grid-cols-2 lg:grid-cols-3' : 'md:grid-cols-1'
           }`}>
-            {services.map((service) => (
-              <ServiceCard key={service._id} service={service} />
+            {services.map((service, index) => (
+              <ServiceCard key={`${service._id}-${index}`} service={service} />
             ))}
           </div>
         )}
