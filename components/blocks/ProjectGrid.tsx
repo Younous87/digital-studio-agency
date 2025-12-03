@@ -418,26 +418,66 @@ function MasonryColumnCard({
             )
           )}
 
-          {/* Hover overlay */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
+          {/* Tag in bottom right corner - always visible */}
+          {primaryCategory && (
+            <div className="absolute bottom-4 right-4 z-10">
+              <div className="bg-black/80 backdrop-blur-sm text-white px-3 py-1 rounded-lg">
+                <span className="text-sm font-semibold">{primaryCategory}</span>
+              </div>
+            </div>
+          )}
+
+          {/* Hover overlay with project info */}
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/70 transition-all duration-300" />
           
           {/* Hover content */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <span className="text-white font-bold text-lg bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">
-              View Project
-            </span>
+          <div className="absolute inset-0 flex flex-col justify-between p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {/* Top section - empty for spacing */}
+            <div></div>
+            
+            {/* Bottom section - project info */}
+            <div className="space-y-4">
+              {/* All categories */}
+              {project.categories && project.categories.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {project.categories.map((category) => (
+                    <Badge 
+                      key={category} 
+                      variant="secondary" 
+                      className="text-xs px-3 py-1 bg-white/20 backdrop-blur-sm text-white border-white/30"
+                    >
+                      {category}
+                    </Badge>
+                  ))}
+                </div>
+              )}
+
+              {/* Project title */}
+              <h3 className="text-xl md:text-2xl font-black text-white leading-tight">
+                {project.title}
+              </h3>
+
+              {/* Client name if available */}
+              {project.clientName && (
+                <p className="text-white/80 font-medium text-sm">
+                  {project.clientName}
+                </p>
+              )}
+
+              {/* View Project button */}
+              <div className="pt-2">
+                <Button 
+                  variant="secondary" 
+                  size="sm"
+                  className="bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white hover:text-black"
+                >
+                  View Project <ExternalLink className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </Link>
-
-      {/* Tag Container - Below the card */}
-      {primaryCategory && (
-        <div className="flex justify-end mt-2">
-          <div className="bg-black text-white px-4 py-2 rounded-lg">
-            <span className="text-sm font-semibold">{primaryCategory}</span>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
