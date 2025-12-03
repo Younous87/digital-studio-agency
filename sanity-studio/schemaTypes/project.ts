@@ -36,6 +36,38 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'previewVideo',
+      title: 'Preview Video URL',
+      type: 'url',
+      description: 'Vimeo or YouTube URL for video preview in grid (e.g., https://player.vimeo.com/video/123456789)',
+    },
+    {
+      name: 'previewType',
+      title: 'Preview Type',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Image', value: 'image' },
+          { title: 'Video', value: 'video' },
+        ],
+      },
+      initialValue: 'image',
+      description: 'Choose whether to show image or video in the project grid',
+    },
+    {
+      name: 'cardSize',
+      title: 'Card Size (for Masonry Grid)',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Square', value: 'square' },
+          { title: 'Rectangle (Tall)', value: 'rectangle' },
+        ],
+      },
+      initialValue: 'square',
+      description: 'Card aspect ratio when displayed in masonry columns layout',
+    },
+    {
       name: 'heroBackground',
       title: 'Hero Background Image',
       type: 'image',

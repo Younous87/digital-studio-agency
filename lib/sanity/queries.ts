@@ -52,7 +52,10 @@ export const homepageQuery = `*[_type == "homepage"][0]{
           clientName,
           shortDescription,
           featuredImage,
-          categories
+          categories,
+          previewVideo,
+          previewType,
+          cardSize
         },
         projects[]->{ 
           _id,
@@ -61,7 +64,10 @@ export const homepageQuery = `*[_type == "homepage"][0]{
           clientName,
           shortDescription, 
           featuredImage,
-          categories
+          categories,
+          previewVideo,
+          previewType,
+          cardSize
         }
       ),
       backgroundImage
@@ -183,7 +189,7 @@ export const servicesPageQuery = `*[_type == "servicesPage"][0]{
       title, description, layout, showAll, "services": select(showAll == true => *[_type == "service"]{ _id, title, slug, shortDescription, icon }, services[]->{ _id, title, slug, shortDescription, icon }), backgroundColor, backgroundImage
     },
     _type == "featuredProjects" => {
-      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories }), backgroundImage
+      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories, previewVideo, previewType, cardSize }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories, previewVideo, previewType, cardSize }), backgroundImage
     },
     _type == "testimonials" => {
       title, description, layout, showFeatured, "testimonials": select(showFeatured == true => *[_type == "testimonial" && featured == true]{ _id, clientName, company, role, quote, photo, rating }, testimonials[]->{ _id, clientName, company, role, quote, photo, rating }), backgroundImage
@@ -213,7 +219,7 @@ export const projectsPageQuery = `*[_type == "projectsPage"][0]{
       }
     },
     _type == "featuredProjects" => {
-      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories }), backgroundImage
+      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories, previewVideo, previewType, cardSize }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories, previewVideo, previewType, cardSize }), backgroundImage
     },
     _type == "hero" => {
       headline, subheadline, cta, secondaryCta, backgroundImage, backgroundVideo, sectionBackgroundImage
@@ -261,7 +267,7 @@ export const serviceBySlugQuery = `*[_type == "service" && slug.current == $slug
       title, description, layout, "services": services[]->{ _id, title, slug, shortDescription, icon }, backgroundImage
     },
     _type == "featuredProjects" => {
-      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories }), backgroundImage
+      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories, previewVideo, previewType, cardSize }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories, previewVideo, previewType, cardSize }), backgroundImage
     },
     _type == "testimonials" => {
       title, description, layout, showFeatured, "testimonials": select(showFeatured == true => *[_type == "testimonial" && featured == true]{ _id, clientName, company, role, quote, photo, rating }, testimonials[]->{ _id, clientName, company, role, quote, photo, rating }), backgroundImage
@@ -453,7 +459,7 @@ export const aboutQuery = `*[_type == "about"][0]{
       title, description, layout, "services": services[]->{ _id, title, slug, shortDescription, icon }, backgroundImage
     },
     _type == "featuredProjects" => {
-      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories }), backgroundImage
+      title, description, layout, showAll, "projects": select(showAll == true => *[_type == "project" && featured == true]{ _id, title, slug, clientName, shortDescription, featuredImage, categories, previewVideo, previewType, cardSize }, projects[]->{ _id, title, slug, clientName, shortDescription, featuredImage, categories, previewVideo, previewType, cardSize }), backgroundImage
     },
     _type == "testimonials" => {
       title, description, layout, showFeatured, "testimonials": select(showFeatured == true => *[_type == "testimonial" && featured == true]{ _id, clientName, company, role, quote, photo, rating }, testimonials[]->{ _id, clientName, company, role, quote, photo, rating }), backgroundImage

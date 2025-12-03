@@ -105,7 +105,7 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
           key={block._key || block._id || `${block._type}-${index}`}
           title={block.title}
           description={block.description}
-          layout={block.layout as 'grid' | 'masonry' | 'carousel' | undefined}
+          layout={block.layout as 'grid' | 'masonry' | 'carousel' | 'masonryColumns' | undefined}
           projects={block.projects as any}
           backgroundImage={block.backgroundImage}
         />

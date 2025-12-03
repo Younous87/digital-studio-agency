@@ -21,13 +21,16 @@ interface Project {
   featuredImage: any
   categories?: string[]
   completionDate?: string
+  previewVideo?: string
+  previewType?: 'image' | 'video'
+  cardSize?: 'square' | 'rectangle'
 }
 
 interface ProjectGridProps {
   title?: string
   description?: string
   projects: Project[]
-  layout?: 'grid' | 'masonry' | 'carousel'
+  layout?: 'grid' | 'masonry' | 'carousel' | 'masonryColumns'
   backgroundImage?: any
 }
 
@@ -101,6 +104,36 @@ export default function ProjectGrid({
        window.removeEventListener('resize', onResize)
      }
   }, [projects.length])
+
+  // Render Masonry Columns layout
+  if (layout === 'masonryColumns') {
+    return (
+      <BackgroundWrapper backgroundImage={backgroundImage}>
+        <FullScreenSection background={backgroundImage ? 'transparent' : 'white'} containerSize="full" className="relative overflow-hidden py-16">
+          {(title || description) && (
+            <div className="text-center mb-16 px-4">
+              {title && (
+                <AnimatedTitle
+                  text={title}
+                  as="h2"
+                  className="text-4xl md:text-6xl font-black text-foreground mb-6"
+                />
+              )}
+              {description && (
+                <AnimatedSubtitle
+                  text={description}
+                  as="p"
+                  className="text-xl text-muted-foreground max-w-3xl mx-auto font-medium"
+                />
+              )}
+            </div>
+          )}
+
+          <MasonryColumnsGrid projects={projects} />
+        </FullScreenSection>
+      </BackgroundWrapper>
+    )
+  }
 
   return (
     <BackgroundWrapper backgroundImage={backgroundImage}>
@@ -259,5 +292,152 @@ function ProjectCard({ project }: Readonly<{ project: Project }>) {
         </div>
       </div>
     </Link>
+  )
+}
+
+// ============================================
+// Masonry Columns Layout Components
+// ============================================
+
+function MasonryColumnsGrid({ projects }: Readonly<{ projects: Project[] }>) {
+  // Distribute projects into columns for masonry effect
+  // Each column alternates between square and rectangle cards
+  const columnCount = 4
+  const columns: Project[][] = Array.from({ length: columnCount }, () => [])
+  
+  projects.forEach((project, index) => {
+    const columnIndex = index % columnCount
+    columns[columnIndex].push(project)
+  })
+
+  return (
+    <div className="px-4 md:px-8 lg:px-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {columns.map((columnProjects, columnIndex) => (
+          <div key={`column-${columnIndex}`} className="flex flex-col gap-4">
+            {columnProjects.map((project, projectIndex) => (
+              <MasonryColumnCard
+                key={project._id}
+                project={project}
+                defaultSize={projectIndex % 2 === (columnIndex % 2) ? 'square' : 'rectangle'}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function MasonryColumnCard({ 
+  project, 
+  defaultSize 
+}: Readonly<{ 
+  project: Project
+  defaultSize: 'square' | 'rectangle' 
+}>) {
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const cardSize = project.cardSize || defaultSize
+  const previewType = project.previewType || 'image'
+  
+  // Determine aspect ratio based on card size
+  const aspectRatioClass = cardSize === 'rectangle' 
+    ? 'aspect-[9/16]' // Tall rectangle (like the reference)
+    : 'aspect-square'
+
+  // Format Vimeo URL for autoplay, loop, muted
+  const getVideoEmbedUrl = (url: string) => {
+    if (!url) return ''
+    
+    // Handle Vimeo URLs
+    if (url.includes('vimeo.com')) {
+      // Extract video ID from various Vimeo URL formats
+      const vimeoMatch = url.match(/vimeo\.com\/(?:video\/)?(\d+)/)
+      if (vimeoMatch) {
+        return `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1&loop=1&muted=1&badge=0&autopause=0&player_id=0&app_id=58479`
+      }
+      // If it's already an embed URL, just add params
+      if (url.includes('player.vimeo.com')) {
+        const hasParams = url.includes('?')
+        return hasParams 
+          ? url 
+          : `${url}?autoplay=1&loop=1&muted=1&badge=0&autopause=0&player_id=0&app_id=58479`
+      }
+    }
+    
+    // Handle YouTube URLs
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      const youtubeMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)
+      if (youtubeMatch) {
+        return `https://www.youtube.com/embed/${youtubeMatch[1]}?autoplay=1&loop=1&mute=1&playlist=${youtubeMatch[1]}`
+      }
+    }
+    
+    return url
+  }
+
+  const primaryCategory = project.categories?.[0]
+
+  return (
+    <div className="relative">
+      {/* Card Container */}
+      <Link href={`/work/${project.slug.current}`}>
+        <div className={`relative ${aspectRatioClass} rounded-xl overflow-hidden group cursor-pointer bg-muted`}>
+          {/* Video Preview */}
+          {previewType === 'video' && project.previewVideo ? (
+            <div className="absolute inset-0">
+              <iframe
+                src={getVideoEmbedUrl(project.previewVideo)}
+                className="absolute inset-0 w-full h-full object-cover"
+                frameBorder="0"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                allowFullScreen
+                title={project.title}
+              />
+            </div>
+          ) : (
+            /* Image Preview */
+            project.featuredImage && (
+              <div className="absolute inset-0">
+                <Image
+                  src={urlFor(project.featuredImage)
+                    .width(cardSize === 'rectangle' ? 600 : 800)
+                    .height(cardSize === 'rectangle' ? 1067 : 800)
+                    .url()}
+                  alt={project.title}
+                  fill
+                  className={`object-cover transition-transform duration-500 group-hover:scale-105 ${
+                    imageLoaded ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  onLoad={() => setImageLoaded(true)}
+                />
+                {!imageLoaded && (
+                  <div className="absolute inset-0 animate-pulse bg-muted" />
+                )}
+              </div>
+            )
+          )}
+
+          {/* Hover overlay */}
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300" />
+          
+          {/* Hover content */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <span className="text-white font-bold text-lg bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">
+              View Project
+            </span>
+          </div>
+        </div>
+      </Link>
+
+      {/* Tag Container - Below the card */}
+      {primaryCategory && (
+        <div className="flex justify-end mt-2">
+          <div className="bg-black text-white px-4 py-2 rounded-lg">
+            <span className="text-sm font-semibold">{primaryCategory}</span>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }

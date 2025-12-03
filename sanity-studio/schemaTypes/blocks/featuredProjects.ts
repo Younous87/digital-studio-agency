@@ -43,9 +43,11 @@ export default defineType({
           { title: 'Grid', value: 'grid' },
           { title: 'Masonry', value: 'masonry' },
           { title: 'Carousel', value: 'carousel' },
+          { title: 'Masonry Columns', value: 'masonryColumns' },
         ],
       },
       initialValue: 'grid',
+      description: 'Masonry Columns: Multi-column layout with square/rectangle cards and tags in top-right corner',
     },
     {
       name: 'backgroundImage',
