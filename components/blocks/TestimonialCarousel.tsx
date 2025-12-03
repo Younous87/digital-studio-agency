@@ -196,8 +196,8 @@ export default function TestimonialCarousel({
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden lg:flex -left-6 w-14 h-14" />
-            <CarouselNext className="hidden lg:flex -right-6 w-14 h-14" />
+            <CarouselPrevious className="hidden lg:flex -left-20 w-14 h-14" />
+            <CarouselNext className="hidden lg:flex -right-20 w-14 h-14" />
           </Carousel>
         </div>
       </FullScreenSection>
