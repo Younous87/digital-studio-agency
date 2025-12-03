@@ -245,6 +245,7 @@ export default async function HomePage() {
                   key={block._key || block._id || index}
                   title={block.title}
                   highlightedText={block.highlightedText}
+                  description={block.description}
                   features={block.packageFeatures}
                   ctaText={block.ctaText}
                   ctaLink={block.ctaLink}

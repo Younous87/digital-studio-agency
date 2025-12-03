@@ -269,6 +269,7 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
           key={block._key || block._id || `${block._type}-${index}`}
           title={block.title}
           highlightedText={block.highlightedText}
+          description={block.description}
           features={block.packageFeatures}
           ctaText={block.ctaText}
           ctaLink={block.ctaLink}

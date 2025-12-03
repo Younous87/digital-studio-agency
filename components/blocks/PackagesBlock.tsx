@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card'
 import FullScreenSection from '../ui/FullScreenSection'
 import BackgroundWrapper from './BackgroundWrapper'
 import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 
 interface PackageFeature {
   _key?: string
@@ -16,6 +17,7 @@ interface PackageFeature {
 interface PackagesBlockProps {
   title?: string
   highlightedText?: string
+  description?: string
   features?: PackageFeature[]
   ctaText?: string
   ctaLink?: string
@@ -53,6 +55,7 @@ const defaultFeatures: PackageFeature[] = [
 export default function PackagesBlock({
   title = 'What',
   highlightedText = 'You Get',
+  description,
   features = defaultFeatures,
   ctaText = 'Get Started',
   ctaLink = '/contact',
@@ -77,6 +80,13 @@ export default function PackagesBlock({
             as="h2"
             className="text-5xl md:text-6xl lg:text-8xl font-black text-foreground"
           />
+          {description && (
+            <AnimatedSubtitle
+              text={description}
+              as="p"
+              className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto mt-6"
+            />
+          )}
         </div>
 
         {/* Features Card */}

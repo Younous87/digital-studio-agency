@@ -22,6 +22,12 @@ export default defineType({
       initialValue: 'You Get',
     }),
     defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      description: 'Optional subtitle text below the title',
+    }),
+    defineField({
       name: 'packageFeatures',
       title: 'Package Features',
       type: 'array',
