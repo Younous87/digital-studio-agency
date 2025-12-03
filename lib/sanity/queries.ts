@@ -5,6 +5,7 @@ export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
   description,
   logo,
   brandColors,
+  typography,
   contact,
   socialMedia,
   navigation,
