@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { Check } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -52,6 +53,39 @@ const defaultFeatures: PackageFeature[] = [
   { feature: 'Business Process Automation Consulting' },
 ]
 
+// Separate component for features list with hover animation
+function FeaturesListWithHover({ features }: Readonly<{ features: PackageFeature[] }>) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+
+  return (
+    <ul className="space-y-0 relative">
+      {features.map((item, index) => (
+        <li
+          key={item._key || index}
+          className={`flex items-center gap-5 lg:gap-6 py-5 lg:py-6 transition-all duration-300 ease-out ${
+            index === features.length - 1 ? '' : 'border-b border-border'
+          } ${hoveredIndex === index ? 'bg-muted/30 scale-[1.02]' : ''}`}
+          onMouseEnter={() => setHoveredIndex(index)}
+          onMouseLeave={() => setHoveredIndex(null)}
+        >
+          <div className="shrink-0 w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center transition-all duration-300">
+            <Check className={`w-6 h-6 lg:w-7 lg:h-7 text-pink-600 transition-all duration-300 ${
+              hoveredIndex === index ? 'scale-110' : ''
+            }`} />
+          </div>
+          <span className={`text-lg lg:text-xl transition-all duration-300 ease-out ${
+            hoveredIndex === index
+              ? 'text-foreground font-semibold transform translate-x-1'
+              : 'text-foreground font-medium'
+          }`}>
+            {item.feature}
+          </span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 export default function PackagesBlock({
   title = 'What',
   highlightedText = 'You Get',
@@ -91,23 +125,7 @@ export default function PackagesBlock({
 
         {/* Features Card */}
         <Card className="w-full p-8 md:p-12 lg:p-16 border border-border shadow-xl bg-card">
-          <ul className="space-y-0">
-            {features.map((item, index) => (
-              <li
-                key={item._key || index}
-                className={`flex items-center gap-5 lg:gap-6 py-5 lg:py-6 ${
-                  index !== features.length - 1 ? 'border-b border-border' : ''
-                }`}
-              >
-                <div className="flex-shrink-0 w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center">
-                  <Check className="w-6 h-6 lg:w-7 lg:h-7 text-pink-600" />
-                </div>
-                <span className="text-lg lg:text-xl text-foreground font-medium">
-                  {item.feature}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <FeaturesListWithHover features={features} />
 
           {/* CTA Button */}
           <div className="text-center mt-12 lg:mt-16">
