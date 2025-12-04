@@ -8,6 +8,7 @@ import { client } from '@/lib/sanity/client'
 function basePathsForDoc(docType: string | undefined, slug?: string | undefined) {
   const set = new Set<string>()
   const mapping: Record<string, string[]> = {
+    // Page documents
     homepage: ['/'],
     homePage: ['/'],
     about: ['/about'],
@@ -17,8 +18,10 @@ function basePathsForDoc(docType: string | undefined, slug?: string | undefined)
     projectsPage: ['/work'],
     projects: ['/work'],
     contactPage: ['/contact'],
+    blogPage: ['/blog'],
+    // Global/reusable documents
     siteSettings: ['/', '/about', '/contact', '/services', '/work', '/blog'],
-    testimonial: ['/', '/services', '/work'],
+    testimonial: ['/', '/services', '/work', '/about'],
     teamMember: ['/about'],
   }
 
