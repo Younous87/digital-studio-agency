@@ -114,7 +114,7 @@ function ServiceCard({ service }: Readonly<{ service: Service }>) {
     el.style.backgroundPosition = '-100% -100%'
     requestAnimationFrame(() => {
       // fade in + animate background position (slower)
-      el.style.transition = 'opacity 400ms ease, background-position 1200ms cubic-bezier(.2,.8,.2,1)'
+      el.style.transition = 'opacity 600ms ease, background-position 3500ms cubic-bezier(.2,.8,.2,1)'
       el.style.opacity = '1'
       el.style.backgroundPosition = '300% 300%'
     })
@@ -124,7 +124,7 @@ function ServiceCard({ service }: Readonly<{ service: Service }>) {
     const el = glareRef.current
     if (!el) return
     // fade out and reset position (slower)
-    el.style.transition = 'opacity 400ms ease, background-position 1200ms cubic-bezier(.2,.8,.2,1)'
+    el.style.transition = 'opacity 600ms ease, background-position 1500ms cubic-bezier(.2,.8,.2,1)'
     el.style.opacity = '0'
     el.style.backgroundPosition = '-100% -100%'
   }

@@ -99,7 +99,7 @@ export default function PackagesBlock({
                   index !== features.length - 1 ? 'border-b border-border' : ''
                 }`}
               >
-                <div className="flex-shrink-0 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <div className="flex-shrink-0 w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center">
                   <Check className="w-6 h-6 lg:w-7 lg:h-7 text-pink-600" />
                 </div>
                 <span className="text-lg lg:text-xl text-foreground font-medium">

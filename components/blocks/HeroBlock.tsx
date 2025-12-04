@@ -107,7 +107,7 @@ export default function HeroBlock({
           <AnimatedTitle
             text={headline}
             as="h1"
-            className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black mb-10 lg:mb-12 leading-none tracking-tight text-foreground"
+            className="text-3xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-10 lg:mb-12 leading-none tracking-tight text-foreground"
           />
 
           {subheadline && (
