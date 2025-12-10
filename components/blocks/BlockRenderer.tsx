@@ -1,6 +1,8 @@
 import React from 'react'
 import FullScreenSection from '@/components/ui/FullScreenSection'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 import HeroBlock from '@/components/blocks/HeroBlock'
 import PageHeroBlock from '@/components/blocks/PageHeroBlock'
 import ProjectGrid from '@/components/blocks/ProjectGrid'
@@ -145,32 +147,18 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
         />
       )
     case 'textImageBlock': {
-      const hasImage = !!block.image
-      const isRightPosition = block.imagePosition === 'right'
-      let textOrder = 'order-1'
-      if (hasImage) {
-        textOrder = isRightPosition ? 'order-1' : 'order-2'
-      }
       return (
         <BackgroundWrapper key={block._key || block._id || `${block._type}-${index}`} backgroundImage={block.backgroundImage}>
           <FullScreenSection background={block.backgroundImage ? 'transparent' : 'white'}>
-            <div className="max-w-6xl mx-auto">
-              <div className="grid gap-12 lg:grid-cols-2">
-                {hasImage && block.imagePosition === 'left' && (
-                  <div className="order-1">
-                    {/* Image component would go here */}
-                  </div>
-                )}
-                <div className={textOrder}>
-                  {block.title && <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6">{block.title}</h2>}
-                  {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
-                </div>
-                {hasImage && block.imagePosition === 'right' && (
-                  <div className="order-2">
-                    {/* Image component would go here */}
-                  </div>
-                )}
-              </div>
+            <div className="max-w-4xl mx-auto text-center">
+              {block.title && (
+                <AnimatedTitle
+                  text={block.title}
+                  as="h2"
+                  className="text-4xl md:text-6xl font-black text-foreground mb-6"
+                />
+              )}
+              {Array.isArray(block.content) ? <RichTextRenderer content={block.content} className="text-center" /> : null}
             </div>
           </FullScreenSection>
         </BackgroundWrapper>
@@ -185,17 +173,31 @@ export default function BlockRenderer({ block, index }: Readonly<BlockRendererPr
           backgroundImage={block.backgroundImage}
         />
       )
-    case 'aboutSection':
+    case 'aboutSection': {
       return (
         <BackgroundWrapper key={block._key || block._id || `${block._type}-${index}`} backgroundImage={block.backgroundImage}>
           <FullScreenSection background={block.backgroundImage ? 'transparent' : 'white'}>
-            <div className="max-w-4xl mx-auto">
-              {block.title && <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6 text-center">{block.title}</h2>}
-              {Array.isArray(block.content) ? <RichTextRenderer content={block.content} /> : null}
+            <div className="max-w-4xl mx-auto text-center">
+              {block.title && (
+                <AnimatedTitle
+                  text={block.title}
+                  as="h2"
+                  className="text-4xl md:text-6xl font-black text-foreground mb-6"
+                />
+              )}
+              {block.subtitle && (
+                <AnimatedSubtitle
+                  text={block.subtitle}
+                  as="p"
+                  className="text-lg md:text-xl text-muted-foreground mb-6"
+                />
+              )}
+              {Array.isArray(block.content) ? <RichTextRenderer content={block.content} className="text-center" /> : null}
             </div>
           </FullScreenSection>
         </BackgroundWrapper>
       )
+    }
     case 'featuresSection':
       return (
         <FeaturesSection

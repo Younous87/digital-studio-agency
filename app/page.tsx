@@ -8,13 +8,12 @@ import TestimonialCarousel from '@/components/blocks/TestimonialCarousel'
 import CTASection from '@/components/blocks/CTASection'
 import AnimatedStats from '@/components/blocks/AnimatedStats'
 import RichTextRenderer from '@/components/blocks/RichTextRenderer'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import AnimatedSubtitle from '@/components/ui/AnimatedSubtitle'
 import PackagesBlock from '@/components/blocks/PackagesBlock'
-import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import FullScreenSection from '@/components/ui/FullScreenSection'
-import { urlFor } from '@/lib/sanity/image'
 import ScrollReveal from '@/components/ui/ScrollReveal'
-import RetroMarquee from '@/components/ui/RetroMarquee'
 import Link from 'next/link'
 import React from 'react'
 import BackgroundWrapper from '@/components/blocks/BackgroundWrapper'
@@ -133,37 +132,34 @@ export default async function HomePage() {
               </ScrollReveal>
             )
 
-          case 'aboutSection':
+          case 'aboutSection': {
             return (
               <ScrollReveal key={block._key || block._id || `${block._type}-${index}`}>
                 <BackgroundWrapper backgroundImage={block.backgroundImage}>
                   <FullScreenSection key={block._key || block._id || index} background={block.backgroundImage ? 'transparent' : 'white'}>
-                    <div className={`grid md:grid-cols-2 gap-12 items-center ${block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''}`}>
-                      <div className={block.imagePosition === 'left' ? 'md:order-2' : ''}>
-                        {block.title && (
-                          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-                            {block.title}
-                          </h2>
-                        )}
-                        {block.content && (
-                          <RichTextRenderer content={block.content} />
-                        )}
-                        {block.cta && (
-                          <div className="mt-6">
-                            <Button asChild>
-                              <Link href={block.cta.link}>{block.cta.text}</Link>
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                      {block.image && (
-                        <div className={`relative h-96 rounded-lg overflow-hidden ${block.imagePosition === 'left' ? 'md:order-1' : ''}`}>
-                          <Image
-                            src={urlFor(block.image).width(800).url()}
-                            alt={block.title || 'About'}
-                            fill
-                            className="object-cover"
-                          />
+                    <div className="max-w-4xl mx-auto text-center">
+                      {block.title && (
+                        <AnimatedTitle
+                          text={block.title}
+                          as="h2"
+                          className="text-4xl md:text-6xl font-bold text-foreground mb-6"
+                        />
+                      )}
+                      {block.subtitle && (
+                        <AnimatedSubtitle
+                          text={block.subtitle}
+                          as="p"
+                          className="text-lg md:text-xl text-muted-foreground mb-6"
+                        />
+                      )}
+                      {block.content && (
+                        <RichTextRenderer content={block.content} className="text-center" />
+                      )}
+                      {block.cta && (
+                        <div className="mt-6">
+                          <Button asChild>
+                            <Link href={block.cta.link}>{block.cta.text}</Link>
+                          </Button>
                         </div>
                       )}
                     </div>
@@ -171,6 +167,7 @@ export default async function HomePage() {
                 </BackgroundWrapper>
               </ScrollReveal>
             )
+          }
 
           case 'ctaSection':
             return (
@@ -187,37 +184,27 @@ export default async function HomePage() {
               </ScrollReveal>
             )
 
-          case 'textImageBlock':
+          case 'textImageBlock': {
             return (
               <ScrollReveal key={block._key || block._id || `${block._type}-${index}`}>
                 <BackgroundWrapper backgroundImage={block.backgroundImage}>
                   <FullScreenSection key={block._key || block._id || index} background={block.backgroundImage ? 'transparent' : 'white'}>
-                    <div className={`grid md:grid-cols-2 gap-12 items-center ${block.imagePosition === 'left' ? 'md:flex-row-reverse' : ''}`}>
-                      <div className={block.imagePosition === 'left' ? 'md:order-2' : ''}>
-                        {block.title && (
-                          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-                            {block.title}
-                          </h2>
-                        )}
-                        {block.content && (
-                          <RichTextRenderer content={block.content} />
-                        )}
-                        {block.cta && (
-                          <div className="mt-6">
-                            <Button asChild>
-                              <Link href={block.cta.link}>{block.cta.text}</Link>
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                      {block.image && (
-                        <div className={`relative h-96 rounded-lg overflow-hidden ${block.imagePosition === 'left' ? 'md:order-1' : ''}`}>
-                          <Image
-                            src={urlFor(block.image).width(800).url()}
-                            alt={block.title || 'Image'}
-                            fill
-                            className="object-cover"
-                          />
+                    <div className="max-w-4xl mx-auto text-center">
+                      {block.title && (
+                        <AnimatedTitle
+                          text={block.title}
+                          as="h2"
+                          className="text-4xl md:text-6xl font-bold text-foreground mb-6"
+                        />
+                      )}
+                      {block.content && (
+                        <RichTextRenderer content={block.content} className="text-center" />
+                      )}
+                      {block.cta && (
+                        <div className="mt-6">
+                          <Button asChild>
+                            <Link href={block.cta.link}>{block.cta.text}</Link>
+                          </Button>
                         </div>
                       )}
                     </div>
@@ -225,6 +212,7 @@ export default async function HomePage() {
                 </BackgroundWrapper>
               </ScrollReveal>
             )
+          }
 
           case 'statsSection':
             return (

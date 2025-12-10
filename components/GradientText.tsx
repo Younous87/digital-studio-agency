@@ -17,7 +17,7 @@ export default function GradientText({
   animationSpeed = 3,
   showBorder = false,
   inline = false
-}: GradientTextProps) {
+}: Readonly<GradientTextProps>) {
   const gradientStyle = {
     backgroundImage: `linear-gradient(to right, ${colors.join(', ')})`,
     animationDuration: `${animationSpeed}s`
@@ -32,6 +32,7 @@ export default function GradientText({
           ...gradientStyle,
           backgroundSize: '300% 100%',
           WebkitBackgroundClip: 'text',
+          backgroundClip: 'text',
         }}
       >
         {children}
@@ -78,21 +79,4 @@ export default function GradientText({
   );
 }
 
-// tailwind.config.js
-// module.exports = {
-//   theme: {
-//     extend: {
-//       keyframes: {
-//         gradient: {
-//           '0%': { backgroundPosition: '0% 50%' },
-//           '50%': { backgroundPosition: '100% 50%' },
-//           '100%': { backgroundPosition: '0% 50%' },
-//         },
-//       },
-//       animation: {
-//         gradient: 'gradient 8s linear infinite'
-//       },
-//     },
-//   },
-//   plugins: [],
-// };
+// Note: gradient keyframes should be defined in tailwind.config.js

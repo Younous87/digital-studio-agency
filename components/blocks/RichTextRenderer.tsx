@@ -2,6 +2,8 @@ import { PortableText, PortableTextComponents } from '@portabletext/react'
 import type { TypedObject } from '@portabletext/types'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity/image'
+import AnimatedTitle from '@/components/ui/AnimatedTitle'
+import React from 'react'
 
 const components: PortableTextComponents = {
   types: {
@@ -36,26 +38,24 @@ const components: PortableTextComponents = {
     },
   },
   block: {
-    h1: ({ children }) => (
-      <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 mt-8">
-        {children}
-      </h1>
-    ),
-    h2: ({ children }) => (
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 mt-8">
-        {children}
-      </h2>
-    ),
-    h3: ({ children }) => (
-      <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 mt-6">
-        {children}
-      </h3>
-    ),
-    h4: ({ children }) => (
-      <h4 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 mt-4">
-        {children}
-      </h4>
-    ),
+    h1: ({ children }) => {
+      const text = React.Children.toArray(children).map((c: any) => (typeof c === 'string' || typeof c === 'number') ? c : (c?.props?.children ?? '')).join('')
+      return (
+        <AnimatedTitle text={String(text)} as="h1" className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 mt-8" />
+      )
+    },
+    h2: ({ children }) => {
+      const text = React.Children.toArray(children).map((c: any) => (typeof c === 'string' || typeof c === 'number') ? c : (c?.props?.children ?? '')).join('')
+      return <AnimatedTitle text={String(text)} as="h2" className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 mt-8" />
+    },
+    h3: ({ children }) => {
+      const text = React.Children.toArray(children).map((c: any) => (typeof c === 'string' || typeof c === 'number') ? c : (c?.props?.children ?? '')).join('')
+      return <AnimatedTitle text={String(text)} as="h3" className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 mt-6" />
+    },
+    h4: ({ children }) => {
+      const text = React.Children.toArray(children).map((c: any) => (typeof c === 'string' || typeof c === 'number') ? c : (c?.props?.children ?? '')).join('')
+      return <AnimatedTitle text={String(text)} as="h4" className="text-xl md:text-2xl font-bold text-gray-900 mb-2 mt-4" />
+    },
     normal: ({ children }) => (
       <p className="text-lg text-gray-700 mb-4 leading-relaxed">
         {children}

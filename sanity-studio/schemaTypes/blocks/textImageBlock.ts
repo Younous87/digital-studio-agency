@@ -17,26 +17,6 @@ export default defineType({
       of: [{ type: 'block' }],
     },
     {
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    },
-    {
-      name: 'imagePosition',
-      title: 'Image Position',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Left', value: 'left' },
-          { title: 'Right', value: 'right' },
-        ],
-      },
-      initialValue: 'right',
-    },
-    {
       name: 'cta',
       title: 'Call to Action',
       type: 'object',
